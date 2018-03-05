@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -29,6 +30,7 @@ import com.winwin.project.winwin.Model.ModelDetailDataClient;
 import com.winwin.project.winwin.Model.ModelUrl;
 import com.winwin.project.winwin.Setting.DecimalsFormat;
 import com.winwin.project.winwin.Setting.OwnProgressDialog;
+import com.winwin.project.winwin.Utils.AppConf;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -225,6 +227,11 @@ public class DetailTagihan extends AppCompatActivity {
             }
         });
 
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                AppConf.SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
         requestQueue.add(stringRequest);
     }
 
@@ -244,7 +251,7 @@ public class DetailTagihan extends AppCompatActivity {
                         model.setKodePelanggan(json.getString("cli_nomor_pelanggan"));
                         model.setNamaDocument(json.getString("cli_doc_file"));
                         list_data.add(model);
-                        urlKtp = "http://http://hq.ppgwinwin.com/winwin/home/uploads/" + model.getKodePelanggan() + "/" + model.getNamaDocument();
+                        urlKtp = "http://hq.ppgwinwin.com/winwin/home/uploads/" + model.getKodePelanggan() + "/" + model.getNamaDocument();
                         Log.d("hasil url", urlKtp);
                     }
 
@@ -258,6 +265,12 @@ public class DetailTagihan extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                AppConf.SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
         requestQueue.add(stringRequest);
     }
 
