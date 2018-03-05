@@ -1,0 +1,152 @@
+<resources>
+    <string name="app_name">winwin</string>
+    <string name="namaclient">Nama Client</string>
+    <string name="dataclient">Data Client</string>
+    <string name="nomorhpnasabah">Nomor HP Nasabah</string>
+    <string name="almatrumah">Alamat Rumah</string>
+    <string name="fotoKtp">Foto KTP</string>
+    <string name="datapekerjaan">Data Pekerjaan</string>
+    <string name="perusahaan">Perusahaan</string>
+    <string name="posisi">Posisi</string>
+    <string name="nomortelp">Nomor Telp</string>
+    <string name="alamatperusahaan">Alamat Perusahaan</string>
+    <string name="catatan">Catatan</string>
+    <string name="detail">Detail</string>
+    <string name="profil">Profile</string>
+    <string name="tanggalpinjam">Tanggal Pinjam</string>
+    <string name="jumlahpinjam">Jumlah Pinjaman</string>
+    <string name="totalpinjaman">Total Pinjaman dan Bunga</string>
+    <string name="denda">Denda</string>
+    <string name="tampil">Tampilkan</string>
+    <string name="totalhutang">Total Hutang</string>
+    <string name="biayaoperasional">Biaya Operasional</string>
+    <string name="komisi">Komisi</string>
+    <string name="detailpembayaran">Detail Pembayaran</string>
+    <string name="tuliscatatan">Tulis Catatan</string>
+    <string name="lihatlokasi">Lihat Lokasi</string>
+    <string name="history">History Pembayaran</string>
+    <string name="historyko">History Komisi</string>
+    <string name="historype">History Pencairan</string>
+    <string name="viewphoto">View Photo</string>
+    <string name="pelanggankoop">Pelanggan Kooperatif akan bayar Lunas dalam </string>
+    <string name="uploadfoto">Upload Photo</string>
+    <string name="loginerror">Username atau password salah</string>
+    <string name="disconnected">Koneksi terputus, silahkan coba kembali</string>
+    <string name="title_activity_main2">Main2Activity</string>
+
+    <string-array name="german_familienname">
+        <item>Tahap 1</item>
+        <item>Tahap 2</item>
+        <item>Tahap 3</item>
+    </string-array>
+
+    <string-array name="hari">
+        <item>Minggu</item>
+        <item>Senin</item>
+        <item>Selasa</item>
+        <item>Rabu</item>
+        <item>Kamis</item>
+        <item>Jum'at</item>
+        <item>Sabtu</item>
+    </string-array>
+
+    <string-array name="tanggal">
+        <item>--</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
+        <item>30</item>
+        <item>31</item>
+    </string-array>
+
+    <string-array name="bulan">
+        <item>--</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </string-array>
+
+    <string name="atau">atau</string>
+    <string name="title_activity_maps">Peta Lokasi</string>
+    <string name="datakunjungan">Data Kunjungan</string>
+    <string name="editakun">Edit Account</string>
+
+    <!--Registrasi-->
+    <string name="namadepan">Nama Depan</string>
+    <string name="namablk">Nama Belakang</string>
+    <string name="tgl_lhr">Tanggal Lahir</string>
+    <string name="email">Email</string>
+    <string name="nohp">Nomor HP</string>
+    <string name="passw">Password</string>
+    <string name="conf_pass">Confirm Password</string>
+    <string name="daftar">Daftar</string>
+    <string name="sudahpunyakun">Sudah punya Akun?</string>
+    <string name="login">Login</string>
+    <string name="kunjungan">Kunjungan 1</string>
+    <string name="buttonactive">Button active! Will update from programmer</string>
+    <string name="setujudanlanjut">Setuju &amp; Lanjut ?</string>
+    <string name="inputdatakun">Input Data Kunjungan</string>
+    <string name="bayarcicilan">Pelanggan Kooperatif akan bayar Cicilan </string>
+    <string name="setiap">Setiap Tanggal</string>
+    <string name="perbulan">Perbulan</string>
+    <string name="tidakditempat">Pelanggan tidak di tempat </string>
+    <string name="tidakkoperatif">Pelanggan tidak kooperatif </string>
+    <string name="dll">Lain - lain</string>
+    <string name="tulisdisini">Type Here..</string>
+    <string name="selesai">Selesai</string>
+    <string name="selamat">Selamat!!!!</string>
+    <string name="lanjutkan">Lanjutkan</string>
+    <string name="jatuhtempo">Jatuh Tempo Berikutnya</string>
+    
+    <string name="aemail">Alamat Email</string>
+    <string name="notelpon">Nomor Telepon</string>
+    <string name="verived">Verified</string>
+    <string name="fotoselfi">Foto Selfi</string>
+    <string name="norek">Nomor Rekening</string>
+    <string name="bank">Nama Bank</string>
+    <string name="cabang">Cabang</string>
+    <string name="an">a/n Rekening</string>
+    <string name="fotobukrek">Foto Buku Rekening</string>
+    <string name="upload">Upload</string>
+    <string name="takefoto">take photo</string>
+    <string name="belumpunyaakun">Belum Punya Akun?</string>
+    <string name="textPertama">Hutang %1$s Sebesar %2$s telah dibawah naungan Anda!. </string>
+    <string name="textKedua">Ketika Anda tagih %1$s membayar penuh, Anda akan mendapat %2$d atau sebesar %3$d</string>
+    <string name="textKetiga">Jika dalam 14 hari, belum ada pembayaran, %1$s akan di serahkan ke agen yang lain. </string>
+    <string name="textSukses">Saya telah bertemu dengan %1$s</string>
+</resources>

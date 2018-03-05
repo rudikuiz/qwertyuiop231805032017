@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#1559A0</color>
+    <color name="colorPrimaryDark">#1559A0</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="blue">#3869B4</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="toolbar">#EDEDED</color>
+    <color name="operasional">#ACCE22</color>
+    <color name="black">#FF000000</color>
+    <color name="abuGaris">#336E6E6E</color>
+    <color name="hitamFont">#6E6E6E</color>
+    <color name="hitamtitleFont">#999999</color>
+    <color name="hitamAbuFont">#4D4D4D</color>
+    <color name="whitedark">#f5f5f5</color>
+    <color name="bg_bawah_maps">#ECECEC</color>
+</resources>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/img_information"
+        android:layout_width="50dp"
+        android:layout_height="100dp"
+        android:layout_below="@+id/toolbar"
+        android:src="@drawable/information" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/img_information"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/hari"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sabtu, 10 Januari 2018 10:02" />
+
+        <TextView
+            android:id="@+id/pembayaran"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pembayaran : Rp. 1000.000"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/via"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Via :  Kebijaksanaan Perusahaan" />
+
+        <TextView
+            android:id="@+id/catatan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Catatan : tes" />
+    </LinearLayout>
+</RelativeLayout>

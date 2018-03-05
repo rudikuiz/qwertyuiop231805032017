@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/corner_radius_bg_pop_up"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp">
+
+    <ImageView
+        android:id="@+id/ic_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/ic_close" />
+
+    <TextView
+        android:id="@+id/asdf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ic_close"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:text="@string/selamat"
+        android:textAllCaps="true"
+        android:textColor="@color/blue"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/text1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/asdf"
+        android:text="Hutang Andi K Sebesar Rp 2 Jt telah dibawah naungan Anda!. "
+        android:textSize="@dimen/text_normal"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/text2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text1"
+        android:text="Ketika Anda tagih  Andi K membayar penuh, Anda akan mendapat 30 % atau sebesar Rp 600.000,-"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/text3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text2"
+        android:text="Pembayaran hanya valid jika ditransfer ke rek BCA an PT. PPG 0888825358."
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/text4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text3"
+        android:text="Jika dalam 14 hari, belum ada pembayaran, Andi K akan di serahkan ke agen XXX yang lain. "
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btnSimpan"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_below="@+id/text4"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/ripple_effect_biru"
+        android:inputType="textCapWords"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"
+        android:text="@string/lanjutkan"
+        android:textColor="@color/white" />
+</RelativeLayout>
