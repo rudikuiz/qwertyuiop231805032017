@@ -75,6 +75,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         namaklien.setText(nama);
         namaklien2.setText(nama);
         jumlahUang.setText(jumlah);
+
+        Log.d("latlngku",lat+lang);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -92,79 +95,79 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return;
         }
 
-        if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new LocationListener() {
-                @Override
-                public void onLocationChanged(Location location) {
-                    getLat = location.getLatitude();
-                    getLang = location.getLongitude();
-
-                    latLng = new LatLng(getLat, getLang);
-                    Geocoder geocoder = new Geocoder(getApplicationContext());
-                    try {
-                        List<Address> addresses = geocoder.getFromLocation(getLat, getLang, 1);
-                        String str = addresses.get(0).getLocality() + ",";
-                        str += addresses.get(0).getCountryName();
-
-                        mMap.addMarker(new MarkerOptions().position(latLng).title(str));
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10.2f));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onStatusChanged(String provider, int status, Bundle extras) {
-
-                }
-
-                @Override
-                public void onProviderEnabled(String provider) {
-
-                }
-
-                @Override
-                public void onProviderDisabled(String provider) {
-
-                }
-            });
-        } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
-                @Override
-                public void onLocationChanged(Location location) {
-                    getLat = location.getLatitude();
-                    getLang = location.getLongitude();
-
-                    latLng = new LatLng(getLat, getLang);
-                    Geocoder geocoder = new Geocoder(getApplicationContext());
-                    try {
-                        List<Address> addresses = geocoder.getFromLocation(getLat, getLang, 1);
-                        String str = addresses.get(0).getLocality() + ",";
-                        str += addresses.get(0).getCountryName();
-
-                        mMap.addMarker(new MarkerOptions().position(latLng).title(str));
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10.2f));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onStatusChanged(String provider, int status, Bundle extras) {
-
-                }
-
-                @Override
-                public void onProviderEnabled(String provider) {
-
-                }
-
-                @Override
-                public void onProviderDisabled(String provider) {
-
-                }
-            });
-        }
+//        if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+//            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new LocationListener() {
+//                @Override
+//                public void onLocationChanged(Location location) {
+//                    getLat = location.getLatitude();
+//                    getLang = location.getLongitude();
+//
+//                    latLng = new LatLng(getLat, getLang);
+//                    Geocoder geocoder = new Geocoder(getApplicationContext());
+//                    try {
+//                        List<Address> addresses = geocoder.getFromLocation(getLat, getLang, 1);
+//                        String str = addresses.get(0).getLocality() + ",";
+//                        str += addresses.get(0).getCountryName();
+//
+//                        mMap.addMarker(new MarkerOptions().position(latLng).title(str));
+//                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10.2f));
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//
+//                @Override
+//                public void onStatusChanged(String provider, int status, Bundle extras) {
+//
+//                }
+//
+//                @Override
+//                public void onProviderEnabled(String provider) {
+//
+//                }
+//
+//                @Override
+//                public void onProviderDisabled(String provider) {
+//
+//                }
+//            });
+//        } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+//            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
+//                @Override
+//                public void onLocationChanged(Location location) {
+//                    getLat = location.getLatitude();
+//                    getLang = location.getLongitude();
+//
+//                    latLng = new LatLng(getLat, getLang);
+//                    Geocoder geocoder = new Geocoder(getApplicationContext());
+//                    try {
+//                        List<Address> addresses = geocoder.getFromLocation(getLat, getLang, 1);
+//                        String str = addresses.get(0).getLocality() + ",";
+//                        str += addresses.get(0).getCountryName();
+//
+//                        mMap.addMarker(new MarkerOptions().position(latLng).title(str));
+//                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10.2f));
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//
+//                @Override
+//                public void onStatusChanged(String provider, int status, Bundle extras) {
+//
+//                }
+//
+//                @Override
+//                public void onProviderEnabled(String provider) {
+//
+//                }
+//
+//                @Override
+//                public void onProviderDisabled(String provider) {
+//
+//                }
+//            });
+//        }
 
 
     }
@@ -235,11 +238,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Setuju.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                textPertama.setText(getString(R.string.textSukses, nama));
-//                textKedua.setText("");
-//                textKetiga.setText("");
-//                Intent intent = new Intent(MapsActivity.this, DataKunjunganActivity.class);
-//                startActivity(intent);
                 dialog.cancel();
                 se.setVisibility(LinearLayout.GONE);
                 se7.setVisibility(LinearLayout.GONE);
@@ -251,7 +249,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         String pekok = getString(R.string.textPertama, nama, jumlah);
         Log.d("textpertama", pekok);
 
-        dialog.getWindow().setBackgroundDrawableResource(R.drawable.corner_radius_bg_pop_up);
+//        dialog.getWindow().setBackgroundDrawableResource(R.drawable.corner_radius_bg_pop_up);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(view);
 

@@ -93,24 +93,6 @@ public class DetKomisiActivity extends AppCompatActivity {
         getJSON();
     }
 
-    private void dataku() {
-        arrayList.add(new ModelTableKomisi("1", "Agus", "Rp. 1,000,000", "Rp. 300.000"));
-        arrayList.add(new ModelTableKomisi("2", "Agus", "Rp. 1,000,000", "Rp. 300.000"));
-        arrayList.add(new ModelTableKomisi("3", "Agus", "Rp. 1,000,000", "Rp. 300.000"));
-        arrayList.add(new ModelTableKomisi("4", "Agus", "Rp. 1,000,000", "Rp. 300.000"));
-        arrayList.add(new ModelTableKomisi("5", "Agus", "Rp. 1,000,000", "Rp. 300.000"));
-        arrayList.add(new ModelTableKomisi("6", "Agus", "Rp. 1,000,000", "Rp. 300.000"));
-        arrayList.add(new ModelTableKomisi("7", "Agus", "Rp. 1,000,000", "Rp. 300.000"));
-        arrayList.add(new ModelTableKomisi("8", "Agus", "Rp. 1,000,000", "Rp. 300.000"));
-        arrayList.add(new ModelTableKomisi("9", "Agus", "Rp. 1,000,000", "Rp. 300.000"));
-        arrayList.add(new ModelTableKomisi("10", "Agus", "Rp. 1,000,000", "Rp. 300.000"));
-        arrayList.add(new ModelTableKomisi("11", "Agus", "Rp. 1,000,000", "Rp. 300.000"));
-        arrayList.add(new ModelTableKomisi("12", "Agus", "Rp. 1,000,000", "Rp. 300.000"));
-        arrayList.add(new ModelTableKomisi("13", "Agus", "Rp. 1,000,000", "Rp. 300.000"));
-        arrayList.add(new ModelTableKomisi("14", "Agus", "Rp. 1,000,000", "Rp. 300.000"));
-        arrayList.add(new ModelTableKomisi("15", "Agus", "Rp. 1,000,000", "Rp. 300.000"));
-    }
-
     private void getJSON() {
 
         arrayList = new ArrayList<ModelTableKomisi>();
@@ -121,6 +103,7 @@ public class DetKomisiActivity extends AppCompatActivity {
                 try {
                     int total = 0;
                     int totalKom = 0;
+
                     JSONArray jsonArray = new JSONArray(response);
                     for (int a = 0; a < jsonArray.length(); a++) {
                         JSONObject json = jsonArray.getJSONObject(a);
@@ -132,8 +115,8 @@ public class DetKomisiActivity extends AppCompatActivity {
                         arrayList.add(modelMenu);
                         total = total + Integer.parseInt(modelMenu.getBiayaope());
                         totalKom = totalKom + Integer.parseInt(modelMenu.getKomisi());
-                        totalOperasiional.setText(total);
-                        totalKomisi.setText(totalKom);
+                        totalOperasiional.setText(String.valueOf(total));
+                        totalKomisi.setText(String.valueOf(totalKom));
                     }
 
                     AdapterTableKomisi adapter = new AdapterTableKomisi(arrayList, DetKomisiActivity.this);

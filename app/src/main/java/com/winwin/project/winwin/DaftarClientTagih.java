@@ -1,5 +1,6 @@
 package com.winwin.project.winwin;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -61,6 +62,10 @@ public class DaftarClientTagih extends AppCompatActivity {
     ImageView icHome;
     SharedPreferences sharedpreferences;
     String member_id;
+    ProgressDialog pDialog;
+    private static final String TAG_SUCCESS = "success";
+    private static final String TAG_MESSAGE = "message";
+    String tag_json_obj = "json_obj_req";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,7 +143,6 @@ public class DaftarClientTagih extends AppCompatActivity {
         });
         requestQueue.add(stringRequest);
     }
-
 
     @OnClick({R.id.ic_home, R.id.img_back})
     public void onViewClicked(View view) {

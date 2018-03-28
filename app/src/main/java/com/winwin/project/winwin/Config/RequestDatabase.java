@@ -3,8 +3,6 @@ package com.winwin.project.winwin.Config;
 import static com.winwin.project.winwin.Config.http.URLHTTP;
 
 /**
- * Created by Ayo Maju on 07/02/2018.
- * Updated by Muhammad Iqbal on 07/02/2018.
  */
 
 public class RequestDatabase {
@@ -26,4 +24,11 @@ public class RequestDatabase {
     public static final String URL_GET_ID_MEMBER = URLHTTP +"getMember_idkaryawan.php?kar_namalengkap=";
     public static final String URL_LOGIN = URLHTTP +"login.php";
     public static final String URL_MEMBER_ID_KARYAWAN = URLHTTP +"getMemberIDUser.php?member_id=";
+    public static final String URL_GET_IMAGE_FROM_FOLDER = "http://hq.ppgwinwin.com/winwin/home/uploads/";
+    public static final String URL_UPDATE_PROFIL_TRIAL = "http://winwinujicobaadmin.tamboraagungmakmur.com/debt_collector/update_profile.php";
+    public static final String URL_GET_JANJI_TRIAL = "http://winwinujicobaadmin.tamboraagungmakmur.com/winwin/api/cek_req_client.php?pengajuan_id_client=";
+    public static final String URL_GET_ANALIS = "http://winwinujicobaadmin.tamboraagungmakmur.com/debt_collector/view_analisa.php?member_id_karyawan=";
+    public static final String URL_POST_VISIT = "http://winwinujicobaadmin.tamboraagungmakmur.com/debt_collector/pengajuan_visit.php";
+    public static final String URL_REQUES_BAYAR = "http://winwinujicobaadmin.tamboraagungmakmur.com/debt_collector/request_janji_bayar.php";
+    public static final String URL_BADDEBT = "http://winwinujicobaadmin.tamboraagungmakmur.com/debt_collector/pengajuan_baddebt.php";
 }

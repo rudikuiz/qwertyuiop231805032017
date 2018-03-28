@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -42,7 +43,7 @@ import butterknife.OnClick;
 
 import static com.winwin.project.winwin.Config.RequestDatabase.URL_GET_DETAIL;
 import static com.winwin.project.winwin.Config.RequestDatabase.URL_GET_IMAGE;
-import static com.winwin.project.winwin.Config.http.TAG_MEMBER_ID_KARYAWAN;
+import static com.winwin.project.winwin.Config.RequestDatabase.URL_GET_IMAGE_FROM_FOLDER;
 
 public class DetailTagihan extends AppCompatActivity {
 
@@ -102,7 +103,13 @@ public class DetailTagihan extends AppCompatActivity {
     TextView nilaiKomisi;
     @BindView(R.id.nilaiOperasional)
     TextView nilaiOperasional;
-
+    @BindView(R.id.btnKunjungan)
+    Button btnKunjungan;
+    @BindView(R.id.btnLihatLokasi)
+    Button btnLihatLokasi;
+    @BindView(R.id.btnDebt)
+    Button btnDebt;
+    String pengajuanid;
     private RequestQueue requestQueue;
     private StringRequest stringRequest;
     private OwnProgressDialog progressDialog;
@@ -110,6 +117,7 @@ public class DetailTagihan extends AppCompatActivity {
     ArrayList<ModelUrl> list_data;
     String urlKtp;
     String Lat, Lang;
+    private final int MY_SOCKET_TIMEOUT_MS = 60 * 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,12 +126,8 @@ public class DetailTagihan extends AppCompatActivity {
         ButterKnife.bind(this);
         Intent intent = getIntent();
         id_klien = intent.getStringExtra("id_client");
-//        Bundle bundle = getIntent().getExtras();
-//        id_klien = bundle.getString("id");
         progressDialog = new OwnProgressDialog(DetailTagihan.this);
 
-//        sharedpreferences = getSharedPreferences(LoginPage.my_shared_preferences, Context.MODE_PRIVATE);
-//        id_klien = sharedpreferences.getString(TAG_MEMBER_ID_KARYAWAN, "");
         Log.d("idku", id_klien);
         idClient.setText(id_klien);
         requestQueue = Volley.newRequestQueue(DetailTagihan.this);
@@ -159,6 +163,8 @@ public class DetailTagihan extends AppCompatActivity {
                         dataClient.setDenda_biaya(json.getString("denda_biaya"));
                         dataClient.setKomisi(json.getString("prosen_komisi"));
                         dataClient.setOperasional(json.getString("prosen_operasional"));
+                        dataClient.setPeng_id(json.getString("pengajuan_id"));
+                        pengajuanid = dataClient.getPeng_id();
                         Lat = json.getString("lat");
                         Lang = json.getString("lng");
 
@@ -225,6 +231,10 @@ public class DetailTagihan extends AppCompatActivity {
             }
         });
 
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(stringRequest);
     }
 
@@ -244,7 +254,7 @@ public class DetailTagihan extends AppCompatActivity {
                         model.setKodePelanggan(json.getString("cli_nomor_pelanggan"));
                         model.setNamaDocument(json.getString("cli_doc_file"));
                         list_data.add(model);
-                        urlKtp = "http://http://hq.ppgwinwin.com/winwin/home/uploads/" + model.getKodePelanggan() + "/" + model.getNamaDocument();
+                        urlKtp = URL_GET_IMAGE_FROM_FOLDER + model.getKodePelanggan() + "/" + model.getNamaDocument();
                         Log.d("hasil url", urlKtp);
                     }
 
@@ -258,6 +268,10 @@ public class DetailTagihan extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(stringRequest);
     }
 
@@ -328,4 +342,27 @@ public class DetailTagihan extends AppCompatActivity {
         }
     }
 
+    @OnClick({R.id.btnKunjungan, R.id.btnLihatLokasi, R.id.btnDebt})
+    public void onViewClicked2(View view) {
+        switch (view.getId()) {
+            case R.id.btnKunjungan:
+                Intent intent = new Intent(DetailTagihan.this, DataKunjunganActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.btnLihatLokasi:
+                Intent intents = new Intent(DetailTagihan.this, MapsActivity.class);
+                intents.putExtra("nama", txtNamaClient.getText());
+                intents.putExtra("jumlah", txtTotalNilaiHutang.getText());
+                intents.putExtra("lat", Lat);
+                intents.putExtra("lang", Lang);
+                intents.putExtra("client_id", id_klien);
+                startActivity(intents);
+                break;
+            case R.id.btnDebt:
+                intent = new Intent(DetailTagihan.this, BadDebt.class);
+                intent.putExtra("pengajuan_id",  pengajuanid);
+                startActivity(intent);
+                break;
+        }
+    }
 }

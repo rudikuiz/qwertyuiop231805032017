@@ -67,11 +67,6 @@ public class AdapterMenu extends RecyclerView.Adapter<AdapterMenu.AdapterMenuHol
         holder.detailItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Bundle bundle = new Bundle();
-//                bundle.putString("id", lisd_data.get(position).getCli_id());
-//                Intent i = new Intent(context, DetailTagihan.class);
-//                i.putExtras(bundle);
-//                context.startActivity(i);
 
                 Intent intent = new Intent(context, DetailTagihan.class);
                 intent.putExtra("id_client", lisd_data.get(position).getCli_id());

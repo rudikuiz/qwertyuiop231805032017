@@ -1,5 +1,4 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,26 +11,11 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/res" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/res"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="23dp"
-        android:layout_marginEnd="18dp"
-        android:src="@drawable/ic_point"
-        app:backgroundTint="@color/white"
-        app:elevation="@dimen/fab_margin"
-        app:rippleColor="@color/abuGaris"
-        android:visibility="gone"
-        android:id="@+id/fab"/>
-
     <RelativeLayout
         android:id="@+id/res"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/bg_bawah_maps"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -42,7 +26,7 @@
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
             android:layout_marginTop="20dp"
-            android:background="@drawable/corner_radius_bg_pop_up">
+            android:background="@drawable/corner_radius">
 
             <LinearLayout
                 android:id="@+id/se"
@@ -50,12 +34,13 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:paddingTop="10dp">
 
                 <TextView
                     android:id="@+id/tv1"
                     android:layout_width="wrap_content"
+                    android:textAlignment="center"
                     android:layout_height="wrap_content"
                     android:text="Anda mau nagih hutang "
                     android:textStyle="bold" />
@@ -92,7 +77,6 @@
                     android:text="1,000,000"/>
             </LinearLayout>
 
-
             <LinearLayout
                 android:id="@+id/se7"
                 android:layout_width="match_parent"
@@ -101,7 +85,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="20dp"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/se3"
@@ -109,23 +93,16 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/se2"
                     android:text="Rumah "
+                    android:textAlignment="center"
                     android:textStyle="italic" />
 
                 <TextView
                     android:id="@+id/namaklien2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/se2"
                     android:text="masdayat"
                     android:layout_toRightOf="@+id/se3" />
 
-                <TextView
-                    android:visibility="gone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/se2"
-                    android:layout_toRightOf="@+id/namaklien2"
-                    android:text=" 4 Km dari lokasi Anda" />
             </LinearLayout>
 
         </RelativeLayout>

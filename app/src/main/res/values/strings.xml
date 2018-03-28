@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">winwin</string>
+    <string name="app_name">Debt Collector</string>
     <string name="namaclient">Nama Client</string>
     <string name="dataclient">Data Client</string>
     <string name="nomorhpnasabah">Nomor HP Nasabah</string>
@@ -51,7 +51,6 @@
     </string-array>
 
     <string-array name="tanggal">
-        <item>--</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
@@ -101,6 +100,16 @@
         <item>12</item>
     </string-array>
 
+
+    <string-array name="cicilan">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
+
     <string name="atau">atau</string>
     <string name="title_activity_maps">Peta Lokasi</string>
     <string name="datakunjungan">Data Kunjungan</string>
@@ -117,7 +126,7 @@
     <string name="daftar">Daftar</string>
     <string name="sudahpunyakun">Sudah punya Akun?</string>
     <string name="login">Login</string>
-    <string name="kunjungan">Kunjungan 1</string>
+    <string name="kunjungan">Kunjungan</string>
     <string name="buttonactive">Button active! Will update from programmer</string>
     <string name="setujudanlanjut">Setuju &amp; Lanjut ?</string>
     <string name="inputdatakun">Input Data Kunjungan</string>
@@ -132,21 +141,57 @@
     <string name="selamat">Selamat!!!!</string>
     <string name="lanjutkan">Lanjutkan</string>
     <string name="jatuhtempo">Jatuh Tempo Berikutnya</string>
-    
+
     <string name="aemail">Alamat Email</string>
     <string name="notelpon">Nomor Telepon</string>
     <string name="verived">Verified</string>
-    <string name="fotoselfi">Foto Selfi</string>
+    <string name="fotoselfi">Foto Selfi</string>s
     <string name="norek">Nomor Rekening</string>
     <string name="bank">Nama Bank</string>
     <string name="cabang">Cabang</string>
     <string name="an">a/n Rekening</string>
     <string name="fotobukrek">Foto Buku Rekening</string>
     <string name="upload">Upload</string>
-    <string name="takefoto">take photo</string>
+    <string name="takefoto">Take Foto</string>
     <string name="belumpunyaakun">Belum Punya Akun?</string>
     <string name="textPertama">Hutang %1$s Sebesar %2$s telah dibawah naungan Anda!. </string>
     <string name="textKedua">Ketika Anda tagih %1$s membayar penuh, Anda akan mendapat %2$d atau sebesar %3$d</string>
     <string name="textKetiga">Jika dalam 14 hari, belum ada pembayaran, %1$s akan di serahkan ke agen yang lain. </string>
     <string name="textSukses">Saya telah bertemu dengan %1$s</string>
+    <string name="submit">Submit</string>
+    <string name="analistdebt">Analist Debt</string>
+    <string name="pengambilanvisit">Pengambilan Visit</string>
+    <string name="requestcicilan">Request Cicilan</string>
+    <string name="janjibayar">Janji Bayar</string>
+    <string name="detailpelanggan">Detail Pelanggan</string>
+    <string name="pilihtanggal">Pilih Tanggal Janji Bayar</string>
+    <string name="reques">Request Janji Bayar belum di Aktifkan</string>
+    <string name="reques2">Mohon hubungi pihak Pinjam Winwin untuk mengaktifkan Permintaan Janji Bayar anda</string>
+    <string name="ajukan">Ajukan</string>
+    <string name="tidakdisetujui">Permintaan anda tidak di setujui . Silahkan ajukan tanggal janji bayar sesuai saran dari collection WinWin</string>
+    <string name="diproses">Permintaan anda sudah kami terima mohon menunggu konﬁrmasi dari WinWin</string>
+    <string name="disetujui">Tanggal Janji Bayar Anda telah Di setujui pada Tanggal </string>
+    <string name="cari">Cari Nama Customer...</string>
+    <string name="andamendapat">Anda Mendapat Tugas Baru</string>
+    <string name="survey">Survey :</string>
+    <string name="nama">Nama</string>
+    <string name="alamat">Alamat</string>
+    <string name="apakahandasetuju">Apakah Anda Setuju?</string>
+    <string name="ya">Ya</string>
+    <string name="tidak">Tidak</string>
+    <string name="daftarclientsurvey">Daftar Client Survey</string>
+    <string name="detailclientsurvey">Detail Client Survey</string>
+    <string name="ambildata">Ambil Data</string>
+    <string name="kirim">Kirim</string>
+    <string name="baddebt">Bad Debt</string>
+    <string name="baddebtkarena">Klien Bad Debt Karena</string>
+
+    <string-array name="baddebt">
+        <item>Meninggal</item>
+        <item>Hilang</item>
+        <item>Tidak Sanggup Bayar</item>
+    </string-array>
+
+    <string name="notificationlist">List Notification</string>
+    <string name="no">No</string>
 </resources>

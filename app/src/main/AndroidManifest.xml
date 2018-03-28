@@ -5,10 +5,9 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
-
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
 
     <application
         android:name=".Config.AppController"
@@ -18,7 +17,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.">
-
         <activity
             android:name=".SplashScreen"
             android:screenOrientation="portrait">
@@ -32,12 +30,10 @@
             android:name=".LoginPage"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme." />
-
         <activity
             android:name=".RegestrasiActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme." />
-
         <activity
             android:name=".MenuActivity"
             android:screenOrientation="portrait"
@@ -47,7 +43,8 @@
             android:name=".DetailTagihan"
             android:screenOrientation="portrait" />
         <activity android:name=".OperasionalActivity" />
-        <activity android:name=".TulisCatatan"
+        <activity
+            android:name=".TulisCatatan"
             android:label="@string/tuliscatatan" />
         <activity android:name=".Catatan" />
         <activity
@@ -67,21 +64,31 @@
 
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps" >
-
-        </activity>
+            android:label="@string/title_activity_maps" />
         <activity
             android:name=".DataKunjunganActivity"
-            android:label="@string/datakunjungan" >
-
-        </activity>
+            android:label="@string/datakunjungan" />
         <activity
             android:name=".ProfileActivity"
             android:label="@string/profil" />
         <activity
             android:name=".EditAkunActivity"
             android:label="@string/editakun" />
-
+        <activity android:name=".EditAkunPost" />
+        <activity android:name=".AnalistDebt" />
+        <activity android:name=".PengambilanVisit" />
+        <activity android:name=".RequestCicilan" />
+        <activity android:name=".JanjiBayar" />
+        <activity android:name=".DetailPelanggan" />
+        <activity android:name=".Rekomendiasi" />
+        <activity android:name=".DetRequestCicilan" />
+        <activity android:name=".CariCustomer" />
+        <activity android:name=".DaftarClientSurvey" />
+        <activity android:name=".DetailClientSurvey" />
+        <activity android:name=".BadDebt" />
+        <activity android:name=".ListNotification" />
+        <activity android:name=".ListBadCollector" />
+        <activity android:name=".ListJanjiBayar"></activity>
     </application>
 
 </manifest>

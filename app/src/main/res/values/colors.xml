@@ -7,6 +7,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="toolbar">#EDEDED</color>
     <color name="operasional">#ACCE22</color>
+    <color name="hijau_btn">#AACD06</color>
+    <color name="biru_border">#007BC7</color>
     <color name="black">#FF000000</color>
     <color name="abuGaris">#336E6E6E</color>
     <color name="hitamFont">#6E6E6E</color>
@@ -14,4 +16,7 @@
     <color name="hitamAbuFont">#4D4D4D</color>
     <color name="whitedark">#f5f5f5</color>
     <color name="bg_bawah_maps">#ECECEC</color>
+    <color name="white_bg_pop_up">#f7f7f7</color>
+    <color name="notverified">#B90000</color>
+    <color name="maron">#991800</color>
 </resources>

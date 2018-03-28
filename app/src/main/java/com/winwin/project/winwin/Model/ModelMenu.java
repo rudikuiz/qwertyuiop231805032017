@@ -5,7 +5,7 @@ package com.winwin.project.winwin.Model;
  */
 
 public class ModelMenu {
-    private String number, cli_nama, cli_id;
+    private String number, cli_nama, cli_id, pengajuan_id;
 
     public ModelMenu() {
     }
@@ -38,5 +38,13 @@ public class ModelMenu {
 
     public void setCli_id(String cli_id) {
         this.cli_id = cli_id;
+    }
+
+    public String getPengajuan_id() {
+        return pengajuan_id;
+    }
+
+    public void setPengajuan_id(String pengajuan_id) {
+        this.pengajuan_id = pengajuan_id;
     }
 }

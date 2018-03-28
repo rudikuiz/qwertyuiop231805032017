@@ -85,21 +85,6 @@ public class HistoryPencairanActivity extends AppCompatActivity {
         getJSON();
     }
 
-    private void dataku() {
-        arrayList.add(new ModelHistoryaPencairan("13/02/2018", "Rp. 100,000", "Rp. 200,000", "Belum Ditransfer"));
-        arrayList.add(new ModelHistoryaPencairan("13/02/2018", "Rp. 100,000", "Rp. 200,000", "Belum Ditransfer"));
-        arrayList.add(new ModelHistoryaPencairan("13/02/2018", "Rp. 100,000", "Rp. 200,000", "Belum Ditransfer"));
-        arrayList.add(new ModelHistoryaPencairan("13/02/2018", "Rp. 100,000", "Rp. 200,000", "Belum Ditransfer"));
-        arrayList.add(new ModelHistoryaPencairan("13/02/2018", "Rp. 100,000", "Rp. 200,000", "Belum Ditransfer"));
-        arrayList.add(new ModelHistoryaPencairan("13/02/2018", "Rp. 100,000", "Rp. 200,000", "Belum Ditransfer"));
-        arrayList.add(new ModelHistoryaPencairan("13/02/2018", "Rp. 100,000", "Rp. 200,000", "Belum Ditransfer"));
-        arrayList.add(new ModelHistoryaPencairan("13/02/2018", "Rp. 100,000", "Rp. 200,000", "Belum Ditransfer"));
-        arrayList.add(new ModelHistoryaPencairan("13/02/2018", "Rp. 100,000", "Rp. 200,000", "Belum Ditransfer"));
-        arrayList.add(new ModelHistoryaPencairan("13/02/2018", "Rp. 100,000", "Rp. 200,000", "Belum Ditransfer"));
-        arrayList.add(new ModelHistoryaPencairan("13/02/2018", "Rp. 100,000", "Rp. 200,000", "Belum Ditransfer"));
-        arrayList.add(new ModelHistoryaPencairan("13/02/2018", "Rp. 100,000", "Rp. 200,000", "Belum Ditransfer"));
-        arrayList.add(new ModelHistoryaPencairan("13/02/2018", "Rp. 100,000", "Rp. 200,000", "Belum Ditransfer"));
-    }
 
     private void getJSON() {
 

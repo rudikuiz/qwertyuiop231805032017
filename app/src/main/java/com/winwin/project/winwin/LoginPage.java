@@ -131,7 +131,7 @@ public class LoginPage extends AppCompatActivity {
 
             @Override
             public void onResponse(String response) {
-                Log.e(TAG, "Login Response: " + response.toString());
+                Log.e(TAG, "Login Response: " + response);
                 hideDialog();
 
                 try {

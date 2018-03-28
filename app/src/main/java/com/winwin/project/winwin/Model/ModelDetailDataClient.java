@@ -1,19 +1,15 @@
 package com.winwin.project.winwin.Model;
 
-/**
- * Created by Ayo Maju on 28/02/2018.
- * Updated by Muhammad Iqbal on 28/02/2018.
- */
 
 public class ModelDetailDataClient {
     String nama,nohp,alamat,ktp,perusahaan,posisi,telp_perusahaan,
             alamat_perusahaan,pengajuan_tgl,pgj_nilai_pgj,pgjtotal,denda_biaya,
-    komisi,operasional;
+    komisi,operasional,nooptional, peng_id;
 
     public ModelDetailDataClient() {
     }
 
-    public ModelDetailDataClient(String nama, String nohp, String alamat, String ktp, String perusahaan, String posisi, String telp_perusahaan, String alamat_perusahaan, String pengajuan_tgl, String pgj_nilai_pgj, String pgjtotal, String denda_biaya, String komisi, String operasional) {
+    public ModelDetailDataClient(String nama, String nohp, String alamat, String ktp, String perusahaan, String posisi, String telp_perusahaan, String alamat_perusahaan, String pengajuan_tgl, String pgj_nilai_pgj, String pgjtotal, String denda_biaya, String komisi, String operasional, String nooptional) {
         this.nama = nama;
         this.nohp = nohp;
         this.alamat = alamat;
@@ -28,6 +24,15 @@ public class ModelDetailDataClient {
         this.denda_biaya = denda_biaya;
         this.komisi = komisi;
         this.operasional = operasional;
+        this.nooptional = nooptional;
+    }
+
+    public String getPeng_id() {
+        return peng_id;
+    }
+
+    public void setPeng_id(String peng_id) {
+        this.peng_id = peng_id;
     }
 
     public String getNama() {
@@ -140,5 +145,13 @@ public class ModelDetailDataClient {
 
     public void setOperasional(String operasional) {
         this.operasional = operasional;
+    }
+
+    public String getNooptional() {
+        return nooptional;
+    }
+
+    public void setNooptional(String nooptional) {
+        this.nooptional = nooptional;
     }
 }

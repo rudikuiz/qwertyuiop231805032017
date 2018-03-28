@@ -1,10 +1,16 @@
 package com.winwin.project.winwin;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Paint;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +29,7 @@ import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static com.winwin.project.winwin.Config.RequestDatabase.URL_POST_PROFIL;
 import static com.winwin.project.winwin.Config.http.TAG_MEMBER_ID_KARYAWAN;
@@ -79,6 +86,22 @@ public class EditAkunActivity extends AppCompatActivity {
     RequestQueue requestQueue;
     @BindView(R.id.karyawan_id)
     TextView karyawanId;
+    @BindView(R.id.ic_home)
+    ImageView icHome;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.textView2)
+    TextView textView2;
+    @BindView(R.id.btEdit)
+    FloatingActionButton btEdit;
+    @BindView(R.id.btSubmit)
+    Button btSubmit;
+    @BindView(R.id.ImgKtp)
+    ImageView ImgKtp;
+    @BindView(R.id.ImgSelfi)
+    ImageView ImgSelfi;
+    @BindView(R.id.ImgRek)
+    ImageView ImgRek;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +114,37 @@ public class EditAkunActivity extends AppCompatActivity {
         txtNamaClient.setText(username);
         requestQueue = Volley.newRequestQueue(EditAkunActivity.this);
         load();
+        underline();
+        gone();
+        visible();
+    }
+
+    private void visible() {
+        btEdit.setVisibility(View.VISIBLE);
+    }
+
+    private void gone() {
+        btSubmit.setVisibility(View.GONE);
+
+        takephotorek.setVisibility(View.GONE);
+        takephotoselfi.setVisibility(View.GONE);
+        takephotoktp.setVisibility(View.GONE);
+
+        uploadPhotoSelfi.setVisibility(View.GONE);
+        uploadPhotorek.setVisibility(View.GONE);
+        uploadPhotoktp.setVisibility(View.GONE);
+    }
+
+    private void underline() {
+        viewPhotoktp.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+        viewPhotoSelfi.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+        viewPhotorek.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+        uploadPhotoktp.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+        uploadPhotorek.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+        uploadPhotoSelfi.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+        takephotoktp.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+        takephotoselfi.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+        takephotorek.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
     }
 
     private void load() {
@@ -111,7 +165,6 @@ public class EditAkunActivity extends AppCompatActivity {
                         dataClient.setNorek(json.getString("kar_no_rek"));
                         dataClient.setBank(json.getString("kar_nama_bank"));
                         dataClient.setCabang(json.getString("kar_cabang"));
-                        dataClient.setAtasnama(json.getString("kar_an"));
 
                         namabelakang.setText(username);
                         notelppon.setText(dataClient.getNotelp());
@@ -137,4 +190,33 @@ public class EditAkunActivity extends AppCompatActivity {
 
         requestQueue.add(stringRequest);
     }
+
+    @OnClick({R.id.ic_home, R.id.img_back, R.id.btEdit})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.ic_home:
+                Intent intent = new Intent(EditAkunActivity.this, MenuActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.img_back:
+                finish();
+                break;
+            case R.id.btEdit:
+                intent = new Intent(EditAkunActivity.this, EditAkunPost.class);
+                intent.putExtra("profile", username);
+                intent.putExtra("name", namabelakang.getText());
+                intent.putExtra("phone", notelppon.getText());
+                intent.putExtra("email", email.getText());
+                intent.putExtra("password", password.getText());
+                intent.putExtra("no_rek", norek.getText());
+                intent.putExtra("bank_name", namabank.getText());
+                intent.putExtra("cab", cabang.getText());
+                intent.putExtra("an", an.getText());
+                startActivity(intent);
+                break;
+        }
+    }
+
 }

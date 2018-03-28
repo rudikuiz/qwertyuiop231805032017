@@ -139,7 +139,7 @@
                     android:paddingRight="20dp">
 
                     <TextView
-                        android:id="@+id/nama_client"
+                        android:id="@+id/nama_nasabah"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/namaclient" />
@@ -149,7 +149,7 @@
                         android:layout_alignLeft="@+id/txtNoHpNas"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@+id/nama_client"
+                        android:layout_toRightOf="@+id/nama_nasabah"
                         android:text="@string/namaclient"
                         android:textAllCaps="true" />
 
@@ -513,11 +513,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:orientation="horizontal">
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    >
 
                     <Button
                         android:id="@+id/btndetailpembayaran"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="35dp"
                         android:layout_alignStart="@+id/komisi"
                         android:layout_below="@+id/komisi"
@@ -536,7 +539,8 @@
 
                     <Button
                         android:id="@+id/btnTulisCatatan"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="35dp"
                         android:layout_alignEnd="@+id/relativedetail"
                         android:layout_below="@+id/txtnilaikomisi"
@@ -556,11 +560,32 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp">
+
+                    <Button
+                        android:id="@+id/btnKunjungan"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="35dp"
+                        android:layout_alignEnd="@+id/relativedetail"
+                        android:layout_below="@+id/txtnilaikomisi"
+                        android:background="@drawable/ripple_effect_biru"
+                        android:paddingBottom="5dp"
+                        android:paddingEnd="30dp"
+                        android:paddingStart="30dp"
+                        android:paddingTop="5dp"
+                        android:text="@string/kunjungan"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="12dp"
+                        android:layout_marginRight="5dp"/>
 
                     <Button
                         android:id="@+id/btnLihatLokasi"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="35dp"
                         android:layout_alignEnd="@+id/relativedetail"
                         android:layout_below="@+id/txtnilaikomisi"
@@ -575,6 +600,32 @@
                         android:textSize="12dp" />
 
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center">
+
+
+                    <Button
+                        android:id="@+id/btnDebt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:layout_alignEnd="@+id/relativedetail"
+                        android:layout_below="@+id/txtnilaikomisi"
+                        android:background="@drawable/ripple_effect_biru"
+                        android:paddingBottom="5dp"
+                        android:paddingEnd="30dp"
+                        android:paddingStart="30dp"
+                        android:paddingTop="5dp"
+                        android:text="@string/baddebt"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="12dp" />
+
+                </LinearLayout>
+
 
             </LinearLayout>
 

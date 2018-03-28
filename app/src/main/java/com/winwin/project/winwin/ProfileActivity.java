@@ -138,7 +138,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        dialog.getWindow().setBackgroundDrawableResource(R.drawable.corner_radius_bg_pop_up);
+        dialog.getWindow().setBackgroundDrawableResource(R.drawable.corner_radius);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         sharedpreferences = getSharedPreferences(LoginPage.my_shared_preferences, Context.MODE_PRIVATE);
@@ -217,7 +217,7 @@ public class ProfileActivity extends AppCompatActivity {
         });
         final RecyclerView rvJatuhTempo = view.findViewById(R.id.rvJDetailPembayaran);
 
-        dialog.getWindow().setBackgroundDrawableResource(R.drawable.corner_radius_bg_pop_up);
+        dialog.getWindow().setBackgroundDrawableResource(R.drawable.corner_radius);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         sharedpreferences = getSharedPreferences(LoginPage.my_shared_preferences, Context.MODE_PRIVATE);
@@ -289,8 +289,6 @@ public class ProfileActivity extends AppCompatActivity {
 
 
     private void getJSON() {
-
-
         stringRequest = new StringRequest(Request.Method.GET, URL_GET_KOMISI_TAHAP + member_id, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

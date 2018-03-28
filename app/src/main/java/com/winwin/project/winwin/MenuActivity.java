@@ -1,13 +1,19 @@
 package com.winwin.project.winwin;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -18,18 +24,21 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.winwin.project.winwin.Adapter.DashboardAdapter;
+import com.winwin.project.winwin.Model.ModelDashboard;
 import com.winwin.project.winwin.Model.ModelJatuhTempo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import at.markushi.ui.CircleButton;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.winwin.project.winwin.Config.RequestDatabase.URL_GET_DETAIL_PEMBAYARAN;
 import static com.winwin.project.winwin.Config.RequestDatabase.URL_MEMBER_ID_KARYAWAN;
 import static com.winwin.project.winwin.Config.http.TAG_ID;
 import static com.winwin.project.winwin.Config.http.TAG_MEMBER_ID_KARYAWAN;
@@ -62,7 +71,14 @@ public class MenuActivity extends AppCompatActivity {
     TextView tvClient;
     RequestQueue requestQueue;
     StringRequest stringRequest;
+    @BindView(R.id.rvMenu)
+    RecyclerView rvMenu;
+    @BindView(R.id.img_notification)
+    ImageView imgNotification;
 
+    private ArrayList<ModelDashboard> arrayList = new ArrayList<>();
+    private DashboardAdapter adapter;
+    Button acc, noacc;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,10 +91,30 @@ public class MenuActivity extends AppCompatActivity {
 
 //        Toast.makeText(MenuActivity.this, member_id, Toast.LENGTH_SHORT).show();
 
+        menuku();
+
+        rvMenu.setHasFixedSize(true);
+        GridLayoutManager layoutManager = new GridLayoutManager(MenuActivity.this, 2,
+                GridLayoutManager.VERTICAL, false);
+        rvMenu.setLayoutManager(layoutManager);
+
+        adapter = new DashboardAdapter(arrayList, MenuActivity.this);
+        rvMenu.setAdapter(adapter);
+
         txtUser.setText(username);
     }
 
-    @OnClick({R.id.img_logout, R.id.btnClient, R.id.btnMenu, R.id.btnProfil})
+    private void menuku() {
+        arrayList.add(new ModelDashboard(R.drawable.daftarklien, "Daftar Client"));
+        arrayList.add(new ModelDashboard(R.drawable.ic_komisi, "Komisi"));
+        arrayList.add(new ModelDashboard(R.drawable.ic_profile, "Profile"));
+        arrayList.add(new ModelDashboard(R.drawable.ic_analistcebt, "Analist Debt"));
+        arrayList.add(new ModelDashboard(R.drawable.ic_requestcicilan, "Request Cicilan"));
+        arrayList.add(new ModelDashboard(R.drawable.ic_janjibayar, "Janji Bayar"));
+
+    }
+
+    @OnClick({R.id.img_logout, R.id.btnClient, R.id.btnMenu, R.id.btnProfil, R.id.img_notification})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_logout:
@@ -103,6 +139,9 @@ public class MenuActivity extends AppCompatActivity {
             case R.id.btnProfil:
                 startActivity(new Intent(MenuActivity.this, ProfileActivity.class));
 //                Toast.makeText(this, "Active, Nothing Menu. Wait update from Programmer", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.img_notification:
+                notifDialog();
                 break;
         }
     }
@@ -138,4 +177,30 @@ public class MenuActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
+    private void notifDialog() {
+        final Dialog dialog = new Dialog(MenuActivity.this);
+        LayoutInflater inflater = (LayoutInflater) MenuActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.pop_up_notification, null);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(view);
+        acc = (Button) view.findViewById(R.id.btnYa);
+        noacc = (Button) view.findViewById(R.id.btnTidak);
+
+        acc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MenuActivity.this, ListNotification.class));
+                dialog.dismiss();
+            }
+        });
+
+        noacc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.getWindow().setBackgroundDrawableResource(R.drawable.corner_radius);
+        dialog.show();
+    }
 }
