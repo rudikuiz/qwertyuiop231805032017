@@ -4,7 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://D:\Android\workspace\qwertyuiop231805032017\app\app.iml" filepath="D:\Android\workspace\qwertyuiop231805032017\app\app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/qwertyuiop231805032017.iml" filepath="$PROJECT_DIR$/.idea/qwertyuiop231805032017.iml" />
+      <module fileurl="file://D:\(AndroidProject)\IQBAL\winwin\.idea\qwertyuiop231805032017.iml" filepath="D:\(AndroidProject)\IQBAL\winwin\.idea\qwertyuiop231805032017.iml" />
+      <module fileurl="file://$PROJECT_DIR$/winwin.iml" filepath="$PROJECT_DIR$/winwin.iml" />
       <module fileurl="file://D:\Android\workspace\qwertyuiop231805032017\winwin.iml" filepath="D:\Android\workspace\qwertyuiop231805032017\winwin.iml" />
     </modules>
   </component>
