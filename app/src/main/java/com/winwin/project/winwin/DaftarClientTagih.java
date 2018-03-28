@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -26,6 +27,7 @@ import com.android.volley.toolbox.Volley;
 import com.winwin.project.winwin.Adapter.AdapterMenu;
 import com.winwin.project.winwin.Model.ModelMenu;
 import com.winwin.project.winwin.Setting.OwnProgressDialog;
+import com.winwin.project.winwin.Utils.AppConf;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -141,6 +143,12 @@ public class DaftarClientTagih extends AppCompatActivity {
                 }
             }
         });
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                AppConf.SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        
         requestQueue.add(stringRequest);
     }
 

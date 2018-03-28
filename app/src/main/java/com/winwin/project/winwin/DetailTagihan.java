@@ -30,6 +30,7 @@ import com.winwin.project.winwin.Model.ModelDetailDataClient;
 import com.winwin.project.winwin.Model.ModelUrl;
 import com.winwin.project.winwin.Setting.DecimalsFormat;
 import com.winwin.project.winwin.Setting.OwnProgressDialog;
+import com.winwin.project.winwin.Utils.AppConf;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -235,6 +236,11 @@ public class DetailTagihan extends AppCompatActivity {
                 MY_SOCKET_TIMEOUT_MS,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                AppConf.SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
         requestQueue.add(stringRequest);
     }
 
@@ -255,6 +261,7 @@ public class DetailTagihan extends AppCompatActivity {
                         model.setNamaDocument(json.getString("cli_doc_file"));
                         list_data.add(model);
                         urlKtp = URL_GET_IMAGE_FROM_FOLDER + model.getKodePelanggan() + "/" + model.getNamaDocument();
+                        urlKtp = "http://hq.ppgwinwin.com/winwin/home/uploads/" + model.getKodePelanggan() + "/" + model.getNamaDocument();
                         Log.d("hasil url", urlKtp);
                     }
 
@@ -272,6 +279,12 @@ public class DetailTagihan extends AppCompatActivity {
                 MY_SOCKET_TIMEOUT_MS,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                AppConf.SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
         requestQueue.add(stringRequest);
     }
 
