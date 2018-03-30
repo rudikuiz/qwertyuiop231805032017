@@ -4,10 +4,14 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +29,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment;
 import com.winwin.project.winwin.Config.AppController;
 import com.winwin.project.winwin.Model.ModelDetailDataClient;
 import com.winwin.project.winwin.Model.getID;
@@ -33,6 +38,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -62,21 +69,14 @@ public class DataKunjunganActivity extends AppCompatActivity implements RadioGro
     TextView lblkunjungan;
     @BindView(R.id.jamkunjungan)
     TextView jamkunjungan;
-    @BindView(R.id.viewPhoto)
-    TextView viewPhoto;
     @BindView(R.id.uploadPhoto)
     TextView uploadPhoto;
-    @BindView(R.id.spinHari)
-    Spinner spinHari;
-    EditText txtTulisCatatan;
     @BindView(R.id.btnSimpan)
     Button btnSimpan;
     @BindView(R.id.ic_home)
     ImageView icHome;
     @BindView(R.id.tglkunjungan)
     TextView tglkunjungan;
-    @BindView(R.id.tahun)
-    TextView tahun;
     @BindView(R.id.spipnBln)
     Spinner spipnBln;
     @BindView(R.id.rbLunas)
@@ -96,13 +96,27 @@ public class DataKunjunganActivity extends AppCompatActivity implements RadioGro
 
     RequestQueue requestQueue;
     SharedPreferences sharedpreferences;
-    String member_id, getClientId, values, totalpinjaman, nilai_bayar, id_pengajuan;
+    String member_id, getClientId, values, totalpinjaman, nilai_bayar, id_pengajuan, dateString;
     ConnectivityManager conMgr;
     ProgressDialog pDialog;
     int success;
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
     String tag_json_obj = "json_obj_req";
+    @BindView(R.id.btTakeDate)
+    Button btTakeDate;
+    @BindView(R.id.etDate)
+    TextView etDate;
+    @BindView(R.id.takeFoto)
+    TextView takeFoto;
+    @BindView(R.id.ImgPenagihan)
+    ImageView ImgPenagihan;
+    @BindView(R.id.jumlah)
+    EditText jumlah;
+    @BindView(R.id.txtTulisCatatan)
+    EditText txtTulisCatatan;
+    int PICK_IMAGE_REQUEST = 1, bitmap_size = 100;
+    Bitmap decoded;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,7 +140,6 @@ public class DataKunjunganActivity extends AppCompatActivity implements RadioGro
 
         tglkunjungan.setText(getTanggal());
         jamkunjungan.setText(getWaktu());
-        tahun.setText(getTahun());
 
         rg.setOnCheckedChangeListener(this);
         Intent intent = getIntent();
@@ -135,12 +148,13 @@ public class DataKunjunganActivity extends AppCompatActivity implements RadioGro
         getNilaiBayar();
     }
 
+
     private void TambahkanDataKunjnungan(final String status, final String nilaibayar, final String id_pengajuans) {
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
         pDialog.setMessage("Loading ...");
         showDialog();
-        StringRequest strReq = new StringRequest(Request.Method.POST, URL_POST_DATA_KUNJUNGAN+id_pengajuan, new Response.Listener<String>() {
+        StringRequest strReq = new StringRequest(Request.Method.POST, URL_POST_DATA_KUNJUNGAN + id_pengajuan, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
@@ -300,8 +314,39 @@ public class DataKunjunganActivity extends AppCompatActivity implements RadioGro
         return dateFormat.format(date);
     }
 
+    public void takeImageFromCamera(View view) {
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(cameraIntent, PICK_IMAGE_REQUEST);
+    }
 
-    @OnClick({R.id.img_back, R.id.btnSimpan, R.id.ic_home})
+    private void setToImageView(Bitmap bmp) {
+        //compress image
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, bitmap_size, bytes);
+        decoded = BitmapFactory.decodeStream(new ByteArrayInputStream(bytes.toByteArray()));
+        ImgPenagihan.setImageBitmap(decoded);
+    }
+
+    public String getStringImage(Bitmap bmp) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, bitmap_size, baos);
+        byte[] imageBytes = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        return encodedImage;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
+            if (takeFoto.isClickable()) {
+                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+                setToImageView(bitmap);
+            }
+        }
+    }
+
+    @OnClick({R.id.img_back, R.id.btnSimpan, R.id.ic_home, R.id.btTakeDate, R.id.takeFoto})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_back:
@@ -322,6 +367,22 @@ public class DataKunjunganActivity extends AppCompatActivity implements RadioGro
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();
+                break;
+            case R.id.btTakeDate:
+                CalendarDatePickerDialogFragment cdp = new CalendarDatePickerDialogFragment()
+                        .setOnDateSetListener(new CalendarDatePickerDialogFragment.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(CalendarDatePickerDialogFragment dialog, int year, int monthOfYear, int dayOfMonth) {
+
+                                int month = monthOfYear + 1;
+                                dateString = year + "-" + String.format("%02d", month) + "-" + String.format("%02d", dayOfMonth);
+                                etDate.setText(dateString);
+                            }
+                        });
+                cdp.show(getSupportFragmentManager(), null);
+                break;
+            case R.id.takeFoto:
+                takeImageFromCamera(view);
                 break;
         }
     }

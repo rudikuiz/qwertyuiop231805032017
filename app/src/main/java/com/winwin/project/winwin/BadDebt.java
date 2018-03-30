@@ -188,8 +188,8 @@ public class BadDebt extends AppCompatActivity {
             public void onResponse(String response) {
                 Log.d("notes: ", response);
                 Toast.makeText(BadDebt.this, "Berhasil Di Input Ke database", Toast.LENGTH_SHORT).show();
-
                 loading.dismiss();
+                finish();
                 try {
                     final JSONObject jObj = new JSONObject(response.toString());
                     success = jObj.getInt(TAG_SUCCESS);
@@ -251,8 +251,11 @@ public class BadDebt extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Bitmap drawingBitmap = drawingView.getDrawing();
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                drawingBitmap.compress(Bitmap.CompressFormat.PNG, bitmap_size, bytes);
+                decoded2 = BitmapFactory.decodeStream(new ByteArrayInputStream(bytes.toByteArray()));
+                ImgTTD.setImageBitmap(decoded2);
 //                ImgTTD.setImageBitmap(drawingBitmap);
-                setToImageView2(drawingBitmap);
                 dialog.dismiss();
             }
         });

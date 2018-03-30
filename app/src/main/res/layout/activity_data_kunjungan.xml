@@ -167,29 +167,40 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/viewPhoto"
+                    android:id="@+id/takeFoto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@+id/asd"
                     android:layout_marginRight="5dp"
                     android:layout_toRightOf="@+id/asd"
-                    android:text="@string/viewphoto"
+                    android:text="@string/takefoto"
                     android:textColor="@color/blue"
                     android:textSize="14sp"
                     android:textStyle="italic|bold" />
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/uploadPhoto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@+id/asd"
-                    android:layout_toEndOf="@+id/viewPhoto"
+                    android:layout_toEndOf="@+id/takeFoto"
                     android:text="@string/uploadfoto"
                     android:textColor="@color/blue"
                     android:textSize="14sp"
                     android:textStyle="italic|bold" />
             </RelativeLayout>
 
+            <ImageView
+                android:id="@+id/ImgPenagihan"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/imagenothing"/>
             <RadioGroup
                 android:id="@+id/rg"
                 android:layout_width="match_parent"
@@ -209,80 +220,32 @@
                     android:text="@string/pelanggankoop" />
 
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp">
 
-                    <LinearLayout
-                        android:id="@+id/lin"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/border"
-                        android:orientation="horizontal">
-
-                        <Spinner
-                            android:id="@+id/spinHari"
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:entries="@array/hari"
-                            android:padding="5dp" />
-                    </LinearLayout>
+                    <Button
+                        android:id="@+id/btTakeDate"
+                        android:layout_width="0dp"
+                        android:layout_height="35dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/ripple_effect_biru"
+                        android:textColor="@color/white"
+                        android:text="Date"
+                        android:layout_marginLeft="10dp"/>
 
                     <TextView
-                        android:id="@+id/atau"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/etDate"
+                        android:layout_width="0dp"
+                        android:gravity="center"
+                        android:textSize="18sp"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/biru_border"
+                        android:textStyle="bold"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toRightOf="@+id/lin"
-                        android:padding="5dp"
-                        android:text="@string/atau"
-                        android:textSize="15sp" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toRightOf="@+id/atau"
-                        android:background="@drawable/border"
-                        android:orientation="horizontal">
-
-                        <Spinner
-                            android:id="@+id/spinHariAngka"
-                            android:layout_width="60sp"
-                            android:layout_height="wrap_content"
-                            android:entries="@array/tanggal"
-                            android:padding="5dp" />
-
-                        <View
-                            android:layout_width="1dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:background="@color/abuGaris" />
-
-                        <Spinner
-                            android:id="@+id/spinBln"
-                            android:layout_width="60sp"
-                            android:layout_height="wrap_content"
-                            android:entries="@array/bulan"
-                            android:padding="5dp" />
-
-                        <View
-                            android:layout_width="1dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:background="@color/abuGaris" />
-
-                        <TextView
-                            android:id="@+id/tahun"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="5dp"
-                            android:textSize="16sp" />
-                    </LinearLayout>
-
-                </RelativeLayout>
+                        android:layout_weight="2" />
+                </LinearLayout>
 
                 <RadioButton
                     android:id="@+id/pelanggankop"

@@ -236,10 +236,6 @@ public class DetailTagihan extends AppCompatActivity {
                 MY_SOCKET_TIMEOUT_MS,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                AppConf.SOCKET_TIMEOUT_MS,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         requestQueue.add(stringRequest);
     }
@@ -277,11 +273,6 @@ public class DetailTagihan extends AppCompatActivity {
         });
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(
                 MY_SOCKET_TIMEOUT_MS,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                AppConf.SOCKET_TIMEOUT_MS,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
@@ -355,22 +346,14 @@ public class DetailTagihan extends AppCompatActivity {
         }
     }
 
-    @OnClick({R.id.btnKunjungan, R.id.btnLihatLokasi, R.id.btnDebt})
+    @OnClick({R.id.btnKunjungan, R.id.btnDebt})
     public void onViewClicked2(View view) {
         switch (view.getId()) {
             case R.id.btnKunjungan:
                 Intent intent = new Intent(DetailTagihan.this, DataKunjunganActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.btnLihatLokasi:
-                Intent intents = new Intent(DetailTagihan.this, MapsActivity.class);
-                intents.putExtra("nama", txtNamaClient.getText());
-                intents.putExtra("jumlah", txtTotalNilaiHutang.getText());
-                intents.putExtra("lat", Lat);
-                intents.putExtra("lang", Lang);
-                intents.putExtra("client_id", id_klien);
-                startActivity(intents);
-                break;
+
             case R.id.btnDebt:
                 intent = new Intent(DetailTagihan.this, BadDebt.class);
                 intent.putExtra("pengajuan_id",  pengajuanid);

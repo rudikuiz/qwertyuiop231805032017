@@ -34,7 +34,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.winwin.project.winwin.Config.RequestDatabase.URL_GET_ALL;
 import static com.winwin.project.winwin.Config.RequestDatabase.URL_GET_KOMISI_TAHAP;
 import static com.winwin.project.winwin.Config.http.TAG_MEMBER_ID_KARYAWAN;
 
@@ -61,19 +60,21 @@ public class DetKomisiActivity extends AppCompatActivity {
     TextView totalOperasiional;
     @BindView(R.id.totalKomisi)
     TextView totalKomisi;
-
+    String title, values;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_det_komisi);
         ButterKnife.bind(this);
 
+        Intent intent = getIntent();
+        title = intent.getStringExtra("tahapan");
+        values = intent.getStringExtra("values");
+        txtKomisi.setText(title);
 
-        txtKomisi.setText(getIntent().getStringExtra("tahapan"));
         rvDetailKomisi.setHasFixedSize(true);
         GridLayoutManager layoutManager = new GridLayoutManager(DetKomisiActivity.this, 1,
                 GridLayoutManager.VERTICAL, false);
-
         rvDetailKomisi.setLayoutManager(layoutManager);
 
         sharedpreferences = getSharedPreferences(LoginPage.my_shared_preferences, Context.MODE_PRIVATE);
@@ -94,9 +95,9 @@ public class DetKomisiActivity extends AppCompatActivity {
     }
 
     private void getJSON() {
-
+        Log.d("asfaf", URL_GET_KOMISI_TAHAP + member_id + "&tahap=" + values);
         arrayList = new ArrayList<ModelTableKomisi>();
-        stringRequest = new StringRequest(Request.Method.GET, URL_GET_KOMISI_TAHAP + member_id, new Response.Listener<String>() {
+        stringRequest = new StringRequest(Request.Method.GET, URL_GET_KOMISI_TAHAP + member_id + "&tahap=" + values, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d("response: ", response);

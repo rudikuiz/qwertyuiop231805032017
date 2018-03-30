@@ -63,7 +63,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/ic_logo_client"
-                android:text="@string/daftarclientsurvey"
+                android:text="List Analist Debt"
                 android:textColor="@color/blue"
                 android:textSize="18dp"
                 android:textStyle="bold" />

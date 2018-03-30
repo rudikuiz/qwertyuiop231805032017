@@ -53,6 +53,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.winwin.project.winwin.Config.RequestDatabase.URL_POST_VISIT;
+import static com.winwin.project.winwin.Config.http.TAG_ID;
 import static com.winwin.project.winwin.Config.http.TAG_MEMBER_ID_KARYAWAN;
 
 public class PengambilanVisit extends AppCompatActivity {
@@ -110,7 +111,7 @@ public class PengambilanVisit extends AppCompatActivity {
     private FusedLocationProviderClient mFusedLocationClient;
     int PROS_ID = 1001;
     SharedPreferences sharedpreferences;
-    String member_id, client_id, pengajuan_id, status;
+    String id_member, member_id_karyawan, client_id, pengajuan_id, status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +120,8 @@ public class PengambilanVisit extends AppCompatActivity {
         ButterKnife.bind(this);
         loading = new OwnProgressDialog(PengambilanVisit.this);
         sharedpreferences = getSharedPreferences(LoginPage.my_shared_preferences, Context.MODE_PRIVATE);
-        member_id = sharedpreferences.getString(TAG_MEMBER_ID_KARYAWAN, "");
+        member_id_karyawan = sharedpreferences.getString(TAG_MEMBER_ID_KARYAWAN, "");
+        id_member = sharedpreferences.getString(TAG_ID, "");
         Intent intent = getIntent();
         client_id = intent.getStringExtra("id_client");
         pengajuan_id = intent.getStringExtra("pengajuan_id");
@@ -136,8 +138,11 @@ public class PengambilanVisit extends AppCompatActivity {
             public void onResponse(String response) {
                 Log.d("notes: ", response);
                 Toast.makeText(PengambilanVisit.this, "Berhasil Di Input Ke database", Toast.LENGTH_SHORT).show();
-
                 loading.dismiss();
+                Intent intent = new Intent(PengambilanVisit.this, AnalistDebt.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
                 try {
                     final JSONObject jObj = new JSONObject(response.toString());
                     success = jObj.getInt(TAG_SUCCESS);
@@ -175,7 +180,8 @@ public class PengambilanVisit extends AppCompatActivity {
 
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("id_pengajuan", pengajuan_id);
-                params.put("id_karyawan", member_id);
+                params.put("id_karyawan", member_id_karyawan);
+                params.put("id_member", id_member);
                 params.put("foto_ttd", getStringImage(decoded));
                 params.put("foto_kantor", getStringImage(decoded));
                 params.put("foto_client", getStringImage(decoded2));
@@ -218,11 +224,11 @@ public class PengambilanVisit extends AppCompatActivity {
 
                 select = rgConfirmation.getCheckedRadioButtonId();
                 if (select == rbSetuju.getId()) {
-                    status = "1";
+                    status = "true";
                 }
 
                 if (select == rbTolak.getId()) {
-                    status = "0";
+                    status = "false";
                 }
                 Log.d("status", status);
                 addvisit();

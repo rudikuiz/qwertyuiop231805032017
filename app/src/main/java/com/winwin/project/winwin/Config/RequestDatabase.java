@@ -2,8 +2,6 @@ package com.winwin.project.winwin.Config;
 
 import static com.winwin.project.winwin.Config.http.URLHTTP;
 
-/**
- */
 
 public class RequestDatabase {
     public static final String URL_GET_ALL = URLHTTP+"view.php?pengajuan_assigned_to=";
@@ -24,11 +22,17 @@ public class RequestDatabase {
     public static final String URL_GET_ID_MEMBER = URLHTTP +"getMember_idkaryawan.php?kar_namalengkap=";
     public static final String URL_LOGIN = URLHTTP +"login.php";
     public static final String URL_MEMBER_ID_KARYAWAN = URLHTTP +"getMemberIDUser.php?member_id=";
-    public static final String URL_GET_IMAGE_FROM_FOLDER = "http://hq.ppgwinwin.com/winwin/home/uploads/";
-    public static final String URL_UPDATE_PROFIL_TRIAL = "http://winwinujicobaadmin.tamboraagungmakmur.com/debt_collector/update_profile.php";
-    public static final String URL_GET_JANJI_TRIAL = "http://winwinujicobaadmin.tamboraagungmakmur.com/winwin/api/cek_req_client.php?pengajuan_id_client=";
-    public static final String URL_GET_ANALIS = "http://winwinujicobaadmin.tamboraagungmakmur.com/debt_collector/view_analisa.php?member_id_karyawan=";
-    public static final String URL_POST_VISIT = "http://winwinujicobaadmin.tamboraagungmakmur.com/debt_collector/pengajuan_visit.php";
-    public static final String URL_REQUES_BAYAR = "http://winwinujicobaadmin.tamboraagungmakmur.com/debt_collector/request_janji_bayar.php";
-    public static final String URL_BADDEBT = "http://winwinujicobaadmin.tamboraagungmakmur.com/debt_collector/pengajuan_baddebt.php";
+    //    public static final String URL_GET_IMAGE_FROM_FOLDER = "http://hq.ppgwinwin.com/winwin/home/uploads/";
+    public static final String URL_GET_IMAGE_FROM_FOLDER = URLHTTP + "images/";
+    public static final String URL_UPDATE_PROFIL_TRIAL = URLHTTP + "update_profile.php";
+    public static final String URL_GET_JANJI_TRIAL = URLHTTP + "cek_req_client.php?pengajuan_id_client=";
+    public static final String URL_GET_ANALIS = URLHTTP + "view_analisa.php?member_id_karyawan=";
+    public static final String URL_POST_VISIT = URLHTTP + "pengajuan_visit.php";
+    public static final String URL_REQUES_BAYAR = URLHTTP + "request_janji_bayar.php";
+    public static final String URL_COUNT_NOTIF = URLHTTP + "view_debt.php?member_id_karyawan=";
+    public static final String URL_BADDEBT = URLHTTP + "pengajuan_baddebt.php";
+    public static final String URL_ADDTUGAS = URLHTTP + "add_tugas.php";
+    public static final String URL_VIEW = URLHTTP + "profile.php?kar_id=";
+    public static final String URL_DETAIL = URLHTTP + "detailclient.php?cli_id=";
+    public static final String URL_KOMISI = URLHTTP + "view_komisi.php?member_id_karyawan=";
 }

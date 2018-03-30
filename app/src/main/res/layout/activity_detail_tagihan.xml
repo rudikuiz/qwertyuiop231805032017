@@ -150,7 +150,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/nama_nasabah"
-                        android:text="@string/namaclient"
                         android:textAllCaps="true" />
 
                     <TextView
@@ -167,7 +166,7 @@
                         android:layout_width="match_parent"
                         android:layout_toRightOf="@+id/no_hpnasabah"
                         android:layout_height="wrap_content"
-                        android:text="@string/nomorhpnasabah" />
+                        />
 
                     <TextView
                         android:id="@+id/alamatrumah"
@@ -184,7 +183,7 @@
                         android:textAllCaps="true"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/almatrumah" />
+                        />
 
                     <TextView
                         android:id="@+id/fotoktp"
@@ -263,7 +262,7 @@
                         android:layout_alignParentTop="true"
                         android:layout_marginStart="39dp"
                         android:layout_toEndOf="@+id/alamatperusahaan"
-                        android:text="@string/perusahaan"
+
                         android:textAllCaps="true" />
 
                     <TextView
@@ -281,7 +280,7 @@
                         android:layout_below="@+id/txtPerusahaan"
                         android:layout_toRightOf="@+id/posisi"
                         android:textAllCaps="true"
-                        android:text="@string/posisi" />
+                         />
 
                     <TextView
                         android:id="@+id/notelpon"
@@ -297,7 +296,7 @@
                         android:layout_alignLeft="@+id/txtPerusahaan"
                         android:layout_below="@+id/txtPosisi"
                         android:layout_toRightOf="@+id/notelpon"
-                        android:text="@string/nomortelp" />
+                        />
 
                     <TextView
                         android:id="@+id/alamatperusahaan"
@@ -313,7 +312,6 @@
                         android:layout_alignLeft="@+id/txtPerusahaan"
                         android:layout_below="@+id/txtNoTelpon"
                         android:layout_toRightOf="@+id/alamatperusahaan"
-                        android:text="@string/alamatperusahaan"
                         android:textAllCaps="true" />
 
                 </RelativeLayout>
@@ -362,7 +360,7 @@
                             android:id="@+id/txtTglPinjam"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="17/01/2018" />
+                            />
                     </TableRow>
 
                     <TableRow
@@ -457,7 +455,6 @@
                             android:layout_below="@+id/linetotal"
                             android:layout_gravity="right"
                             android:padding="5dp"
-                            android:text="Rp. 1000,000,-"
                             android:textStyle="bold" />
                     </TableRow>
 
@@ -479,7 +476,7 @@
                             android:layout_alignStart="@+id/txtTotalNilaiHutang"
                             android:layout_gravity="right"
                             android:padding="5dp"
-                            android:text="Rp x.xxx.xxx,-"
+
                             android:textColor="@color/blue"
                             android:textStyle="bold" />
                     </TableRow>
@@ -502,7 +499,7 @@
                             android:layout_below="@+id/txtNilaiBiayaOperasional"
                             android:layout_gravity="right"
                             android:padding="5dp"
-                            android:text="Rp x.xxx.xxx,-"
+
                             android:textColor="@color/blue"
                             android:textStyle="bold" />
                     </TableRow>
@@ -521,7 +518,7 @@
                         android:id="@+id/btndetailpembayaran"
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:layout_height="35dp"
+                        android:layout_height="wrap_content"
                         android:layout_alignStart="@+id/komisi"
                         android:layout_below="@+id/komisi"
                         android:layout_marginBottom="20dp"
@@ -541,7 +538,7 @@
                         android:id="@+id/btnTulisCatatan"
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:layout_height="35dp"
+                        android:layout_height="wrap_content"
                         android:layout_alignEnd="@+id/relativedetail"
                         android:layout_below="@+id/txtnilaikomisi"
                         android:background="@drawable/ripple_effect_biru"
@@ -568,7 +565,7 @@
                         android:id="@+id/btnKunjungan"
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:layout_height="35dp"
+                        android:layout_height="wrap_content"
                         android:layout_alignEnd="@+id/relativedetail"
                         android:layout_below="@+id/txtnilaikomisi"
                         android:background="@drawable/ripple_effect_biru"
@@ -586,7 +583,7 @@
                         android:id="@+id/btnLihatLokasi"
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:layout_height="35dp"
+                        android:layout_height="wrap_content"
                         android:layout_alignEnd="@+id/relativedetail"
                         android:layout_below="@+id/txtnilaikomisi"
                         android:background="@drawable/ripple_effect_biru"
@@ -611,7 +608,7 @@
                     <Button
                         android:id="@+id/btnDebt"
                         android:layout_width="wrap_content"
-                        android:layout_height="35dp"
+                        android:layout_height="wrap_content"
                         android:layout_alignEnd="@+id/relativedetail"
                         android:layout_below="@+id/txtnilaikomisi"
                         android:background="@drawable/ripple_effect_biru"

@@ -27,6 +27,7 @@ import com.android.volley.toolbox.Volley;
 import com.winwin.project.winwin.Adapter.AdapterJatuhTempo;
 import com.winwin.project.winwin.Model.ModelJatuhTempo;
 import com.winwin.project.winwin.Model.ModelTableKomisi;
+import com.winwin.project.winwin.Setting.DecimalsFormat;
 import com.winwin.project.winwin.Setting.OwnProgressDialog;
 
 import org.json.JSONArray;
@@ -41,7 +42,7 @@ import butterknife.OnClick;
 
 import static com.winwin.project.winwin.Config.RequestDatabase.URL_GET_DETAIL_PEMBAYARAN;
 import static com.winwin.project.winwin.Config.RequestDatabase.URL_GET_JATUH_TEMPO;
-import static com.winwin.project.winwin.Config.RequestDatabase.URL_GET_KOMISI_TAHAP;
+import static com.winwin.project.winwin.Config.RequestDatabase.URL_KOMISI;
 import static com.winwin.project.winwin.Config.http.TAG_MEMBER_ID_KARYAWAN;
 import static com.winwin.project.winwin.Config.http.TAG_USERNAME;
 
@@ -92,6 +93,7 @@ public class ProfileActivity extends AppCompatActivity {
         txtUser.setText(username);
         requestQueue = Volley.newRequestQueue(ProfileActivity.this);
         getJSON();
+
     }
 
 
@@ -287,36 +289,25 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-
     private void getJSON() {
-        stringRequest = new StringRequest(Request.Method.GET, URL_GET_KOMISI_TAHAP + member_id, new Response.Listener<String>() {
+        stringRequest = new StringRequest(Request.Method.GET, URL_KOMISI + member_id, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d("jsonwe: ", response + URL_GET_KOMISI_TAHAP + member_id);
                 try {
-                    int total = 0;
-                    int totalKom = 0;
-
-                    JSONArray jsonArray = new JSONArray(response);
-                    for (int a = 0; a < jsonArray.length(); a++) {
-                        JSONObject json = jsonArray.getJSONObject(a);
+                    JSONObject json = new JSONObject(response);
                         ModelTableKomisi modelMenu = new ModelTableKomisi();
-                        modelMenu.setId(json.getString("number"));
-                        modelMenu.setNama(json.getString("cli_nama_lengkap"));
-                        modelMenu.setBiayaope(json.getString("prosen_operasional"));
-                        modelMenu.setKomisi(json.getString("prosen_komisi"));
 
-                        total = total + Integer.parseInt(modelMenu.getBiayaope());
-                        totalKom = totalKom + Integer.parseInt(modelMenu.getKomisi());
-                        UangOperasional.setText(total);
-                        UangKomisi.setText(totalKom);
+                    modelMenu.setBiayaope(json.getString("operasional"));
+                    modelMenu.setKomisi(json.getString("komisi"));
 
-                    }
+                    UangOperasional.setText("Rp. " + DecimalsFormat.priceWithoutDecimal(modelMenu.getBiayaope()) + ",-");
+                    UangKomisi.setText("Rp. " + DecimalsFormat.priceWithoutDecimal(modelMenu.getKomisi()) + ",-");
+
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
 
             }
         }, new Response.ErrorListener() {

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.winwin.project.winwin.Model.ModelJatuhTempo;
 import com.winwin.project.winwin.R;
+import com.winwin.project.winwin.Setting.DecimalsFormat;
 
 import java.util.ArrayList;
 
@@ -40,7 +41,7 @@ public class AdapterJatuhTempo extends RecyclerView.Adapter<AdapterJatuhTempo.Ja
     @Override
     public void onBindViewHolder(JatuhTempoHolder holder, int position) {
         holder.nama.setText(arrayList.get(position).getNama());
-        holder.danamasuk.setText(arrayList.get(position).getNilai());
+        holder.danamasuk.setText("Rp. "+DecimalsFormat.priceWithoutDecimal(arrayList.get(position).getNilai()));
         holder.tanggal.setText(arrayList.get(position).getTempo());
     }
 

@@ -74,15 +74,26 @@
                 android:layout_marginRight="10dp"
                 android:src="@drawable/exit" />
 
+
             <ImageView
-                android:visibility="gone"
                 android:id="@+id/img_notification"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:layout_toLeftOf="@+id/img_logout"
+                android:layout_alignParentTop="true"
+                android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
-                android:src="@drawable/ic_lonceng_biru"
-                android:layout_centerVertical="true"/>
+                android:layout_toStartOf="@+id/img_logout"
+                android:src="@drawable/ic_lonceng_biru" />
+
+            <TextView
+                android:id="@+id/etcount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/img_notification"
+                android:background="@drawable/circle_notif"
+                android:text="3"
+                android:padding="5dp"/>
+
         </RelativeLayout>
 
     </android.support.v7.widget.Toolbar>

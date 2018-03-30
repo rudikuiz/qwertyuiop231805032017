@@ -99,7 +99,8 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <ScrollView
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/Swipe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -305,10 +306,9 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_weight="1">
+                android:layout_marginRight="20dp">
 
                 <Button
                     android:id="@+id/btVisit"
@@ -321,6 +321,30 @@
                     android:textSize="18sp" />
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/linNone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/border_biru"
+                android:orientation="vertical"
+                android:paddingBottom="20dp"
+                android:paddingTop="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="20dp"
+                    android:text="Data Belum Didapatkan, coba geser kebawah untuk refresh data"
+                    android:textColor="@color/biru_border"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
         </LinearLayout>
-    </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 </LinearLayout>

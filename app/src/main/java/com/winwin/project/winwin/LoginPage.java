@@ -1,14 +1,25 @@
 package com.winwin.project.winwin;
 
+import android.Manifest;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -51,6 +62,8 @@ public class LoginPage extends AppCompatActivity {
 
     ProgressDialog pDialog;
     Intent intent;
+    LocationManager locationManager;
+    boolean GpsStatus;
 
     int success;
     ConnectivityManager conMgr;
@@ -61,16 +74,13 @@ public class LoginPage extends AppCompatActivity {
 
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
-
-
     String tag_json_obj = "json_obj_req";
-
     SharedPreferences sharedpreferences;
     Boolean session = false;
-    String id, username;
+    String id, username, provider,slat, slang;
     public static final String my_shared_preferences = "my_shared_preferences";
     public static final String session_status = "session_status";
-    String text1, text2; //Deklarasi object string
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +91,42 @@ public class LoginPage extends AppCompatActivity {
         cekInternet();
         // Cek session login jika TRUE maka langsung buka MainActivity
         cekSession();
+
+        // Get the location manager
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        // Define the criteria how to select the locatioin provider -> use
+        // default
+        Criteria criteria = new Criteria();
+        provider = locationManager.getBestProvider(criteria, false);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        Location location = locationManager.getLastKnownLocation(provider);
+
+        // Initialize the location fields
+        if (location != null) {
+            System.out.println("Provider " + provider + " has been selected.");
+            onLocationChanged(location);
+        }
+    }
+
+
+    public void onLocationChanged(Location location) {
+        int lat = (int) (location.getLatitude());
+        int lng = (int) (location.getLongitude());
+
+        slat = String.valueOf(lat);
+        slang = String.valueOf(lng);
+
+//        Actionsdaf();
+
     }
 
     private void cekSession() {
@@ -119,6 +165,49 @@ public class LoginPage extends AppCompatActivity {
                         Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    public void CheckGpsStatus() {
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        GpsStatus = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        CheckGpsStatus();
+        if (GpsStatus == true) {
+        } else {
+            Dialog();
+            Toast.makeText(LoginPage.this, "GPS IS NON ACTIVE", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void Dialog() {
+        final Dialog dialog = new Dialog(LoginPage.this);
+        LayoutInflater inflater = (LayoutInflater) LoginPage.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.pop_up_dialog_gps, null);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(view);
+
+        Button btnSubmit = (Button) view.findViewById(R.id.btActive);
+
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
+                dialog.dismiss();
+            }
+        });
+
+
+        dialog.getWindow().setBackgroundDrawableResource(R.drawable.corner_radius);
+        dialog.setCancelable(false);
+        dialog.show();
     }
 
     private void checkLogin(final String username, final String password) {

@@ -20,9 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.winwin.project.winwin.Adapter.AdapterHistoryPencairan;
-import com.winwin.project.winwin.Adapter.AdapterMenu;
 import com.winwin.project.winwin.Model.ModelHistoryaPencairan;
-import com.winwin.project.winwin.Model.ModelMenu;
 import com.winwin.project.winwin.Setting.OwnProgressDialog;
 
 import org.json.JSONArray;
@@ -35,7 +33,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.winwin.project.winwin.Config.RequestDatabase.URL_GET_ALL;
 import static com.winwin.project.winwin.Config.RequestDatabase.URL_GET_PENCAIRAN;
 import static com.winwin.project.winwin.Config.http.TAG_MEMBER_ID_KARYAWAN;
 
@@ -55,12 +52,15 @@ public class HistoryPencairanActivity extends AppCompatActivity {
     @BindView(R.id.Swipe)
     SwipeRefreshLayout Swipe;
     SharedPreferences sharedpreferences;
-    String member_id;
+    String member_id, values;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_pencairan);
         ButterKnife.bind(this);
+
+        Intent intent = getIntent();
+        values = intent.getStringExtra("values");
 
         rvHistoryPencairan.setHasFixedSize(true);
         GridLayoutManager layoutManager = new GridLayoutManager(HistoryPencairanActivity.this, 1,
@@ -87,9 +87,9 @@ public class HistoryPencairanActivity extends AppCompatActivity {
 
 
     private void getJSON() {
-
+        Log.d("afsaef", URL_GET_PENCAIRAN + member_id + "&tahap=" + values);
         arrayList = new ArrayList<ModelHistoryaPencairan>();
-        stringRequest = new StringRequest(Request.Method.GET, URL_GET_PENCAIRAN + member_id, new Response.Listener<String>() {
+        stringRequest = new StringRequest(Request.Method.GET, URL_GET_PENCAIRAN + member_id + "&tahap=" + values, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d("response: ", response);

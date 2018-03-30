@@ -4,7 +4,7 @@ package com.winwin.project.winwin.Model;
  */
 
 public class ListNotifModel {
-    String nama,alamat;
+    String nama,alamat,aksi,pengajuan_id;
 
     public ListNotifModel(String nama, String alamat) {
         this.nama = nama;
@@ -12,6 +12,22 @@ public class ListNotifModel {
     }
 
     public ListNotifModel() {
+    }
+
+    public String getPengajuan_id() {
+        return pengajuan_id;
+    }
+
+    public void setPengajuan_id(String pengajuan_id) {
+        this.pengajuan_id = pengajuan_id;
+    }
+
+    public String getAksi() {
+        return aksi;
+    }
+
+    public void setAksi(String aksi) {
+        this.aksi = aksi;
     }
 
     public String getNama() {

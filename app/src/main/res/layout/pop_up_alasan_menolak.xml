@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <EditText
+            android:id="@+id/etKet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/material_design_oval"
+            android:gravity="top"
+            android:hint="Tambahkan Note.."
+            android:inputType="textMultiLine"
+            android:minLines="10"
+            android:padding="10dp"
+            android:textSize="15dp"
+            android:textStyle="normal" />
+
+        <Button
+            android:id="@+id/btSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/ripple_effect_biru"
+            android:text="@string/kirim"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+</RelativeLayout>

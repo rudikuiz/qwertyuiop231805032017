@@ -3,11 +3,13 @@ package com.winwin.project.winwin;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +33,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.winwin.project.winwin.Config.RequestDatabase.URL_GET_DETAIL;
+import static com.winwin.project.winwin.Config.RequestDatabase.URL_DETAIL;
 
 public class DetailPelanggan extends AppCompatActivity {
 
@@ -44,7 +46,7 @@ public class DetailPelanggan extends AppCompatActivity {
     @BindView(R.id.btVisit)
     Button btVisit;
     SharedPreferences sharedpreferences;
-    String id_klien,id_pengajuan;
+    String id_klien, id_pengajuan;
     @BindView(R.id.etNoOptional)
     TextView etNoOptional;
     @BindView(R.id.etAlamatRumah)
@@ -55,6 +57,10 @@ public class DetailPelanggan extends AppCompatActivity {
     TextView etAlamatKantor;
     @BindView(R.id.etNama)
     TextView etNama;
+    @BindView(R.id.linNone)
+    LinearLayout linNone;
+    @BindView(R.id.Swipe)
+    SwipeRefreshLayout Swipe;
 
     private OwnProgressDialog progressDialog;
     private RequestQueue requestQueue;
@@ -72,19 +78,24 @@ public class DetailPelanggan extends AppCompatActivity {
         id_pengajuan = intent.getStringExtra("pengajuan_id");
         progressDialog = new OwnProgressDialog(DetailPelanggan.this);
         requestQueue = Volley.newRequestQueue(DetailPelanggan.this);
+        Swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                load();
+            }
+        });
         load();
+        DataAda();
     }
 
 
     private void load() {
         progressDialog.show();
-        stringRequest = new StringRequest(Request.Method.GET, URL_GET_DETAIL + id_klien, new Response.Listener<String>() {
+        stringRequest = new StringRequest(Request.Method.GET, URL_DETAIL + id_klien, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d("datakuz", response);
                 try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    JSONArray jsonArray = jsonObject.getJSONArray("client");
+                    JSONArray jsonArray = new JSONArray(response);
                     for (int a = 0; a < jsonArray.length(); a++) {
                         JSONObject json = jsonArray.getJSONObject(a);
                         ModelDetailDataClient dataClient = new ModelDetailDataClient();
@@ -109,15 +120,46 @@ public class DetailPelanggan extends AppCompatActivity {
                 }
 
                 progressDialog.dismiss();
+                if (Swipe != null) {
+                    Swipe.setRefreshing(false);
+                }
+
+                if (etNama.getText().equals("") | etNoHP.getText().equals("") | etNoOptional.getText().equals("") | etAlamatRumah.getText().equals("")) {
+                    DataKosong();
+                } else {
+                    DataAda();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 progressDialog.dismiss();
+                if (etNama.getText().equals("") | etNoHP.getText().equals("") | etNoOptional.getText().equals("") | etAlamatRumah.getText().equals("")) {
+                    DataKosong();
+                } else {
+                    DataAda();
+                }
+                if (Swipe != null) {
+                    Swipe.setRefreshing(false);
+                }
+
                 if (error instanceof TimeoutError) {
                     Toast.makeText(DetailPelanggan.this, "timeout", Toast.LENGTH_SHORT).show();
+                    if (Swipe != null) {
+                        Swipe.setRefreshing(false);
+                    }
+                    if (etNama.getText().equals("") | etNoHP.getText().equals("") | etNoOptional.getText().equals("") | etAlamatRumah.getText().equals("")) {
+                        DataKosong();
+                    } else {
+                        DataAda();
+                    }
                 } else if (error instanceof NoConnectionError) {
                     Toast.makeText(DetailPelanggan.this, "no connection", Toast.LENGTH_SHORT).show();
+                    if (etNama.getText().equals("") | etNoHP.getText().equals("") | etNoOptional.getText().equals("") | etAlamatRumah.getText().equals("")) {
+                        DataKosong();
+                    } else {
+                        DataAda();
+                    }
                 }
                 Toast.makeText(getApplicationContext(),
                         error.getMessage(), Toast.LENGTH_LONG).show();
@@ -132,6 +174,17 @@ public class DetailPelanggan extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
+    private void DataKosong() {
+        btVisit.setVisibility(View.GONE);
+        linNone.setVisibility(View.VISIBLE);
+    }
+
+    private void DataAda() {
+        btVisit.setVisibility(View.VISIBLE);
+        linNone.setVisibility(View.GONE);
+    }
+
+
     @OnClick({R.id.ic_home, R.id.img_back, R.id.btVisit})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -145,10 +198,17 @@ public class DetailPelanggan extends AppCompatActivity {
                 finish();
                 break;
             case R.id.btVisit:
-                intent = new Intent(DetailPelanggan.this, PengambilanVisit.class);
-                intent.putExtra("id_client", id_klien);
-                intent.putExtra("pengajuan_id", id_pengajuan);
-                startActivity(intent);
+
+                if (etNama.getText().equals("") | etNoHP.getText().equals("") | etNamaKantor.getText().equals("")) {
+                    DataKosong();
+                    Toast.makeText(DetailPelanggan.this, "Data Tidak ada! " + "\n" + "Mohon Refresh Ulang", Toast.LENGTH_SHORT).show();
+                } else {
+                    intent = new Intent(DetailPelanggan.this, PengambilanVisit.class);
+                    intent.putExtra("id_client", id_klien);
+                    intent.putExtra("pengajuan_id", id_pengajuan);
+                    startActivity(intent);
+                }
+
                 break;
         }
     }

@@ -97,6 +97,7 @@
                     android:layout_weight="0.5"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
+                    android:textStyle="bold"
                     android:text="@string/no" />
 
                 <View
@@ -109,6 +110,7 @@
                     android:layout_weight="2"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
+                    android:textStyle="bold"
                     android:text="@string/nama" />
 
                 <View
@@ -121,7 +123,22 @@
                     android:layout_weight="2"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
+                    android:textStyle="bold"
                     android:text="@string/alamat" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/darker_gray" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.2"
+                    android:padding="10dp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:text="Aksi" />
 
             </LinearLayout>
 

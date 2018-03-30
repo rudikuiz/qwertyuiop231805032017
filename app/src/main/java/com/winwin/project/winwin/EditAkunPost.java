@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
@@ -24,22 +26,18 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.winwin.project.winwin.Config.AppController;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
 
 import static com.winwin.project.winwin.Config.RequestDatabase.URL_UPDATE_PROFIL_TRIAL;
@@ -130,9 +128,9 @@ public class EditAkunPost extends AppCompatActivity {
     String namad, notelp, alamatemail, passwords, pathktp, pathselfi, noreks, bank, cabangs, ans, pathpathrek;
     SharedPreferences sharedpreferences;
     String PathImages = "http://winwinujicobaadmin.tamboraagungmakmur.com/debt_collector/images/";
-    int bitmap_size = 60;
+    int bitmap_size = 60, TAKE_IMAGE = 1, TAKE_IMAGE2 = 2, TAKE_IMAGE3 = 3;
     private String KEY_IMAGE = "image";
-    Bitmap decoded;
+    Bitmap decoded, decoded2, decoded3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,6 +179,9 @@ public class EditAkunPost extends AppCompatActivity {
         namabank.setText(getNamaBank);
         cabang.setText(getCabang);
         an.setText(getAn);
+        viewPhotoktp.setVisibility(View.GONE);
+        viewPhotorek.setVisibility(View.GONE);
+        viewPhotoSelfi.setVisibility(View.GONE);
     }
 
     private void visible() {
@@ -193,74 +194,82 @@ public class EditAkunPost extends AppCompatActivity {
         uploadPhotorek.setVisibility(View.VISIBLE);
         uploadPhotoktp.setVisibility(View.VISIBLE);
 
-        viewPhotorek.setVisibility(View.VISIBLE);
-        viewPhotoSelfi.setVisibility(View.VISIBLE);
-        viewPhotoktp.setVisibility(View.VISIBLE);
+
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        EasyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
-            @Override
-            public void onImagePicked(File imageFile, EasyImage.ImageSource source, int type) {
-                switch (type) {
-                    case REQUEST_CODE_CAMERA1:
-                        Glide.with(EditAkunPost.this)
-                                .load(imageFile)
-                                .centerCrop()
-                                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                .into(ImgKtp);
-                        ImgNameKtp.setText(imageFile.getName());
-                        break;
-                    case REQUEST_CODE_GALLERY1:
-                        Glide.with(EditAkunPost.this)
-                                .load(imageFile)
-                                .centerCrop()
-                                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                .into(ImgKtp);
-                        ImgNameKtp.setText(imageFile.getName());
-                        break;
-                    case REQUEST_CODE_CAMERA2:
-                        Glide.with(EditAkunPost.this)
-                                .load(imageFile)
-                                .centerCrop()
-                                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                .into(ImgSelfi);
-                        ImgNameSelfi.setText(imageFile.getName());
-                        break;
-                    case REQUEST_CODE_GALLERY2:
-                        Glide.with(EditAkunPost.this)
-                                .load(imageFile)
-                                .centerCrop()
-                                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                .into(ImgSelfi);
-                        ImgNameSelfi.setText(imageFile.getName());
-                        break;
-                    case REQUEST_CODE_CAMERA3:
-                        Glide.with(EditAkunPost.this)
-                                .load(imageFile)
-                                .centerCrop()
-                                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                .into(ImgRek);
-                        ImgNameRek.setText(imageFile.getName());
-                        break;
-                    case REQUEST_CODE_GALLERY3:
-                        Glide.with(EditAkunPost.this)
-                                .load(imageFile)
-                                .centerCrop()
-                                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                .into(ImgRek);
-                        ImgNameRek.setText(imageFile.getName());
-                        break;
-
-                }
-
-
+        if (requestCode == TAKE_IMAGE && resultCode == RESULT_OK) {
+            if (takephotoktp.isClickable()) {
+                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+                setToImageView(bitmap);
             }
-        });
+        }
+
+        if (requestCode == TAKE_IMAGE2 && resultCode == RESULT_OK) {
+            if (takephotoselfi.isClickable()) {
+                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+                setToImageSelfi(bitmap);
+            }
+        }
+        if (requestCode == TAKE_IMAGE3 && resultCode == RESULT_OK) {
+            if (takephotorek.isClickable()) {
+                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+                setToImageRek(bitmap);
+            }
+        }
+
     }
+
+    public void takeImageKTP(View view) {
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(cameraIntent, TAKE_IMAGE);
+    }
+
+    public void takeImageSelfi(View view) {
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(cameraIntent, TAKE_IMAGE2);
+    }
+
+    public void takeImageRek(View view) {
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(cameraIntent, TAKE_IMAGE3);
+    }
+
+    private void setToImageView(Bitmap bmp) {
+        //compress image
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, bitmap_size, bytes);
+        decoded = BitmapFactory.decodeStream(new ByteArrayInputStream(bytes.toByteArray()));
+        ImgKtp.setImageBitmap(decoded);
+    }
+
+    private void setToImageSelfi(Bitmap bmp) {
+        //compress image
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, bitmap_size, bytes);
+        decoded2 = BitmapFactory.decodeStream(new ByteArrayInputStream(bytes.toByteArray()));
+        ImgSelfi.setImageBitmap(decoded2);
+    }
+
+    private void setToImageRek(Bitmap bmp) {
+        //compress image
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, bitmap_size, bytes);
+        decoded3 = BitmapFactory.decodeStream(new ByteArrayInputStream(bytes.toByteArray()));
+        ImgRek.setImageBitmap(decoded3);
+    }
+
+    public String getStringImage(Bitmap bmp) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, bitmap_size, baos);
+        byte[] imageBytes = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        return encodedImage;
+    }
+
 
     @OnClick({R.id.ic_home, R.id.img_back, R.id.viewPhotoktp, R.id.uploadPhotoktp, R.id.takephotoktp, R.id.uploadPhotoSelfi, R.id.takephotoselfi, R.id.viewPhotoSelfi, R.id.uploadPhotorek, R.id.takephotorek, R.id.viewPhotorek, R.id.btSubmit})
     public void onViewClicked(View view) {
@@ -274,13 +283,15 @@ public class EditAkunPost extends AppCompatActivity {
                 EasyImage.openGallery(EditAkunPost.this, REQUEST_CODE_GALLERY1);
                 break;
             case R.id.takephotoktp:
-                EasyImage.openCamera(EditAkunPost.this, REQUEST_CODE_CAMERA1);
+//                EasyImage.openCamera(EditAkunPost.this, REQUEST_CODE_CAMERA1);
+                takeImageKTP(view);
                 break;
             case R.id.uploadPhotoSelfi:
                 EasyImage.openGallery(EditAkunPost.this, REQUEST_CODE_GALLERY2);
                 break;
             case R.id.takephotoselfi:
-                EasyImage.openCamera(EditAkunPost.this, REQUEST_CODE_CAMERA2);
+//                EasyImage.openCamera(EditAkunPost.this, REQUEST_CODE_CAMERA2);
+                takeImageSelfi(view);
                 break;
             case R.id.viewPhotoSelfi:
                 break;
@@ -288,7 +299,8 @@ public class EditAkunPost extends AppCompatActivity {
                 EasyImage.openGallery(EditAkunPost.this, REQUEST_CODE_GALLERY3);
                 break;
             case R.id.takephotorek:
-                EasyImage.openCamera(EditAkunPost.this, REQUEST_CODE_CAMERA3);
+//                EasyImage.openCamera(EditAkunPost.this, REQUEST_CODE_CAMERA3);
+                takeImageRek(view);
                 break;
             case R.id.viewPhotorek:
                 break;
@@ -334,38 +346,20 @@ public class EditAkunPost extends AppCompatActivity {
             public void onResponse(String response) {
                 Log.d("notes: ", response);
                 Toast.makeText(EditAkunPost.this, "Berhasil Di Input Ke database", Toast.LENGTH_SHORT).show();
-
                 hideDialog();
-                try {
-                    final JSONObject jObj = new JSONObject(response.toString());
-                    success = jObj.getInt(TAG_SUCCESS);
-                    Log.d("isi tag", TAG_SUCCESS);
-
-                    if (response.equals("Berhasil")) {
-                        Toast.makeText(EditAkunPost.this, "Berhasil Di Input Ke database", Toast.LENGTH_SHORT).show();
-
-
-                    } else {
-                        Toast.makeText(EditAkunPost.this,
-                                jObj.getString(TAG_MESSAGE), Toast.LENGTH_LONG).show();
-
-                    }
-                } catch (JSONException e) {
-                    // JSON error
-                    e.printStackTrace();
-                }
-
+                finish();
             }
         }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("Error: ", error.getMessage());
-                Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_LONG).show();
-
-                hideDialog();
-
+                try {
+                    hideDialog();
+                    Toast.makeText(getApplicationContext(),
+                            error.getMessage(), Toast.LENGTH_LONG).show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }) {
 
@@ -378,12 +372,12 @@ public class EditAkunPost extends AppCompatActivity {
                 params.put("kar_email_winwin", email.getText().toString());
                 params.put("member_pass", password.getText().toString());
                 params.put("kar_foto_ktp", getStringImage(decoded));
-                params.put("kar_foto_selfi", getStringImage(decoded));
+                params.put("kar_foto_selfi", getStringImage(decoded2));
                 params.put("kar_no_rek", norek.getText().toString());
                 params.put("kar_nama_bank", namabank.getText().toString());
                 params.put("kar_cabang", cabang.getText().toString());
                 params.put("kar_an", an.getText().toString());
-                params.put("kar_foto_rek", getStringImage(decoded));
+                params.put("kar_foto_rek", getStringImage(decoded3));
                 params.put("kar_id", client_id);
 
                 return params;
@@ -391,8 +385,7 @@ public class EditAkunPost extends AppCompatActivity {
 
         };
         requestQueue.add(strReq);
-        // Adding request to request queue
-        AppController.getmInstance().addToRequestQueue(strReq, tag_json_obj);
+
     }
 
     private void showDialog() {
@@ -405,11 +398,5 @@ public class EditAkunPost extends AppCompatActivity {
             pDialog.dismiss();
     }
 
-    public String getStringImage(Bitmap bmp) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.JPEG, bitmap_size, baos);
-        byte[] imageBytes = baos.toByteArray();
-        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-        return encodedImage;
-    }
+
 }

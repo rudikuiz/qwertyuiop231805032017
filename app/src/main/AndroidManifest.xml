@@ -86,7 +86,8 @@
         <activity android:name=".DaftarClientSurvey" />
         <activity android:name=".DetailClientSurvey" />
         <activity android:name=".BadDebt" />
-        <activity android:name=".ListNotification" />
+        <activity android:name=".ListNotification"
+            android:screenOrientation="landscape"/>
         <activity android:name=".ListBadCollector" />
         <activity android:name=".ListJanjiBayar"></activity>
     </application>
