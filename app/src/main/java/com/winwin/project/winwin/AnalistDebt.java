@@ -8,8 +8,11 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -36,7 +39,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.winwin.project.winwin.Config.RequestDatabase.URL_GET_ALL;
 import static com.winwin.project.winwin.Config.RequestDatabase.URL_GET_ANALIS;
 import static com.winwin.project.winwin.Config.http.TAG_MEMBER_ID_KARYAWAN;
 
@@ -57,6 +59,9 @@ public class AnalistDebt extends AppCompatActivity {
     OwnProgressDialog loading;
     SharedPreferences sharedpreferences;
     String member_id;
+    ArrayList<ModelMenu> mExampleList;
+    @BindView(R.id.etCari)
+    EditText etCari;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +69,9 @@ public class AnalistDebt extends AppCompatActivity {
         setContentView(R.layout.activity_analist_debt);
         ButterKnife.bind(this);
         rvAnalistDebt.setHasFixedSize(true);
+
+        mExampleList = new ArrayList<ModelMenu>();
+        listData = new ArrayList<ModelMenu>();
 
         sharedpreferences = getSharedPreferences(LoginPage.my_shared_preferences, Context.MODE_PRIVATE);
         member_id = sharedpreferences.getString(TAG_MEMBER_ID_KARYAWAN, "");
@@ -86,11 +94,32 @@ public class AnalistDebt extends AppCompatActivity {
         });
         getJSON();
 
+        etCari.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().length() == 0) {
+                    AdapterAnalistdebt adapter = new AdapterAnalistdebt(listData, AnalistDebt.this);
+                    rvAnalistDebt.setAdapter(adapter);
+                } else {
+                    filter(s.toString());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
     }
 
     private void getJSON() {
 
-        listData = new ArrayList<ModelMenu>();
 
         stringRequest = new StringRequest(Request.Method.GET, URL_GET_ANALIS + member_id, new Response.Listener<String>() {
             @Override
@@ -152,5 +181,20 @@ public class AnalistDebt extends AppCompatActivity {
                 finish();
                 break;
         }
+    }
+
+    private void filter(String text) {
+        ArrayList<ModelMenu> filteredList = new ArrayList<>();
+        for (ModelMenu item : listData) {
+            if (item.getCli_nama().toLowerCase().contains(text.toLowerCase())) {
+                filteredList.add(item);
+            }
+        }
+
+        mExampleList.clear();
+        mExampleList.addAll(filteredList);
+        AdapterAnalistdebt adapter = new AdapterAnalistdebt(filteredList, AnalistDebt.this);
+        rvAnalistDebt.setAdapter(adapter);
+
     }
 }

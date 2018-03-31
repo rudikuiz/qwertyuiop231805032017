@@ -71,7 +71,7 @@ public class DaftarClientTagih extends AppCompatActivity {
     @BindView(R.id.etCari)
     EditText etCari;
     SearchAdapter mAdapter;
-    ArrayList<ClientModelCari> mExampleList;
+    ArrayList<ModelMenu> mExampleList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +79,10 @@ public class DaftarClientTagih extends AppCompatActivity {
         setContentView(R.layout.activity_daftar_client_tagih);
         ButterKnife.bind(this);
         rvDaftarClient.setHasFixedSize(true);
+
+
+        mExampleList = new ArrayList<ModelMenu>();
+        listData = new ArrayList<ModelMenu>();
 
         sharedpreferences = getSharedPreferences(LoginPage.my_shared_preferences, Context.MODE_PRIVATE);
         member_id = sharedpreferences.getString(TAG_MEMBER_ID_KARYAWAN, "");
@@ -100,7 +104,7 @@ public class DaftarClientTagih extends AppCompatActivity {
         });
         getJSON();
 
-        mAdapter = new SearchAdapter(mExampleList, DaftarClientTagih.this);
+//        mAdapter = new SearchAdapter(mExampleList, DaftarClientTagih.this);
 
         etCari.addTextChangedListener(new TextWatcher() {
             @Override
@@ -110,19 +114,23 @@ public class DaftarClientTagih extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                if (s.toString().length() == 0) {
+                    AdapterMenu adapter = new AdapterMenu(listData, DaftarClientTagih.this);
+                    rvDaftarClient.setAdapter(adapter);
+                } else {
+                    filter(s.toString());
+                }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                filter(s.toString());
+
             }
         });
     }
 
     private void getJSON() {
 
-        listData = new ArrayList<ModelMenu>();
 
         stringRequest = new StringRequest(Request.Method.GET, URL_GET_ALL + member_id, new Response.Listener<String>() {
             @Override
@@ -176,13 +184,18 @@ public class DaftarClientTagih extends AppCompatActivity {
     }
 
     private void filter(String text) {
-        ArrayList<ClientModelCari> filteredList = new ArrayList<>();
-        for (ClientModelCari item : mExampleList) {
-            if (item.getNama().toLowerCase().contains(text.toUpperCase())) {
+        ArrayList<ModelMenu> filteredList = new ArrayList<>();
+        for (ModelMenu item : listData) {
+            if (item.getCli_nama().toLowerCase().contains(text.toLowerCase())) {
                 filteredList.add(item);
             }
         }
-        mAdapter.filterlist(filteredList);
+
+        mExampleList.clear();
+        mExampleList.addAll(filteredList);
+        AdapterMenu adapter = new AdapterMenu(filteredList, DaftarClientTagih.this);
+        rvDaftarClient.setAdapter(adapter);
+
     }
 
     @OnClick({R.id.ic_home, R.id.img_back})
