@@ -106,6 +106,14 @@
             android:textStyle="bold"
             android:padding="7dp"/>
 
+        <EditText
+            android:id="@+id/etCari"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Cari Data"
+            android:padding="5dp"
+            android:textColor="@color/blue"
+            android:background="@drawable/material_design_oval"/>
 
     </LinearLayout>
 

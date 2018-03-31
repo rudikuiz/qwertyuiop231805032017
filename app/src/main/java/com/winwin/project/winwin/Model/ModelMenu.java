@@ -5,7 +5,7 @@ package com.winwin.project.winwin.Model;
  */
 
 public class ModelMenu {
-    private String number, cli_nama, cli_id, pengajuan_id;
+    private String number, cli_nama, cli_id, pengajuan_id, detail;
 
     public ModelMenu() {
     }
@@ -14,6 +14,14 @@ public class ModelMenu {
         this.number = number;
         this.cli_nama = cli_nama;
         this.cli_id = cli_id;
+    }
+
+    public String getDetail() {
+        return detail;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
     }
 
     public String getNumber() {

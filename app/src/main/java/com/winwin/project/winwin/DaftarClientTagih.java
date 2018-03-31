@@ -1,6 +1,5 @@
 package com.winwin.project.winwin;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,8 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +27,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.winwin.project.winwin.Adapter.AdapterMenu;
+import com.winwin.project.winwin.Adapter.SearchAdapter;
+import com.winwin.project.winwin.Model.ClientModelCari;
 import com.winwin.project.winwin.Model.ModelMenu;
 import com.winwin.project.winwin.Setting.OwnProgressDialog;
 import com.winwin.project.winwin.Utils.AppConf;
@@ -64,10 +68,10 @@ public class DaftarClientTagih extends AppCompatActivity {
     ImageView icHome;
     SharedPreferences sharedpreferences;
     String member_id;
-    ProgressDialog pDialog;
-    private static final String TAG_SUCCESS = "success";
-    private static final String TAG_MESSAGE = "message";
-    String tag_json_obj = "json_obj_req";
+    @BindView(R.id.etCari)
+    EditText etCari;
+    SearchAdapter mAdapter;
+    ArrayList<ClientModelCari> mExampleList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +99,25 @@ public class DaftarClientTagih extends AppCompatActivity {
             }
         });
         getJSON();
+
+        mAdapter = new SearchAdapter(mExampleList, DaftarClientTagih.this);
+
+        etCari.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                filter(s.toString());
+            }
+        });
     }
 
     private void getJSON() {
@@ -148,8 +171,18 @@ public class DaftarClientTagih extends AppCompatActivity {
                 AppConf.SOCKET_TIMEOUT_MS,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        
+
         requestQueue.add(stringRequest);
+    }
+
+    private void filter(String text) {
+        ArrayList<ClientModelCari> filteredList = new ArrayList<>();
+        for (ClientModelCari item : mExampleList) {
+            if (item.getNama().toLowerCase().contains(text.toUpperCase())) {
+                filteredList.add(item);
+            }
+        }
+        mAdapter.filterlist(filteredList);
     }
 
     @OnClick({R.id.ic_home, R.id.img_back})

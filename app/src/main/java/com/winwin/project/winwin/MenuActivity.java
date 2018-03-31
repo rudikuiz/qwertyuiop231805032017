@@ -104,7 +104,7 @@ public class MenuActivity extends AppCompatActivity {
         sharedpreferences = getSharedPreferences(LoginPage.my_shared_preferences, Context.MODE_PRIVATE);
         username = getIntent().getStringExtra(TAG_USERNAME);
         member_id = sharedpreferences.getString(TAG_MEMBER_ID_KARYAWAN, "");
-
+        txtUser.setText(username);
         menuku();
         counts = "0";
         rvMenu.setHasFixedSize(true);
@@ -115,7 +115,7 @@ public class MenuActivity extends AppCompatActivity {
         adapter = new DashboardAdapter(arrayList, MenuActivity.this);
         rvMenu.setAdapter(adapter);
 
-        txtUser.setText(username);
+
         getNotif();
     }
 

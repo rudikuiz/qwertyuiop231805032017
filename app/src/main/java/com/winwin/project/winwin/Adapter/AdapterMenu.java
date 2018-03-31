@@ -80,4 +80,6 @@ public class AdapterMenu extends RecyclerView.Adapter<AdapterMenu.AdapterMenuHol
         return lisd_data.size();
     }
 
+
+
 }
