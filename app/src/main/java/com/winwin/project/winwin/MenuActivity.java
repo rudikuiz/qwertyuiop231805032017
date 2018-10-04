@@ -1,12 +1,18 @@
 package com.winwin.project.winwin;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,8 +34,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.winwin.project.winwin.Adapter.DashboardAdapter;
 import com.winwin.project.winwin.Model.ModelDashboard;
+import com.winwin.project.winwin.Model.ModelUrl;
 import com.winwin.project.winwin.Setting.OwnProgressDialog;
 
 import org.json.JSONArray;
@@ -44,9 +56,13 @@ import at.markushi.ui.CircleButton;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.winwin.project.winwin.Config.RequestDatabase.URL_ADDTUGAS;
 import static com.winwin.project.winwin.Config.RequestDatabase.URL_COUNT_NOTIF;
+import static com.winwin.project.winwin.Config.RequestDatabase.URL_GET_IMAGE_FROM_FOLDER;
+import static com.winwin.project.winwin.Config.RequestDatabase.URL_SEND_LOCATION;
+import static com.winwin.project.winwin.Config.RequestDatabase.URL_VIEW;
 import static com.winwin.project.winwin.Config.http.TAG_ID;
 import static com.winwin.project.winwin.Config.http.TAG_MEMBER_ID_KARYAWAN;
 import static com.winwin.project.winwin.Config.http.TAG_USERNAME;
@@ -71,8 +87,6 @@ public class MenuActivity extends AppCompatActivity {
     ImageView header;
     @BindView(R.id.rl)
     RelativeLayout rl;
-    @BindView(R.id.ic_logo)
-    ImageView icLogo;
     @BindView(R.id.tvClient)
     TextView tvClient;
     StringRequest stringRequest;
@@ -90,11 +104,20 @@ public class MenuActivity extends AppCompatActivity {
     Button btnSubmit;
     EditText etKeterangan;
     int success;
+    @BindView(R.id.ic_logo)
+    CircleImageView icLogo;
     private ArrayList<ModelDashboard> arrayList = new ArrayList<>();
     private DashboardAdapter adapter;
     Button acc, noacc;
-    String counts, pengajuan_id, nama, alamat;
+    String counts, pengajuan_id, nama, alamat, provider, slat, slang;
     TextView Etnama, Etalamat;
+    LocationManager locationManager;
+    boolean GpsStatus;
+    private FusedLocationProviderClient mFusedLocationClient;
+    int PROS_ID = 1001;
+    ArrayList<ModelUrl> list_data;
+    String urlKtp, urlSelfi, urlRek;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,7 +125,7 @@ public class MenuActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         requestQueue = Volley.newRequestQueue(MenuActivity.this);
         sharedpreferences = getSharedPreferences(LoginPage.my_shared_preferences, Context.MODE_PRIVATE);
-        username = getIntent().getStringExtra(TAG_USERNAME);
+        username = sharedpreferences.getString(TAG_USERNAME, "");
         member_id = sharedpreferences.getString(TAG_MEMBER_ID_KARYAWAN, "");
         txtUser.setText(username);
         menuku();
@@ -117,6 +140,90 @@ public class MenuActivity extends AppCompatActivity {
 
 
         getNotif();
+
+        // Get the location manager
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+    }
+
+    private void vused() {
+        Log.d("fusedzx0", "1");
+
+        if (ActivityCompat.checkSelfPermission(MenuActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MenuActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // Here, thisActivity is the current activity
+            if (ContextCompat.checkSelfPermission(MenuActivity.this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(MenuActivity.this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        PROS_ID);
+//                ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
+//                        Manifest.permission.ACCESS_FINE_LOCATION);
+
+            } else {
+
+            }
+
+        } else {
+            mFusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            // Got last known location. In some rare situations this can be null.
+                            if (location != null) {
+                                // Logic to handle location object
+
+                                double lat = location.getLatitude();
+                                double lon = location.getLongitude();
+
+                                slat = String.valueOf(lat);
+                                slang = String.valueOf(lon);
+                                Log.d("asdfrT", String.valueOf(lat) + "," + String.valueOf(lon));
+
+                                Actionsdaf();
+                            }
+                        }
+                    });
+        }
+
+
+    }
+
+    public void CheckGpsStatus() {
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        GpsStatus = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+    }
+
+    private void Actionsdaf() {
+        StringRequest strReq = new StringRequest(Request.Method.POST, URL_SEND_LOCATION, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d("sends", response);
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("kar_id", member_id);
+                params.put("latitude", slat);
+                params.put("longitude", slang);
+                return params;
+            }
+
+        };
+        requestQueue.add(strReq);
     }
 
     private void menuku() {
@@ -125,6 +232,53 @@ public class MenuActivity extends AppCompatActivity {
         arrayList.add(new ModelDashboard(R.drawable.ic_profile, "Profile"));
         arrayList.add(new ModelDashboard(R.drawable.ic_analistcebt, "Analist Debt"));
 
+    }
+
+    private void getImagesAll() {
+        list_data = new ArrayList<ModelUrl>();
+
+        stringRequest = new StringRequest(Request.Method.GET, URL_VIEW + member_id, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d("responese url", response);
+                try {
+
+
+                    JSONArray jsonArray2 = new JSONArray(response);
+                    for (int a = 0; a < jsonArray2.length(); a++) {
+                        JSONObject json = jsonArray2.getJSONObject(a);
+                        ModelUrl model = new ModelUrl();
+                        model.setLabel(json.getString("kar_foto_selfi"));
+                        list_data.add(model);
+                        urlSelfi = URL_GET_IMAGE_FROM_FOLDER + model.getLabel();
+
+                        Log.d("pap", urlSelfi);
+                        if (model.getLabel() != null && !model.getLabel().equals("null")) {
+                            Glide.with(MenuActivity.this).load(urlSelfi)
+                                    .crossFade()
+                                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                    .into(icLogo);
+
+                        } else {
+                            icLogo.setImageResource(R.drawable.noimage);
+                        }
+
+                    }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        requestQueue.add(stringRequest);
     }
 
     @OnClick({R.id.img_logout, R.id.btnClient, R.id.btnMenu, R.id.btnProfil, R.id.img_notification})
@@ -296,6 +450,20 @@ public class MenuActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getImagesAll();
+        txtUser.setText(username);
+        CheckGpsStatus();
+        if (GpsStatus == true) {
+            vused();
+            Log.d("gantian", "1");
+        } else {
+            Dialog();
+            Toast.makeText(getApplicationContext(), "GPS IS NON ACTIVE", Toast.LENGTH_SHORT).show();
+        }
+    }
 
     private void notifDialog() {
         final Dialog dialog = new Dialog(MenuActivity.this);
@@ -328,4 +496,6 @@ public class MenuActivity extends AppCompatActivity {
         dialog.getWindow().setBackgroundDrawableResource(R.drawable.corner_radius);
         dialog.show();
     }
+
+
 }

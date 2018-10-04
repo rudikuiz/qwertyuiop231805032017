@@ -2,7 +2,6 @@ package com.winwin.project.winwin.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +16,6 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by Ayo Maju on 02/02/2018.
@@ -26,11 +24,13 @@ import butterknife.OnClick;
 
 public class AdapterMenu extends RecyclerView.Adapter<AdapterMenu.AdapterMenuHolder> {
 
+
     private ArrayList<ModelMenu> lisd_data;
     private Context context;
 
     public class AdapterMenuHolder extends RecyclerView.ViewHolder {
-
+        @BindView(R.id.status)
+        TextView status;
         @BindView(R.id.number)
         TextView number;
         @BindView(R.id.nama_item)
@@ -61,7 +61,8 @@ public class AdapterMenu extends RecyclerView.Adapter<AdapterMenu.AdapterMenuHol
 
     @Override
     public void onBindViewHolder(AdapterMenuHolder holder, final int position) {
-        holder.number.setText(lisd_data.get(position).getNumber());
+        int i = position+1;
+        holder.number.setText(String.valueOf(i));
         holder.namaItem.setText(lisd_data.get(position).getCli_nama());
         holder.idClient.setText(lisd_data.get(position).getCli_id());
         holder.detailItem.setOnClickListener(new View.OnClickListener() {
@@ -73,13 +74,26 @@ public class AdapterMenu extends RecyclerView.Adapter<AdapterMenu.AdapterMenuHol
                 context.startActivity(intent);
             }
         });
+
+        if (lisd_data.get(position).getPeng_lunas().equals("t")) {
+            holder.status.setTextColor(context.getResources().getColor(R.color.hijau_btn));
+            holder.status.setText("Lunas");
+        } else if (lisd_data.get(position).getPeng_cicilan().equals("1")) {
+            holder.status.setTextColor(context.getResources().getColor(R.color.maron));
+            holder.status.setText("Cicilan Aktif");
+        } else if (lisd_data.get(position).getPeng_janji().equals("1")) {
+            holder.status.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+            holder.status.setText("Janji Bayar Aktif");
+        } else {
+            holder.status.setTextColor(context.getResources().getColor(R.color.white));
+            holder.status.setText("");
+        }
     }
 
     @Override
     public int getItemCount() {
         return lisd_data.size();
     }
-
 
 
 }

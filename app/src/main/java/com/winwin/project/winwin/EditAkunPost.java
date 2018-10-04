@@ -26,21 +26,31 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.winwin.project.winwin.Model.ModelProfil;
+import com.winwin.project.winwin.Model.ModelUrl;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 import pl.aprilapps.easyphotopicker.EasyImage;
 
+import static com.winwin.project.winwin.Config.RequestDatabase.URL_GET_IMAGE_FROM_FOLDER;
+import static com.winwin.project.winwin.Config.RequestDatabase.URL_POST_PROFIL;
 import static com.winwin.project.winwin.Config.RequestDatabase.URL_UPDATE_PROFIL_TRIAL;
+import static com.winwin.project.winwin.Config.RequestDatabase.URL_VIEW;
 import static com.winwin.project.winwin.Config.http.TAG_MEMBER_ID_KARYAWAN;
 
 public class EditAkunPost extends AppCompatActivity {
@@ -61,8 +71,7 @@ public class EditAkunPost extends AppCompatActivity {
     ImageView imgBack;
     @BindView(R.id.id_client)
     TextView idClient;
-    @BindView(R.id.imageView)
-    ImageView imageView;
+
     @BindView(R.id.txtNamaClient)
     TextView txtNamaClient;
     @BindView(R.id.karyawan_id)
@@ -124,13 +133,17 @@ public class EditAkunPost extends AppCompatActivity {
     @BindView(R.id.ImgNameKtp)
     TextView ImgNameKtp;
     ConnectivityManager conMgr;
-    String client_id, pathImages;
+    String id_kar;
     String namad, notelp, alamatemail, passwords, pathktp, pathselfi, noreks, bank, cabangs, ans, pathpathrek;
     SharedPreferences sharedpreferences;
-    String PathImages = "http://winwinujicobaadmin.tamboraagungmakmur.com/debt_collector/images/";
-    int bitmap_size = 60, TAKE_IMAGE = 1, TAKE_IMAGE2 = 2, TAKE_IMAGE3 = 3;
+    int bitmap_size = 100, TAKE_IMAGE = 1, TAKE_IMAGE2 = 2, TAKE_IMAGE3 = 3;
+    @BindView(R.id.imageView)
+    CircleImageView imageView;
     private String KEY_IMAGE = "image";
     Bitmap decoded, decoded2, decoded3;
+    ArrayList<ModelUrl> list_data;
+    StringRequest stringRequest;
+    String urlKtp, urlSelfi, urlRek;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,8 +151,8 @@ public class EditAkunPost extends AppCompatActivity {
         setContentView(R.layout.activity_edit_akun_post);
         ButterKnife.bind(this);
         sharedpreferences = getSharedPreferences(LoginPage.my_shared_preferences, Context.MODE_PRIVATE);
-        client_id = sharedpreferences.getString(TAG_MEMBER_ID_KARYAWAN, "");
-        Log.d("idalex", client_id);
+        id_kar = sharedpreferences.getString(TAG_MEMBER_ID_KARYAWAN, "");
+        Log.d("idalex", id_kar);
 
         conMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         {
@@ -154,34 +167,108 @@ public class EditAkunPost extends AppCompatActivity {
 
         requestQueue = Volley.newRequestQueue(EditAkunPost.this);
         visible();
-
-        getIntentDataFromAkun();
+        getImagesAll();
+        load();
     }
 
-    private void getIntentDataFromAkun() {
-        Intent intent = getIntent();
-        getUser = intent.getStringExtra("profile");
-        getNama = intent.getStringExtra("name");
-        getPhone = intent.getStringExtra("phone");
-        getEmail = intent.getStringExtra("email");
-        getPass = intent.getStringExtra("password");
-        getnorek = intent.getStringExtra("no_rek");
-        getNamaBank = intent.getStringExtra("bank_name");
-        getCabang = intent.getStringExtra("cab");
-        getAn = intent.getStringExtra("an");
 
-        txtNamaClient.setText(getUser);
-        namabelakang.setText(getNama);
-        notelppon.setText(getPhone);
-        email.setText(getEmail);
-        password.setText(getPass);
-        norek.setText(getnorek);
-        namabank.setText(getNamaBank);
-        cabang.setText(getCabang);
-        an.setText(getAn);
-        viewPhotoktp.setVisibility(View.GONE);
-        viewPhotorek.setVisibility(View.GONE);
-        viewPhotoSelfi.setVisibility(View.GONE);
+    private void getImagesAll() {
+        list_data = new ArrayList<ModelUrl>();
+
+        stringRequest = new StringRequest(Request.Method.GET, URL_VIEW + id_kar, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d("responese url", response);
+                try {
+
+                    JSONArray jsonArray = new JSONArray(response);
+                    for (int a = 0; a < jsonArray.length(); a++) {
+                        JSONObject json = jsonArray.getJSONObject(a);
+                        ModelUrl model = new ModelUrl();
+                        model.setLabel(json.getString("kar_foto_ktp"));
+                        list_data.add(model);
+                        urlKtp = URL_GET_IMAGE_FROM_FOLDER + model.getLabel();
+
+                        Log.d("ktp", urlKtp);
+                        if (model.getLabel() != null && !model.getLabel().equals("null")) {
+                            Glide.with(EditAkunPost.this).load(urlKtp)
+                                    .crossFade()
+                                    .placeholder(R.drawable.lodingimages)
+                                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                    .into(ImgKtp);
+                        } else {
+                            ImgKtp.setImageResource(R.drawable.noimage);
+                        }
+
+                    }
+
+                    JSONArray jsonArray2 = new JSONArray(response);
+                    for (int a = 0; a < jsonArray2.length(); a++) {
+                        JSONObject json = jsonArray2.getJSONObject(a);
+                        ModelUrl model = new ModelUrl();
+                        model.setLabel(json.getString("kar_foto_selfi"));
+                        list_data.add(model);
+                        urlSelfi = URL_GET_IMAGE_FROM_FOLDER + model.getLabel();
+
+                        Log.d("pap", urlSelfi);
+                        if (urlSelfi != null) {
+                            Glide.with(EditAkunPost.this).load(urlSelfi)
+                                    .crossFade()
+                                    .placeholder(R.drawable.lodingimages)
+                                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                    .into(imageView);
+
+                        } else {
+                            imageView.setImageResource(R.drawable.noimage);
+                        }
+
+                        if (urlSelfi != null) {
+                            Glide.with(EditAkunPost.this).load(urlSelfi)
+                                    .crossFade()
+                                    .placeholder(R.drawable.lodingimages)
+                                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                    .into(ImgSelfi);
+
+
+                        } else {
+                            ImgSelfi.setImageResource(R.drawable.noimage);
+                        }
+                    }
+
+                    JSONArray jsonArray3 = new JSONArray(response);
+                    for (int a = 0; a < jsonArray3.length(); a++) {
+                        JSONObject json = jsonArray3.getJSONObject(a);
+                        ModelUrl model = new ModelUrl();
+                        model.setLabel(json.getString("kar_foto_buku_rek"));
+                        list_data.add(model);
+                        urlRek = URL_GET_IMAGE_FROM_FOLDER + model.getLabel();
+
+                        Log.d("rek", urlRek);
+                        if (urlRek != null) {
+                            Glide.with(EditAkunPost.this).load(urlRek)
+                                    .crossFade()
+                                    .placeholder(R.drawable.lodingimages)
+                                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                    .into(ImgRek);
+
+                        } else {
+                            ImgRek.setImageResource(R.drawable.noimage);
+                        }
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        requestQueue.add(stringRequest);
     }
 
     private void visible() {
@@ -194,7 +281,50 @@ public class EditAkunPost extends AppCompatActivity {
         uploadPhotorek.setVisibility(View.VISIBLE);
         uploadPhotoktp.setVisibility(View.VISIBLE);
 
+    }
 
+    private void load() {
+        stringRequest = new StringRequest(Request.Method.GET, URL_POST_PROFIL + id_kar, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("response_profile", response);
+                try {
+
+                    JSONArray jsonArray = new JSONArray(response);
+                    for (int a = 0; a < jsonArray.length(); a++) {
+                        JSONObject json = jsonArray.getJSONObject(a);
+                        ModelProfil dataClient = new ModelProfil();
+                        dataClient.setNamadepan(json.getString("kar_namalengkap"));
+                        dataClient.setNotelp(json.getString("kar_no_telepon"));
+                        dataClient.setEmail(json.getString("kar_email_winwin"));
+                        dataClient.setNorek(json.getString("kar_no_rek"));
+                        dataClient.setBank(json.getString("kar_nama_bank"));
+                        dataClient.setCabang(json.getString("kar_cabang"));
+                        dataClient.setAtasnama(json.getString("kar_an"));
+
+                        namabelakang.setText(dataClient.getNamadepan());
+                        notelppon.setText(dataClient.getNotelp());
+                        email.setText(dataClient.getEmail());
+                        password.setText("");
+                        norek.setText(dataClient.getNorek());
+                        namabank.setText(dataClient.getBank());
+                        cabang.setText(dataClient.getCabang());
+                        an.setText(dataClient.getAtasnama());
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        requestQueue.add(stringRequest);
     }
 
     @Override
@@ -214,6 +344,7 @@ public class EditAkunPost extends AppCompatActivity {
                 setToImageSelfi(bitmap);
             }
         }
+
         if (requestCode == TAKE_IMAGE3 && resultCode == RESULT_OK) {
             if (takephotorek.isClickable()) {
                 Bitmap bitmap = (Bitmap) data.getExtras().get("data");
@@ -244,6 +375,9 @@ public class EditAkunPost extends AppCompatActivity {
         bmp.compress(Bitmap.CompressFormat.JPEG, bitmap_size, bytes);
         decoded = BitmapFactory.decodeStream(new ByteArrayInputStream(bytes.toByteArray()));
         ImgKtp.setImageBitmap(decoded);
+        Intent intent = new Intent("OKOK");
+        intent.putExtra("asd","asd");
+        finish();
     }
 
     private void setToImageSelfi(Bitmap bmp) {
@@ -371,14 +505,24 @@ public class EditAkunPost extends AppCompatActivity {
                 params.put("kar_no_telepon", notelppon.getText().toString());
                 params.put("kar_email_winwin", email.getText().toString());
                 params.put("member_pass", password.getText().toString());
-                params.put("kar_foto_ktp", getStringImage(decoded));
-                params.put("kar_foto_selfi", getStringImage(decoded2));
+                if (decoded != null) {
+                    params.put("kar_foto_ktp", getStringImage(decoded));
+                }
+
+                if (decoded2 != null) {
+                    params.put("kar_foto_selfi", getStringImage(decoded2));
+                }
+
                 params.put("kar_no_rek", norek.getText().toString());
                 params.put("kar_nama_bank", namabank.getText().toString());
                 params.put("kar_cabang", cabang.getText().toString());
                 params.put("kar_an", an.getText().toString());
-                params.put("kar_foto_rek", getStringImage(decoded3));
-                params.put("kar_id", client_id);
+
+                if (decoded3 != null) {
+                    params.put("kar_foto_rek", getStringImage(decoded3));
+                }
+
+                params.put("kar_id", id_kar);
 
                 return params;
             }

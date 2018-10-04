@@ -97,14 +97,14 @@
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/ic_logo"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginTop="4dp"
-                    android:src="@drawable/avatar" />
+                    android:src="@drawable/noimage" />
 
                 <TextView
                     android:id="@+id/txtUser"

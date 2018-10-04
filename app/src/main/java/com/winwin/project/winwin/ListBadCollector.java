@@ -24,7 +24,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.winwin.project.winwin.Adapter.AdapterListBad;
-import com.winwin.project.winwin.Adapter.AdapterMenu;
 import com.winwin.project.winwin.Model.ModelMenu;
 import com.winwin.project.winwin.Setting.OwnProgressDialog;
 
@@ -87,6 +86,7 @@ public class ListBadCollector extends AppCompatActivity {
         Swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                listData.clear();
                 getJSON();
             }
         });

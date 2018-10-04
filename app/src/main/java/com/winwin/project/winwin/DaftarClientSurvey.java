@@ -117,7 +117,7 @@ public class DaftarClientSurvey extends AppCompatActivity {
                 if (error instanceof TimeoutError) {
                     Toast.makeText(DaftarClientSurvey.this, "timeout", Toast.LENGTH_SHORT).show();
                 } else if (error instanceof NoConnectionError) {
-                    Toast.makeText(DaftarClientSurvey.this, "no connection", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DaftarClientSurvey.this, "no connection to server", Toast.LENGTH_SHORT).show();
                 }
                 Toast.makeText(getApplicationContext(),
                         error.getMessage(), Toast.LENGTH_LONG).show();

@@ -100,534 +100,590 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <ScrollView
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/Swipe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_marginTop="15dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/material_design_oval"
-                android:orientation="vertical"
-                android:layout_marginBottom="15dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:paddingBottom="10dp">
-
-                <TextView
-                    android:id="@+id/tvdataclient"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:text="@string/dataclient"
-                    android:textAlignment="center"
-                    android:textColor="@color/blue"
-                    android:textSize="19dp"
-                    android:textStyle="bold" />
-
-                <RelativeLayout
-                    android:layout_below="@+id/tvdataclient"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp">
-
-                    <TextView
-                        android:id="@+id/nama_nasabah"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/namaclient" />
-
-                    <TextView
-                        android:id="@+id/txtNamaClient"
-                        android:layout_alignLeft="@+id/txtNoHpNas"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toRightOf="@+id/nama_nasabah"
-                        android:textAllCaps="true" />
-
-                    <TextView
-                        android:id="@+id/no_hpnasabah"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/txtNamaClient"
-                        android:text="@string/nomorhpnasabah" />
-
-                    <TextView
-                        android:id="@+id/txtNoHpNas"
-                        android:layout_below="@+id/txtNamaClient"
-                        android:layout_marginLeft="10dp"
-                        android:layout_width="match_parent"
-                        android:layout_toRightOf="@+id/no_hpnasabah"
-                        android:layout_height="wrap_content"
-                        />
-
-                    <TextView
-                        android:id="@+id/alamatrumah"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/txtNoHpNas"
-                        android:text="@string/almatrumah" />
-
-                    <TextView
-                        android:id="@+id/txtAlamat"
-                        android:layout_alignLeft="@+id/txtNoHpNas"
-                        android:layout_below="@+id/txtNoHpNas"
-                        android:layout_toRightOf="@+id/alamatrumah"
-                        android:textAllCaps="true"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        />
-
-                    <TextView
-                        android:id="@+id/fotoktp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/txtAlamat"
-                        android:text="@string/fotoKtp"
-                        android:textStyle="italic" />
-
-                    <TextView
-                        android:id="@+id/txtFotoKtp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignLeft="@+id/txtNoHpNas"
-                        android:layout_below="@+id/txtAlamat"
-                        android:layout_toRightOf="@+id/fotoktp"
-                        android:text="@string/viewphoto"
-                        android:textColor="@color/blue"
-                        android:visibility="gone"/>
-
-                    <TextView
-                        android:id="@+id/txtFotoKtpshow"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignLeft="@+id/txtNoHpNas"
-                        android:layout_below="@+id/txtAlamat"
-                        android:layout_toRightOf="@+id/fotoktp"
-                        android:text="@string/viewphoto"
-                        android:textColor="@color/blue"
-                        android:textStyle="italic"/>
-
-                </RelativeLayout>
-
-            </RelativeLayout>
+            android:layout_height="wrap_content">
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/toolbar"
-                android:layout_marginBottom="15dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:paddingBottom="10dp"
-                android:background="@drawable/material_design_oval">
-
-                <TextView
-                    android:id="@+id/tvdatapekerjaan"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:text="@string/datapekerjaan"
-                    android:textAlignment="center"
-                    android:textColor="@color/blue"
-                    android:textSize="19dp"
-                    android:textStyle="bold" />
-
+                android:orientation="vertical">
 
                 <RelativeLayout
-                    android:layout_height="match_parent"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/material_design_oval"
                     android:orientation="vertical"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp">
+                    android:paddingBottom="10dp">
 
                     <TextView
-                        android:id="@+id/perusahaan"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/perusahaan" />
-
-                    <TextView
-                        android:id="@+id/txtPerusahaan"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginStart="39dp"
-                        android:layout_toEndOf="@+id/alamatperusahaan"
-
-                        android:textAllCaps="true" />
-
-                    <TextView
-                        android:id="@+id/posisi"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/txtPerusahaan"
-                        android:text="@string/posisi" />
-
-                    <TextView
-                        android:id="@+id/txtPosisi"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignLeft="@+id/txtPerusahaan"
-                        android:layout_below="@+id/txtPerusahaan"
-                        android:layout_toRightOf="@+id/posisi"
-                        android:textAllCaps="true"
-                         />
-
-                    <TextView
-                        android:id="@+id/notelpon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/txtPosisi"
-                        android:text="@string/nomortelp" />
-
-                    <TextView
-                        android:id="@+id/txtNoTelpon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignLeft="@+id/txtPerusahaan"
-                        android:layout_below="@+id/txtPosisi"
-                        android:layout_toRightOf="@+id/notelpon"
-                        />
-
-                    <TextView
-                        android:id="@+id/alamatperusahaan"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/txtNoTelpon"
-                        android:text="@string/alamatperusahaan" />
-
-                    <TextView
-                        android:id="@+id/txtAlamatPerusahaan"
+                        android:id="@+id/tvdataclient"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignLeft="@+id/txtPerusahaan"
-                        android:layout_below="@+id/txtNoTelpon"
-                        android:layout_toRightOf="@+id/alamatperusahaan"
-                        android:textAllCaps="true" />
+                        android:layout_marginBottom="10dp"
+                        android:text="@string/dataclient"
+                        android:textAlignment="center"
+                        android:textColor="@color/blue"
+                        android:textSize="19dp"
+                        android:textStyle="bold" />
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvdataclient"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp">
+
+                        <TextView
+                            android:id="@+id/nama_nasabah"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/namaclient" />
+
+                        <TextView
+                            android:id="@+id/txtNamaClient"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignLeft="@+id/txtNoHpNas"
+                            android:layout_toRightOf="@+id/nama_nasabah"
+                            android:textAllCaps="true" />
+
+                        <TextView
+                            android:id="@+id/no_hpnasabah"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtNamaClient"
+                            android:text="@string/nomorhpnasabah" />
+
+                        <TextView
+                            android:id="@+id/txtNoHpNas"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtNamaClient"
+                            android:layout_marginLeft="10dp"
+                            android:layout_toRightOf="@+id/no_hpnasabah" />
+
+                        <TextView
+                            android:id="@+id/alamatrumah"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtNoHpNas"
+                            android:text="@string/almatrumah" />
+
+                        <TextView
+                            android:id="@+id/txtAlamat"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignLeft="@+id/txtNoHpNas"
+                            android:layout_below="@+id/txtNoHpNas"
+                            android:layout_toRightOf="@+id/alamatrumah"
+                            android:textAllCaps="true" />
+
+                        <TextView
+                            android:id="@+id/fotoktp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtAlamat"
+                            android:text="@string/fotoKtp"
+                            android:textStyle="italic" />
+
+                        <TextView
+                            android:id="@+id/txtFotoKtp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignLeft="@+id/txtNoHpNas"
+                            android:layout_below="@+id/txtAlamat"
+                            android:layout_toRightOf="@+id/fotoktp"
+                            android:text="@string/viewphoto"
+                            android:textColor="@color/blue"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/txtFotoKtpshow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignLeft="@+id/txtNoHpNas"
+                            android:layout_below="@+id/txtAlamat"
+                            android:layout_toRightOf="@+id/fotoktp"
+                            android:text="@string/viewphoto"
+                            android:textColor="@color/blue"
+                            android:textStyle="italic" />
+
+                    </RelativeLayout>
 
                 </RelativeLayout>
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/toolbar"
-                android:layout_marginBottom="15dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:background="@drawable/material_design_oval">
-
-                <TextView
-                    android:id="@+id/tvdetail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:text="@string/detail"
-                    android:textAlignment="center"
-                    android:textColor="@color/blue"
-                    android:textSize="19dp"
-                    android:textStyle="bold" />
-
-
-                <TableLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="20dp"
-                    android:stretchColumns="*">
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/tanggalpinjam"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/tanggalpinjam" />
-
-                        <TextView
-                            android:id="@+id/txtTglPinjam"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            />
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/jumlahpinjaman"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/jumlahpinjam" />
-
-                        <TextView
-                            android:id="@+id/txtJumlahPinjam"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/txtTglPinjam"
-                            android:text="" />
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/totalpinjaman"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/totalpinjaman" />
-
-                        <TextView
-                            android:id="@+id/txtTotalPinjam"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/txtJumlahPinjam"
-                            android:text="" />
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/denda"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/denda" />
-
-                        <TextView
-                            android:id="@+id/txtDenda"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/txtTotalPinjam"
-                            android:text="" />
-                    </TableRow>
-                </TableLayout>
-
-                <TextView
-                    android:layout_marginTop="5dp"
-                    android:id="@+id/linetotal"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_alignLeft="@+id/linearDetail"
-                    android:layout_alignRight="@+id/relativedetail"
-                    android:layout_below="@+id/linearDetail"
-                    android:background="@color/abuGaris" />
-
-                <TableLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="20dp"
-                    android:stretchColumns="*">
-
-                    <TableRow android:layout_width="match_parent">
-
-                        <TextView
-                            android:id="@+id/txtTotalHutang"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignLeft="@+id/linetotal"
-                            android:layout_below="@+id/linetotal"
-                            android:paddingBottom="5dp"
-                            android:paddingRight="5dp"
-                            android:paddingTop="5dp"
-                            android:text="@string/totalhutang" />
-
-                        <TextView
-                            android:id="@+id/txtTotalNilaiHutang"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_alignStart="@+id/btnTulisCatatan"
-                            android:layout_below="@+id/linetotal"
-                            android:layout_gravity="right"
-                            android:padding="5dp"
-                            android:textStyle="bold" />
-                    </TableRow>
-
-                    <TableRow android:layout_width="match_parent">
-
-                        <TextView
-                            android:id="@+id/biayaOperasional"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignStart="@+id/txtTotalHutang"
-                            android:layout_below="@+id/txtTotalHutang"
-                            android:text="@string/biayaoperasional" />
-
-                        <TextView
-                            android:id="@+id/txtNilaiBiayaOperasional"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_above="@+id/komisi"
-                            android:layout_alignStart="@+id/txtTotalNilaiHutang"
-                            android:layout_gravity="right"
-                            android:padding="5dp"
-
-                            android:textColor="@color/blue"
-                            android:textStyle="bold" />
-                    </TableRow>
-
-                    <TableRow android:layout_width="match_parent">
-
-                        <TextView
-                            android:id="@+id/komisi"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignStart="@+id/biayaOperasional"
-                            android:layout_below="@+id/biayaOperasional"
-                            android:text="@string/komisi" />
-
-                        <TextView
-                            android:id="@+id/txtnilaikomisi"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_alignStart="@+id/txtTotalNilaiHutang"
-                            android:layout_below="@+id/txtNilaiBiayaOperasional"
-                            android:layout_gravity="right"
-                            android:padding="5dp"
-
-                            android:textColor="@color/blue"
-                            android:textStyle="bold" />
-                    </TableRow>
-
-                </TableLayout>
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    >
+                    android:layout_below="@+id/toolbar"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/material_design_oval"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp">
 
-                    <Button
-                        android:id="@+id/btndetailpembayaran"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
+                    <TextView
+                        android:id="@+id/tvdatapekerjaan"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignStart="@+id/komisi"
-                        android:layout_below="@+id/komisi"
-                        android:layout_marginBottom="20dp"
-                        android:layout_marginRight="5dp"
-                        android:layout_marginTop="20dp"
-                        android:background="@drawable/ripple_effect_biru"
-                        android:paddingBottom="5dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="@string/datapekerjaan"
+                        android:textAlignment="center"
+                        android:textColor="@color/blue"
+                        android:textSize="19dp"
+                        android:textStyle="bold" />
+
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
                         android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
-                        android:paddingTop="5dp"
-                        android:text="@string/detailpembayaran"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:textSize="12dp" />
+                        android:paddingRight="20dp">
 
-                    <Button
-                        android:id="@+id/btnTulisCatatan"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:layout_alignEnd="@+id/relativedetail"
-                        android:layout_below="@+id/txtnilaikomisi"
-                        android:background="@drawable/ripple_effect_biru"
-                        android:paddingBottom="5dp"
-                        android:paddingEnd="30dp"
-                        android:paddingStart="30dp"
-                        android:paddingTop="5dp"
-                        android:text="@string/tuliscatatan"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:textSize="12dp" />
+                        <TextView
+                            android:id="@+id/perusahaan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/perusahaan" />
 
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/txtPerusahaan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginStart="39dp"
+                            android:layout_toEndOf="@+id/alamatperusahaan"
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:gravity="center"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp">
+                            android:textAllCaps="true" />
 
-                    <Button
-                        android:id="@+id/btnKunjungan"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:layout_alignEnd="@+id/relativedetail"
-                        android:layout_below="@+id/txtnilaikomisi"
-                        android:background="@drawable/ripple_effect_biru"
-                        android:paddingBottom="5dp"
-                        android:paddingEnd="30dp"
-                        android:paddingStart="30dp"
-                        android:paddingTop="5dp"
-                        android:text="@string/kunjungan"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:textSize="12dp"
-                        android:layout_marginRight="5dp"/>
+                        <TextView
+                            android:id="@+id/posisi"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtPerusahaan"
+                            android:text="@string/posisi" />
 
-                    <Button
-                        android:id="@+id/btnLihatLokasi"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:layout_alignEnd="@+id/relativedetail"
-                        android:layout_below="@+id/txtnilaikomisi"
-                        android:background="@drawable/ripple_effect_biru"
-                        android:paddingBottom="5dp"
-                        android:paddingEnd="30dp"
-                        android:paddingStart="30dp"
-                        android:paddingTop="5dp"
-                        android:text="@string/lihatlokasi"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:textSize="12dp" />
+                        <TextView
+                            android:id="@+id/txtPosisi"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignLeft="@+id/txtPerusahaan"
+                            android:layout_below="@+id/txtPerusahaan"
+                            android:layout_toRightOf="@+id/posisi"
+                            android:textAllCaps="true" />
+
+                        <TextView
+                            android:id="@+id/notelpon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtPosisi"
+                            android:text="@string/nomortelp" />
+
+                        <TextView
+                            android:id="@+id/txtNoTelpon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignLeft="@+id/txtPerusahaan"
+                            android:layout_below="@+id/txtPosisi"
+                            android:layout_toRightOf="@+id/notelpon" />
+
+                        <TextView
+                            android:id="@+id/alamatperusahaan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtNoTelpon"
+                            android:text="@string/alamatperusahaan" />
+
+                        <TextView
+                            android:id="@+id/txtAlamatPerusahaan"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignLeft="@+id/txtPerusahaan"
+                            android:layout_below="@+id/txtNoTelpon"
+                            android:layout_toRightOf="@+id/alamatperusahaan"
+                            android:textAllCaps="true" />
+
+                    </RelativeLayout>
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:gravity="center">
+                    android:layout_below="@+id/toolbar"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/material_design_oval"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvdetail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:text="@string/detail"
+                        android:textAlignment="center"
+                        android:textColor="@color/blue"
+                        android:textSize="19dp"
+                        android:textStyle="bold" />
 
 
-                    <Button
-                        android:id="@+id/btnDebt"
+                    <TableLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignEnd="@+id/relativedetail"
-                        android:layout_below="@+id/txtnilaikomisi"
-                        android:background="@drawable/ripple_effect_biru"
-                        android:paddingBottom="5dp"
-                        android:paddingEnd="30dp"
-                        android:paddingStart="30dp"
-                        android:paddingTop="5dp"
-                        android:text="@string/baddebt"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:textSize="12dp" />
+                        android:paddingLeft="20dp"
+                        android:stretchColumns="*">
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/tanggalpinjam"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/tanggalpinjam" />
+
+                            <TextView
+                                android:id="@+id/txtTglPinjam"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/jumlahpinjaman"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/jumlahpinjam" />
+
+                            <TextView
+                                android:id="@+id/txtJumlahPinjam"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/txtTglPinjam"
+                                android:text="" />
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/totalpinjaman"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/totalpinjaman" />
+
+                            <TextView
+                                android:id="@+id/txtTotalPinjam"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/txtJumlahPinjam"
+                                android:text="" />
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/denda"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/denda" />
+
+                            <TextView
+                                android:id="@+id/txtDenda"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/txtTotalPinjam"
+                                android:text="" />
+                        </TableRow>
+
+                        <TableRow
+                            android:id="@+id/rowPerpanjangan"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/biayaperpanjangan"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/biaya_perpanjangan" />
+
+                            <TextView
+                                android:id="@+id/txtBiayaPerpanjangan"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/txtDenda"
+                                 />
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/telahdibayar"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/telahdibayar" />
+
+                            <TextView
+                                android:id="@+id/txttelahdibayar"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/txtDenda" />
+                        </TableRow>
+
+                    </TableLayout>
+
+                    <TextView
+                        android:id="@+id/linetotal"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_alignLeft="@+id/linearDetail"
+                        android:layout_alignRight="@+id/relativedetail"
+                        android:layout_below="@+id/linearDetail"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/abuGaris" />
+
+                    <TableLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="20dp"
+                        android:stretchColumns="*">
+
+                        <TableRow android:layout_width="match_parent">
+
+                            <TextView
+                                android:id="@+id/txtTotalHutang"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignLeft="@+id/linetotal"
+                                android:layout_below="@+id/linetotal"
+                                android:text="@string/totalhutang" />
+
+                            <TextView
+                                android:id="@+id/txtTotalNilaiHutang"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignStart="@+id/btnTulisCatatan"
+                                android:layout_below="@+id/linetotal"
+                                android:textStyle="bold" />
+                        </TableRow>
+
+
+
+
+                        <TableRow
+                            android:visibility="gone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/sisa"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/sisa" />
+
+                            <TextView
+                                android:id="@+id/txtSisa"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/txtDenda" />
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/biayaOperasional"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignStart="@+id/txtTotalHutang"
+                                android:layout_below="@+id/txtTotalHutang"
+                                android:text="@string/biayaoperasional" />
+
+                            <TextView
+                                android:id="@+id/txtNilaiBiayaOperasional"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_above="@+id/komisi"
+                                android:layout_alignStart="@+id/txtTotalNilaiHutang"
+                                android:textColor="@color/blue"
+                                android:textStyle="bold" />
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/komisi"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignStart="@+id/biayaOperasional"
+                                android:layout_below="@+id/biayaOperasional"
+                                android:text="@string/komisi" />
+
+                            <TextView
+                                android:id="@+id/txtnilaikomisi"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignStart="@+id/txtTotalNilaiHutang"
+                                android:layout_below="@+id/txtNilaiBiayaOperasional"
+                                android:textColor="@color/blue"
+                                android:textStyle="bold" />
+                        </TableRow>
+
+                    </TableLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:gravity="center">
+
+                        <Button
+                            android:id="@+id/btndetailpembayaran"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignStart="@+id/komisi"
+                            android:layout_below="@+id/komisi"
+                            android:layout_marginBottom="20dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/ripple_effect_biru"
+                            android:paddingBottom="5dp"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp"
+                            android:paddingTop="5dp"
+                            android:text="@string/detailpembayaran"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="12dp" />
+
+                        <Button
+                            android:id="@+id/btnTulisCatatan"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignEnd="@+id/relativedetail"
+                            android:layout_below="@+id/txtnilaikomisi"
+                            android:layout_weight="1"
+                            android:background="@drawable/ripple_effect_biru"
+                            android:paddingBottom="5dp"
+                            android:paddingEnd="30dp"
+                            android:paddingStart="30dp"
+                            android:paddingTop="5dp"
+                            android:text="@string/tuliscatatan"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="12dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:gravity="center">
+
+                        <Button
+                            android:id="@+id/btnKunjungan"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignEnd="@+id/relativedetail"
+                            android:layout_below="@+id/txtnilaikomisi"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/ripple_effect_biru"
+                            android:paddingBottom="5dp"
+                            android:paddingEnd="30dp"
+                            android:paddingStart="30dp"
+                            android:paddingTop="5dp"
+                            android:text="@string/kunjungan"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="12dp" />
+
+                        <Button
+                            android:id="@+id/btnLihatLokasi"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignEnd="@+id/relativedetail"
+                            android:layout_below="@+id/txtnilaikomisi"
+                            android:layout_weight="1"
+                            android:background="@drawable/ripple_effect_biru"
+                            android:enabled="false"
+                            android:paddingBottom="5dp"
+                            android:paddingEnd="30dp"
+                            android:paddingStart="30dp"
+                            android:paddingTop="5dp"
+                            android:text="@string/lihatlokasi"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="12dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:gravity="center">
+
+
+                        <Button
+                            android:id="@+id/btnDebt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignEnd="@+id/relativedetail"
+                            android:layout_below="@+id/txtnilaikomisi"
+                            android:background="@drawable/ripple_effect_biru"
+                            android:enabled="false"
+                            android:paddingBottom="5dp"
+                            android:paddingEnd="30dp"
+                            android:paddingStart="30dp"
+                            android:paddingTop="5dp"
+                            android:text="@string/baddebt"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="12dp" />
+
+                    </LinearLayout>
+
 
                 </LinearLayout>
 
-
             </LinearLayout>
 
-        </LinearLayout>
+        </ScrollView>
 
-    </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 
 </LinearLayout>

@@ -24,17 +24,6 @@
             android:layout_height="49dp"
             android:src="@drawable/logo2" />
 
-        <ImageView
-            android:id="@+id/ic_home"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginBottom="5dp"
-            android:layout_marginRight="10dp"
-            android:padding="5dp"
-            android:src="@drawable/home" />
-
     </RelativeLayout>
 
     <android.support.v7.widget.Toolbar
@@ -107,23 +96,41 @@
             android:textSize="19dp"
             android:textStyle="bold"
             android:padding="7dp"/>
-
-        <EditText
-            android:id="@+id/etCari"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Cari Data"
-            android:padding="5dp"
-            android:textColor="@color/blue"
-            android:background="@drawable/material_design_oval"/>
-
     </LinearLayout>
+
+    <EditText
+        android:id="@+id/etCari"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linear"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="3dp"
+        android:background="@drawable/material_design_oval"
+        android:hint="Cari Data"
+        android:padding="5dp"
+        android:textColor="@color/blue" />
+
+    <EditText
+        android:id="@+id/etCarikota"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etCari"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="3dp"
+        android:background="@drawable/material_design_oval"
+        android:hint="Filter Kota"
+        android:padding="5dp"
+        android:textColor="@color/blue" />
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/Swipe"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/linear">
+        android:layout_below="@+id/etCarikota">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvDaftarClient"
@@ -133,5 +140,14 @@
 
         </android.support.v7.widget.RecyclerView>
     </android.support.v4.widget.SwipeRefreshLayout>
+
+    <ImageView
+        android:id="@+id/ic_home"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignEnd="@+id/etCari"
+        android:layout_alignParentTop="true"
+        android:padding="5dp"
+        android:src="@drawable/home" />
 
 </RelativeLayout>

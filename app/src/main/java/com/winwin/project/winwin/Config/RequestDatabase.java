@@ -17,11 +17,11 @@ public class RequestDatabase {
     public static final String URL_GET_DETAIL_PEMBAYARAN = URLHTTP+"history_pembayaran.php?pengajuan_assigned_to=";
     public static final String URL_GET_KOMISI_TAHAP = URLHTTP+"komisi_tahap.php?pengajuan_assigned_to=";
     public static final String URL_GET_PENCAIRAN = URLHTTP+"history_pencairan.php?pengajuan_assigned_to=";
-    public static final String URL_POST_DATA_KUNJUNGAN = URLHTTP+"data_kunjungan.php?id_pengajuan=";
+    public static final String URL_POST_DATA_KUNJUNGAN = URLHTTP + "add_kunjungan.php";
     public static final String URL_GET_ID_PENGAJUAN = URLHTTP+"select_id_pengajuan.php?pengajuan_id_client=";
     public static final String URL_GET_ID_MEMBER = URLHTTP +"getMember_idkaryawan.php?kar_namalengkap=";
     public static final String URL_LOGIN = URLHTTP +"login.php";
-    public static final String URL_MEMBER_ID_KARYAWAN = URLHTTP +"getMemberIDUser.php?member_id=";
+    public static final String URL_SEND_LOCATION = URLHTTP + "update_lokasi.php";
     //    public static final String URL_GET_IMAGE_FROM_FOLDER = "http://hq.ppgwinwin.com/winwin/home/uploads/";
     public static final String URL_GET_IMAGE_FROM_FOLDER = URLHTTP + "images/";
     public static final String URL_UPDATE_PROFIL_TRIAL = URLHTTP + "update_profile.php";

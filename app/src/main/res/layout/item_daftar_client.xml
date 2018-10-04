@@ -44,7 +44,17 @@
         android:textColor="@color/blue"
         android:textAlignment="center"
         android:textSize="15dp" />
-
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nama_item"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_toRightOf="@+id/number"
+        android:textColor="@color/hijau_btn"
+        android:textStyle="italic"
+        android:text="Lunas"/>
     <TextView
         android:id="@+id/id_client"
         android:layout_width="wrap_content"

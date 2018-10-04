@@ -194,4 +194,7 @@
 
     <string name="notificationlist">List Notification</string>
     <string name="no">No</string>
+    <string name="sisa">Sisa</string>
+    <string name="telahdibayar">Telah Dibayar</string>
+    <string name="biaya_perpanjangan">Biaya Perpanjangan</string>
 </resources>

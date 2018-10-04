@@ -25,7 +25,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.NetworkResponse;
 import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -33,6 +32,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.winwin.project.winwin.Config.AppController;
+import com.winwin.project.winwin.Utils.HttpsTrustManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -87,7 +87,7 @@ public class LoginPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
         ButterKnife.bind(this);
-
+        HttpsTrustManager.allowAllSSL();
         cekInternet();
         // Cek session login jika TRUE maka langsung buka MainActivity
         cekSession();
@@ -135,6 +135,7 @@ public class LoginPage extends AppCompatActivity {
         id = sharedpreferences.getString(TAG_ID, null);
         username = sharedpreferences.getString(TAG_USERNAME, null);
 
+        Log.d("ISLOFIN", session+" xx "+username);
         if (session) {
             Intent intent = new Intent(LoginPage.this, MenuActivity.class);
             intent.putExtra(TAG_ID, id);
@@ -243,8 +244,6 @@ public class LoginPage extends AppCompatActivity {
                         editor.putBoolean(session_status, true);
                         editor.putString(TAG_ID, id);
                         editor.putString(TAG_USERNAME, username);
-                        editor.putString(TAG_MEMBER_PASS, passw);
-                        editor.putString(TAG_MEMBER_PASS, passw);
                         editor.putString(TAG_MEMBER_ID_KARYAWAN, id_karyawan);
                         editor.commit();
 
@@ -272,7 +271,6 @@ public class LoginPage extends AppCompatActivity {
                 Log.e(TAG, "Login Error: " + error.getMessage());
                 if (error instanceof TimeoutError) {
                     Toast.makeText(LoginPage.this, "Timeout", Toast.LENGTH_SHORT).show();
-                    Toast.makeText(LoginPage.this, "Please check your server network", Toast.LENGTH_SHORT).show();
                 } else if (error instanceof NoConnectionError) {
                     Toast.makeText(LoginPage.this, "no connection", Toast.LENGTH_SHORT).show();
                 }

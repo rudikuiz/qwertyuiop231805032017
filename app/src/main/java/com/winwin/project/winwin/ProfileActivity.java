@@ -24,9 +24,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.winwin.project.winwin.Adapter.AdapterJatuhTempo;
 import com.winwin.project.winwin.Model.ModelJatuhTempo;
 import com.winwin.project.winwin.Model.ModelTableKomisi;
+import com.winwin.project.winwin.Model.ModelUrl;
 import com.winwin.project.winwin.Setting.DecimalsFormat;
 import com.winwin.project.winwin.Setting.OwnProgressDialog;
 
@@ -39,10 +42,13 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.winwin.project.winwin.Config.RequestDatabase.URL_GET_DETAIL_PEMBAYARAN;
+import static com.winwin.project.winwin.Config.RequestDatabase.URL_GET_IMAGE_FROM_FOLDER;
 import static com.winwin.project.winwin.Config.RequestDatabase.URL_GET_JATUH_TEMPO;
 import static com.winwin.project.winwin.Config.RequestDatabase.URL_KOMISI;
+import static com.winwin.project.winwin.Config.RequestDatabase.URL_VIEW;
 import static com.winwin.project.winwin.Config.http.TAG_MEMBER_ID_KARYAWAN;
 import static com.winwin.project.winwin.Config.http.TAG_USERNAME;
 
@@ -52,8 +58,6 @@ public class ProfileActivity extends AppCompatActivity {
     ImageView imgBack;
     @BindView(R.id.id_client)
     TextView idClient;
-    @BindView(R.id.ic_logo)
-    ImageView icLogo;
     @BindView(R.id.txtUser)
     TextView txtUser;
     @BindView(R.id.editAkun)
@@ -74,10 +78,12 @@ public class ProfileActivity extends AppCompatActivity {
     ArrayList<ModelJatuhTempo> listData;
     OwnProgressDialog loading;
     SharedPreferences sharedpreferences;
-    String member_id;
+    String member_id, urlSelfi;
     @BindView(R.id.ic_home)
     ImageView icHome;
-
+    @BindView(R.id.ic_logo)
+    CircleImageView icLogo;
+    ArrayList<ModelUrl> list_data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +102,52 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
+    private void getImagesAll() {
+        list_data = new ArrayList<ModelUrl>();
+
+        stringRequest = new StringRequest(Request.Method.GET, URL_VIEW + member_id, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d("responese url", response);
+                try {
+
+
+                    JSONArray jsonArray2 = new JSONArray(response);
+                    for (int a = 0; a < jsonArray2.length(); a++) {
+                        JSONObject json = jsonArray2.getJSONObject(a);
+                        ModelUrl model = new ModelUrl();
+                        model.setLabel(json.getString("kar_foto_selfi"));
+                        list_data.add(model);
+                        urlSelfi = URL_GET_IMAGE_FROM_FOLDER + model.getLabel();
+
+                        Log.d("pap", urlSelfi);
+                        if (model.getLabel() != null && !model.getLabel().equals("null")) {
+                            Glide.with(ProfileActivity.this).load(urlSelfi)
+                                    .crossFade()
+                                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                    .into(icLogo);
+
+                        } else {
+                            icLogo.setImageResource(R.drawable.noimage);
+                        }
+
+                    }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        requestQueue.add(stringRequest);
+    }
 
     @OnClick({R.id.img_back, R.id.txtUser, R.id.jatuhTempoBerikutnya, R.id.DetailPembayaran, R.id.editAkun, R.id.ic_home})
     public void onViewClicked(View view) {
@@ -124,6 +176,11 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getImagesAll();
+    }
 
     private void DialogForm() {
         final Dialog dialog = new Dialog(ProfileActivity.this);
@@ -295,14 +352,13 @@ public class ProfileActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 try {
                     JSONObject json = new JSONObject(response);
-                        ModelTableKomisi modelMenu = new ModelTableKomisi();
+                    ModelTableKomisi modelMenu = new ModelTableKomisi();
 
                     modelMenu.setBiayaope(json.getString("operasional"));
                     modelMenu.setKomisi(json.getString("komisi"));
 
                     UangOperasional.setText("Rp. " + DecimalsFormat.priceWithoutDecimal(modelMenu.getBiayaope()) + ",-");
                     UangKomisi.setText("Rp. " + DecimalsFormat.priceWithoutDecimal(modelMenu.getKomisi()) + ",-");
-
 
 
                 } catch (JSONException e) {

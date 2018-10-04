@@ -96,7 +96,7 @@ public class DataKunjunganActivity extends AppCompatActivity implements RadioGro
 
     RequestQueue requestQueue;
     SharedPreferences sharedpreferences;
-    String member_id, getClientId, values, totalpinjaman, nilai_bayar, id_pengajuan, dateString;
+    String member_id, getClientId, values, totalpinjaman, nilai_bayar, id_pengajuan, dateString, getId_pengajuan;
     ConnectivityManager conMgr;
     ProgressDialog pDialog;
     int success;
@@ -143,43 +143,26 @@ public class DataKunjunganActivity extends AppCompatActivity implements RadioGro
 
         rg.setOnCheckedChangeListener(this);
         Intent intent = getIntent();
-        getClientId = intent.getStringExtra("id_client");
+        getClientId = intent.getStringExtra("client_id");
+        getId_pengajuan = intent.getStringExtra("pengajuan_id");
         getPengajuanID();
         getNilaiBayar();
     }
 
 
-    private void TambahkanDataKunjnungan(final String status, final String nilaibayar, final String id_pengajuans) {
+    private void TambahkanDataKunjnungan() {
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
         pDialog.setMessage("Loading ...");
         showDialog();
-        StringRequest strReq = new StringRequest(Request.Method.POST, URL_POST_DATA_KUNJUNGAN + id_pengajuan, new Response.Listener<String>() {
+        StringRequest strReq = new StringRequest(Request.Method.POST, URL_POST_DATA_KUNJUNGAN, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
                 Log.d("notes: ", response);
                 Toast.makeText(DataKunjunganActivity.this, "Berhasil Di Input Ke database", Toast.LENGTH_SHORT).show();
                 hideDialog();
-                try {
-                    final JSONObject jObj = new JSONObject(response.toString());
-                    success = jObj.getInt(TAG_SUCCESS);
-                    Log.d("isi tag", TAG_SUCCESS);
-                    // Check for error node in json
-                    if (response.equals("Berhasil")) {
-                        Toast.makeText(DataKunjunganActivity.this, "Berhasil Di Input Ke database", Toast.LENGTH_SHORT).show();
-                        txtTulisCatatan.getText().clear();
-
-                    } else {
-                        Toast.makeText(DataKunjunganActivity.this,
-                                jObj.getString(TAG_MESSAGE), Toast.LENGTH_LONG).show();
-
-                    }
-                } catch (JSONException e) {
-                    // JSON error
-                    e.printStackTrace();
-                }
-
+                finish();
             }
         }, new Response.ErrorListener() {
 
@@ -198,16 +181,21 @@ public class DataKunjunganActivity extends AppCompatActivity implements RadioGro
             protected Map<String, String> getParams() {
 
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("status", status);
-                params.put("nilai_bayar", nilaibayar);
-                params.put("id_pengajuan", id_pengajuans);
+                params.put("id_pengajuan", getId_pengajuan);
+                params.put("id_karyawan", member_id);
+                params.put("id_klien", getClientId);
+                params.put("tipe", values);
+                params.put("foto", getStringImage(decoded));
+                params.put("tgl_janji", etDate.getText().toString());
+                params.put("nominal", jumlah.getText().toString());
+                params.put("tgl_cicilan", getTanggal());
+                params.put("keterangan", txtTulisCatatan.getText().toString());
+                Log.d("asf", params.toString());
                 return params;
             }
 
         };
         requestQueue.add(strReq);
-        // Adding request to request queue
-        AppController.getmInstance().addToRequestQueue(strReq, tag_json_obj);
     }
 
     private void getNilaiBayar() {
@@ -356,7 +344,7 @@ public class DataKunjunganActivity extends AppCompatActivity implements RadioGro
                 if (conMgr.getActiveNetworkInfo() != null
                         && conMgr.getActiveNetworkInfo().isAvailable()
                         && conMgr.getActiveNetworkInfo().isConnected()) {
-                    TambahkanDataKunjnungan(values, nilai_bayar, id_pengajuan);
+                    TambahkanDataKunjnungan();
 
                 } else {
                     Toast.makeText(DataKunjunganActivity.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
@@ -392,8 +380,12 @@ public class DataKunjunganActivity extends AppCompatActivity implements RadioGro
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         if (checkedId == R.id.rbLunas) {
             values = "lunas";
-        } else {
+        } else if (checkedId == R.id.rbPelangganLunas) {
+            values = "janji_bayar";
+        } else if (checkedId == R.id.pelanggankop) {
             values = "cicilan";
+        } else {
+            values = "lain-lain";
         }
 
         Log.d("isi", values);

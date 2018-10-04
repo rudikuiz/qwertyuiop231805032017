@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -28,7 +27,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.winwin.project.winwin.Adapter.AdapterMenu;
 import com.winwin.project.winwin.Adapter.SearchAdapter;
-import com.winwin.project.winwin.Model.ClientModelCari;
 import com.winwin.project.winwin.Model.ModelMenu;
 import com.winwin.project.winwin.Setting.OwnProgressDialog;
 import com.winwin.project.winwin.Utils.AppConf;
@@ -72,6 +70,8 @@ public class DaftarClientTagih extends AppCompatActivity {
     EditText etCari;
     SearchAdapter mAdapter;
     ArrayList<ModelMenu> mExampleList;
+    @BindView(R.id.etCarikota)
+    EditText etCarikota;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +99,8 @@ public class DaftarClientTagih extends AppCompatActivity {
         Swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                listData.clear();
+                mExampleList.clear();
                 getJSON();
             }
         });
@@ -127,23 +129,48 @@ public class DaftarClientTagih extends AppCompatActivity {
 
             }
         });
+
+        etCarikota.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().length() == 0) {
+                    AdapterMenu adapter = new AdapterMenu(listData, DaftarClientTagih.this);
+                    rvDaftarClient.setAdapter(adapter);
+                } else {
+                    filterK(s.toString());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     private void getJSON() {
-
-
         stringRequest = new StringRequest(Request.Method.GET, URL_GET_ALL + member_id, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d("response: ", response);
+
                 try {
                     JSONArray jsonArray = new JSONArray(response);
                     for (int a = 0; a < jsonArray.length(); a++) {
                         JSONObject json = jsonArray.getJSONObject(a);
                         ModelMenu modelMenu = new ModelMenu();
-                        modelMenu.setNumber(json.getString("number"));
                         modelMenu.setCli_id(json.getString("cli_id"));
                         modelMenu.setCli_nama(json.getString("cli_nama_lengkap"));
+                        modelMenu.setPeng_janji(json.getString("pengajuan_janji_bayar_aktif"));
+                        modelMenu.setPeng_cicilan(json.getString("pengajuan_cicilan_aktif"));
+                        modelMenu.setPeng_lunas(json.getString("pengajuan_stat_lunas"));
+                        modelMenu.setAlamat(json.getString("cli_alamat"));
+                        modelMenu.setKecamatan(json.getString("cli_kecamatan"));
+                        modelMenu.setKota(json.getString("cli_kota"));
                         listData.add(modelMenu);
                     }
 
@@ -187,6 +214,23 @@ public class DaftarClientTagih extends AppCompatActivity {
         ArrayList<ModelMenu> filteredList = new ArrayList<>();
         for (ModelMenu item : listData) {
             if (item.getCli_nama().toLowerCase().contains(text.toLowerCase())) {
+                filteredList.add(item);
+            }
+        }
+
+        mExampleList.clear();
+        mExampleList.addAll(filteredList);
+        AdapterMenu adapter = new AdapterMenu(filteredList, DaftarClientTagih.this);
+        rvDaftarClient.setAdapter(adapter);
+
+    }
+
+    private void filterK(String text) {
+        ArrayList<ModelMenu> filteredList = new ArrayList<>();
+        for (ModelMenu item : listData) {
+            if (item.getKota().toLowerCase().contains(text.toLowerCase()) ||
+                    item.getKecamatan().toLowerCase().contains(text.toLowerCase()) ||
+                    item.getAlamat().toLowerCase().contains(text.toLowerCase())) {
                 filteredList.add(item);
             }
         }

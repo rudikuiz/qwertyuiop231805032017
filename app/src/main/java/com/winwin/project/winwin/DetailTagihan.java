@@ -1,10 +1,18 @@
 package com.winwin.project.winwin;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +20,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,13 +33,14 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bogdwellers.pinchtozoom.ImageMatrixTouchHandler;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.winwin.project.winwin.Model.ModelDetailDataClient;
 import com.winwin.project.winwin.Model.ModelUrl;
 import com.winwin.project.winwin.Setting.DecimalsFormat;
 import com.winwin.project.winwin.Setting.OwnProgressDialog;
-import com.winwin.project.winwin.Utils.AppConf;
+import com.winwin.project.winwin.Utils.HttpsTrustManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -88,10 +98,6 @@ public class DetailTagihan extends AppCompatActivity {
     TextView txtNilaiBiayaOperasional;
     @BindView(R.id.txtnilaikomisi)
     TextView txtnilaikomisi;
-    @BindView(R.id.btndetailpembayaran)
-    Button btndetailpembayaran;
-    @BindView(R.id.btnTulisCatatan)
-    Button btnTulisCatatan;
     @BindView(R.id.id_client)
     TextView idClient;
 
@@ -104,13 +110,27 @@ public class DetailTagihan extends AppCompatActivity {
     TextView nilaiKomisi;
     @BindView(R.id.nilaiOperasional)
     TextView nilaiOperasional;
+    String pengajuanid;
+    @BindView(R.id.Swipe)
+    SwipeRefreshLayout Swipe;
+    @BindView(R.id.btndetailpembayaran)
+    Button btndetailpembayaran;
+    @BindView(R.id.btnTulisCatatan)
+    Button btnTulisCatatan;
     @BindView(R.id.btnKunjungan)
     Button btnKunjungan;
     @BindView(R.id.btnLihatLokasi)
     Button btnLihatLokasi;
     @BindView(R.id.btnDebt)
     Button btnDebt;
-    String pengajuanid;
+    @BindView(R.id.txtBiayaPerpanjangan)
+    TextView txtBiayaPerpanjangan;
+    @BindView(R.id.txttelahdibayar)
+    TextView txttelahdibayar;
+    @BindView(R.id.txtSisa)
+    TextView txtSisa;
+    @BindView(R.id.rowPerpanjangan)
+    TableRow rowPerpanjangan;
     private RequestQueue requestQueue;
     private StringRequest stringRequest;
     private OwnProgressDialog progressDialog;
@@ -119,12 +139,16 @@ public class DetailTagihan extends AppCompatActivity {
     String urlKtp;
     String Lat, Lang;
     private final int MY_SOCKET_TIMEOUT_MS = 60 * 1000;
+    LocationManager locationManager;
+    boolean GpsStatus;
+    String provider, slat, slang;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_tagihan);
         ButterKnife.bind(this);
+        HttpsTrustManager.allowAllSSL();
         Intent intent = getIntent();
         id_klien = intent.getStringExtra("id_client");
         progressDialog = new OwnProgressDialog(DetailTagihan.this);
@@ -132,11 +156,123 @@ public class DetailTagihan extends AppCompatActivity {
         Log.d("idku", id_klien);
         idClient.setText(id_klien);
         requestQueue = Volley.newRequestQueue(DetailTagihan.this);
+
+        Swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                load();
+            }
+        });
         load();
         viewKtpDialog();
 
+        // Get the location manager
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        // Define the criteria how to select the locatioin provider -> use
+        // default
+        Criteria criteria = new Criteria();
+        provider = locationManager.getBestProvider(criteria, false);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        Location location = locationManager.getLastKnownLocation(provider);
+
+        // Initialize the location fields
+        if (location != null) {
+            System.out.println("Provider " + provider + " has been selected.");
+            onLocationChanged(location);
+        }
+
     }
 
+    public void onLocationChanged(Location location) {
+        int lat = (int) (location.getLatitude());
+        int lng = (int) (location.getLongitude());
+
+        slat = String.valueOf(lat);
+        slang = String.valueOf(lng);
+
+
+    }
+
+//    private void Actionsdaf() {
+//
+//        StringRequest strReq = new StringRequest(Request.Method.POST, "http://hq.ppgwinwin.com/winwin/api/update_lokasi.php", new Response.Listener<String>() {
+//
+//            @Override
+//            public void onResponse(String response) {
+//
+//            }
+//        }, new Response.ErrorListener() {
+//
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//
+//            }
+//        }) {
+//
+//            @Override
+//            protected Map<String, String> getParams() {
+//
+//                Map<String, String> params = new HashMap<String, String>();
+//                params.put("cli_id", id_klien);
+//                params.put("latitude", slat);
+//                params.put("longitude", slang);
+//                return params;
+//            }
+//
+//        };
+//        requestQueue.add(strReq);
+//    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        CheckGpsStatus();
+        if (GpsStatus == true) {
+        } else {
+            Dialog();
+            Toast.makeText(DetailTagihan.this, "GPS IS NON ACTIVE", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void Dialog() {
+        final Dialog dialog = new Dialog(DetailTagihan.this);
+        LayoutInflater inflater = (LayoutInflater) DetailTagihan.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.pop_up_dialog_gps, null);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(view);
+
+        Button btnSubmit = (Button) view.findViewById(R.id.btActive);
+
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
+                dialog.dismiss();
+            }
+        });
+
+
+        dialog.getWindow().setBackgroundDrawableResource(R.drawable.corner_radius);
+        dialog.setCancelable(false);
+        dialog.show();
+    }
+
+    public void CheckGpsStatus() {
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        GpsStatus = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+    }
 
     private void load() {
         progressDialog.show();
@@ -149,66 +285,64 @@ public class DetailTagihan extends AppCompatActivity {
                     JSONArray jsonArray = jsonObject.getJSONArray("client");
                     for (int a = 0; a < jsonArray.length(); a++) {
                         JSONObject json = jsonArray.getJSONObject(a);
+                        String kelurahan = json.getString("cli_kelurahan");
+                        String kecamatan = json.getString("cli_kecamatan");
+                        String kota = json.getString("cli_kota");
                         ModelDetailDataClient dataClient = new ModelDetailDataClient();
                         dataClient.setNama(json.getString("cli_nama_lengkap"));
                         dataClient.setNohp(json.getString("cli_handphone"));
-                        dataClient.setAlamat(json.getString("cli_alamat"));
+                        dataClient.setAlamat(json.getString("cli_alamat") + "\nKel. " + kelurahan + "\nKec. " + kecamatan + "\n" + kota);
                         dataClient.setKtp(json.getString("cli_no_ktp"));
                         dataClient.setPerusahaan(json.getString("cli_perusahaan"));
                         dataClient.setPosisi(json.getString("cli_posisi"));
                         dataClient.setTelp_perusahaan(json.getString("cli_telepon_perusahaan"));
                         dataClient.setAlamat_perusahaan(json.getString("cli_alamat_perusahaan"));
                         dataClient.setPengajuan_tgl(json.getString("pengajuan_tanggal"));
-                        dataClient.setPgj_nilai_pgj(json.getString("pengajuan_nilai_pengajuan"));
-                        dataClient.setPgjtotal(json.getString("pengajuan_total_pengajuan"));
+                        dataClient.setPgj_nilai_pgj(json.getString("pengajuan_nilai_disetujui"));
+                        dataClient.setPgjtotal(json.getString("pengajuan_total_disetujui"));
                         dataClient.setDenda_biaya(json.getString("denda_biaya"));
                         dataClient.setKomisi(json.getString("prosen_komisi"));
                         dataClient.setOperasional(json.getString("prosen_operasional"));
                         dataClient.setPeng_id(json.getString("pengajuan_id"));
+                        dataClient.setStatus(json.getString("pengajuan_stat_lunas"));
+                        dataClient.setSisa(json.getString("sisa"));
+                        dataClient.setTotal_bayar(json.getString("total_bayar"));
+                        dataClient.setTotal_biaya_perpanjangan(json.getString("total_biaya_perpanjangan"));
+                        dataClient.setTotalhutang(json.getString("total_hutang"));
+
                         pengajuanid = dataClient.getPeng_id();
                         Lat = json.getString("lat");
                         Lang = json.getString("lng");
 
-                        txtNamaClient.setText(json.getString("cli_nama_lengkap"));
-                        txtNoHpNas.setText(json.getString("cli_handphone"));
-                        txtAlamat.setText(json.getString("cli_alamat"));
-                        txtFotoKtp.setText(json.getString("cli_no_ktp"));
-                        txtPerusahaan.setText(json.getString("cli_perusahaan"));
-                        txtPosisi.setText(json.getString("cli_posisi"));
-                        txtNoTelpon.setText(json.getString("cli_telepon_perusahaan"));
-                        txtAlamatPerusahaan.setText(json.getString("cli_alamat_perusahaan"));
+                        txtNamaClient.setText(dataClient.getNama());
+                        txtNoHpNas.setText(dataClient.getNohp());
+                        txtAlamat.setText(dataClient.getAlamat());
+                        txtFotoKtp.setText(dataClient.getKtp());
+                        txtPerusahaan.setText(dataClient.getPerusahaan());
+                        txtPosisi.setText(dataClient.getPosisi());
+                        txtNoTelpon.setText(dataClient.getTelp_perusahaan());
+                        txtAlamatPerusahaan.setText(dataClient.getAlamat_perusahaan());
+                        txtTglPinjam.setText(dataClient.getPengajuan_tgl());
 
-                        txtnilaikomisi.setText(json.getString("prosen_komisi"));
-                        txtNilaiBiayaOperasional.setText(json.getString("prosen_operasional"));
-                        txtTglPinjam.setText(json.getString("pengajuan_tanggal"));
+                        txtJumlahPinjam.setText(Rupiah + DecimalsFormat.priceWithoutDecimal(dataClient.getPgj_nilai_pgj()) + desimal);
+                        txtTotalPinjam.setText(Rupiah + DecimalsFormat.priceWithoutDecimal(dataClient.getPgjtotal()) + desimal);
+                        txtDenda.setText(Rupiah + DecimalsFormat.priceWithoutDecimal(dataClient.getDenda_biaya()) + desimal);
 
-                        txtJumlahPinjam.setText(Rupiah + DecimalsFormat.priceWithoutDecimal(json.getString("pengajuan_nilai_pengajuan")) + desimal);
-                        txtTotalPinjam.setText(Rupiah + DecimalsFormat.priceWithoutDecimal(json.getString("pengajuan_total_pengajuan")) + desimal);
-                        txtDenda.setText(Rupiah + DecimalsFormat.priceWithoutDecimal(json.getString("denda_biaya")) + desimal);
+//                        txtTotalNilaiHutang.setText(Rupiah + DecimalsFormat.priceWithoutDecimal(dataClient.getTotalhutang()) + desimal);
+                        txtTotalNilaiHutang.setText(Rupiah + DecimalsFormat.priceWithoutDecimal(dataClient.getSisa()) + desimal);
 
-                        if (txtNilaiBiayaOperasional.getText().equals("100")) {
-                            txtNilaiBiayaOperasional.setText("0");
+                        if (dataClient.getStatus().equals("f")) {
+                            txtnilaikomisi.setText("Rp. 0");
                         }
+                        txtnilaikomisi.setText(Rupiah + DecimalsFormat.priceWithoutDecimal(dataClient.getKomisi()) + desimal);
+                        txtNilaiBiayaOperasional.setText(Rupiah + DecimalsFormat.priceWithoutDecimal(dataClient.getOperasional()) + desimal);
 
-                        if (txtnilaikomisi.getText().equals("100")) {
-                            txtnilaikomisi.setText("0");
+                        if (dataClient.getTotal_biaya_perpanjangan().equals("0")) {
+                            rowPerpanjangan.setVisibility(View.GONE);
                         }
-
-                        int angka1 = Integer.parseInt(json.getString("pengajuan_nilai_pengajuan"));
-                        int angka2 = Integer.parseInt(json.getString("pengajuan_total_pengajuan"));
-                        int angka3 = Integer.parseInt(json.getString("denda_biaya"));
-                        int angka4 = Integer.parseInt(json.getString("prosen_operasional"));
-                        int angka5 = Integer.parseInt(json.getString("prosen_komisi"));
-
-                        String hasil = Integer.toString(angka1 + angka2 + angka3);
-                        String hasilOperasional = Integer.toString(Integer.parseInt(hasil) * angka4 / 100);
-                        String hasilKomisi = Integer.toString(Integer.parseInt(hasil) * angka5 / 100);
-
-                        txtTotalNilaiHutang.setText(Rupiah + DecimalsFormat.priceWithoutDecimal(hasil) + desimal);
-                        txtNilaiBiayaOperasional.setText(Rupiah + DecimalsFormat.priceWithoutDecimal(hasilOperasional) + desimal);
-                        txtnilaikomisi.setText(Rupiah + DecimalsFormat.priceWithoutDecimal(hasilKomisi) + desimal);
-                        Log.d("hasil:", hasil);
-
+//                        txtSisa.setText(Rupiah + DecimalsFormat.priceWithoutDecimal(dataClient.getSisa()) + desimal);
+                        txtBiayaPerpanjangan.setText(Rupiah + DecimalsFormat.priceWithoutDecimal(dataClient.getTotal_biaya_perpanjangan()) + desimal);
+                        txttelahdibayar.setText(Rupiah + DecimalsFormat.priceWithoutDecimal(dataClient.getTotal_bayar()) + desimal);
                     }
 
                 } catch (JSONException e) {
@@ -216,15 +350,21 @@ public class DetailTagihan extends AppCompatActivity {
                 }
 
                 progressDialog.dismiss();
+                if (Swipe != null) {
+                    Swipe.setRefreshing(false);
+                }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 progressDialog.dismiss();
+                if (Swipe != null) {
+                    Swipe.setRefreshing(false);
+                }
                 if (error instanceof TimeoutError) {
                     Toast.makeText(DetailTagihan.this, "timeout", Toast.LENGTH_SHORT).show();
                 } else if (error instanceof NoConnectionError) {
-                    Toast.makeText(DetailTagihan.this, "no connection", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DetailTagihan.this, "no connection to server", Toast.LENGTH_SHORT).show();
                 }
                 Toast.makeText(getApplicationContext(),
                         error.getMessage(), Toast.LENGTH_LONG).show();
@@ -257,7 +397,7 @@ public class DetailTagihan extends AppCompatActivity {
                         model.setNamaDocument(json.getString("cli_doc_file"));
                         list_data.add(model);
                         urlKtp = URL_GET_IMAGE_FROM_FOLDER + model.getKodePelanggan() + "/" + model.getNamaDocument();
-                        urlKtp = "http://hq.ppgwinwin.com/winwin/home/uploads/" + model.getKodePelanggan() + "/" + model.getNamaDocument();
+                        urlKtp = "https://hq.ppgwinwin.com/winwin/home/uploads/" + model.getKodePelanggan() + "/" + model.getNamaDocument();
                         Log.d("hasil url", urlKtp);
                     }
 
@@ -271,10 +411,6 @@ public class DetailTagihan extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                MY_SOCKET_TIMEOUT_MS,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         requestQueue.add(stringRequest);
     }
@@ -285,10 +421,12 @@ public class DetailTagihan extends AppCompatActivity {
         View view = inflater.inflate(R.layout.pop_up_view_fotoktp, null);
 
         ImageView Image = view.findViewById(R.id.ImgKtp);
+        Image.setOnTouchListener(new ImageMatrixTouchHandler(DetailTagihan.this));
         TextView info = view.findViewById(R.id.information);
         if (urlKtp != null) {
             Glide.with(this).load(urlKtp)
                     .crossFade()
+                    .placeholder(R.drawable.lodingimages)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(Image);
 
@@ -320,6 +458,7 @@ public class DetailTagihan extends AppCompatActivity {
             case R.id.btnTulisCatatan:
                 Bundle bundles = new Bundle();
                 bundles.putString("id", idClient.getText().toString());
+                bundles.putString("pengajuan_id", pengajuanid);
                 Intent is = new Intent(DetailTagihan.this, TulisCatatan.class);
                 is.putExtras(bundles);
                 startActivity(is);
@@ -351,12 +490,14 @@ public class DetailTagihan extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.btnKunjungan:
                 Intent intent = new Intent(DetailTagihan.this, DataKunjunganActivity.class);
+                intent.putExtra("pengajuan_id", pengajuanid);
+                intent.putExtra("client_id", id_klien);
                 startActivity(intent);
                 break;
 
             case R.id.btnDebt:
                 intent = new Intent(DetailTagihan.this, BadDebt.class);
-                intent.putExtra("pengajuan_id",  pengajuanid);
+                intent.putExtra("pengajuan_id", pengajuanid);
                 startActivity(intent);
                 break;
         }

@@ -4,7 +4,7 @@ package com.winwin.project.winwin.Model;
 public class ModelDetailDataClient {
     String nama,nohp,alamat,ktp,perusahaan,posisi,telp_perusahaan,
             alamat_perusahaan,pengajuan_tgl,pgj_nilai_pgj,pgjtotal,denda_biaya,
-    komisi,operasional,nooptional, peng_id;
+    komisi,operasional,nooptional, peng_id,status,sisa,total_bayar,total_biaya_perpanjangan, totalhutang;
 
     public ModelDetailDataClient() {
     }
@@ -29,6 +29,14 @@ public class ModelDetailDataClient {
 
     public String getPeng_id() {
         return peng_id;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public void setPeng_id(String peng_id) {
@@ -153,5 +161,37 @@ public class ModelDetailDataClient {
 
     public void setNooptional(String nooptional) {
         this.nooptional = nooptional;
+    }
+
+    public String getSisa() {
+        return sisa;
+    }
+
+    public void setSisa(String sisa) {
+        this.sisa = sisa;
+    }
+
+    public String getTotal_bayar() {
+        return total_bayar;
+    }
+
+    public void setTotal_bayar(String total_bayar) {
+        this.total_bayar = total_bayar;
+    }
+
+    public String getTotal_biaya_perpanjangan() {
+        return total_biaya_perpanjangan;
+    }
+
+    public void setTotal_biaya_perpanjangan(String total_biaya_perpanjangan) {
+        this.total_biaya_perpanjangan = total_biaya_perpanjangan;
+    }
+
+    public String getTotalhutang() {
+        return totalhutang;
+    }
+
+    public void setTotalhutang(String totalhutang) {
+        this.totalhutang = totalhutang;
     }
 }

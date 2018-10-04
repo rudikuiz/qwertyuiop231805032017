@@ -148,6 +148,7 @@
                     android:text="Status" />
 
             </LinearLayout>
+
             <android.support.v4.widget.SwipeRefreshLayout
                 android:id="@+id/Swipe"
                 android:layout_width="match_parent"

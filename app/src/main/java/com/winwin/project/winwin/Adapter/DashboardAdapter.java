@@ -61,19 +61,19 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
                 }
 
                 if (position == 2) {
-                    context.startActivity(new Intent(context, ProfileActivity.class));
+//                    context.startActivity(new Intent(context, ProfileActivity.class));
                 }
 
                 if (position == 3) {
-                    context.startActivity(new Intent(context, AnalistDebt.class));
+//                    context.startActivity(new Intent(context, AnalistDebt.class));
                 }
 
                 if (position == 4) {
-                    context.startActivity(new Intent(context, ListBadCollector.class));
+//                    context.startActivity(new Intent(context, ListBadCollector.class));
                 }
 
                 if (position == 5) {
-                    context.startActivity(new Intent(context, ListJanjiBayar.class));
+//                    context.startActivity(new Intent(context, ListJanjiBayar.class));
                 }
 
             }

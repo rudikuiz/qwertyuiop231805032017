@@ -25,10 +25,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bogdwellers.pinchtozoom.ImageMatrixTouchHandler;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.winwin.project.winwin.Model.ModelProfil;
 import com.winwin.project.winwin.Model.ModelUrl;
+import com.winwin.project.winwin.Utils.HttpsTrustManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,6 +41,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.winwin.project.winwin.Config.RequestDatabase.URL_GET_IMAGE_FROM_FOLDER;
 import static com.winwin.project.winwin.Config.RequestDatabase.URL_POST_PROFIL;
@@ -52,8 +55,6 @@ public class EditAkunActivity extends AppCompatActivity {
     ImageView imgBack;
     @BindView(R.id.id_client)
     TextView idClient;
-    @BindView(R.id.imageView)
-    ImageView imageView;
     @BindView(R.id.txtNamaClient)
     TextView txtNamaClient;
     @BindView(R.id.namabelakang)
@@ -116,12 +117,15 @@ public class EditAkunActivity extends AppCompatActivity {
     ArrayList<ModelUrl> list_data;
     private final int MY_SOCKET_TIMEOUT_MS = 60 * 1000;
     String urlKtp, urlSelfi, urlRek;
+    @BindView(R.id.imageView)
+    CircleImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_akun);
         ButterKnife.bind(this);
+        HttpsTrustManager.allowAllSSL();
         sharedpreferences = getSharedPreferences(LoginPage.my_shared_preferences, Context.MODE_PRIVATE);
         username = sharedpreferences.getString(TAG_USERNAME, "");
         id_kar = sharedpreferences.getString(TAG_MEMBER_ID_KARYAWAN, "");
@@ -132,7 +136,9 @@ public class EditAkunActivity extends AppCompatActivity {
         gone();
         visible();
         urlDialog();
+
     }
+
 
     private void visible() {
         btEdit.setVisibility(View.VISIBLE);
@@ -179,7 +185,6 @@ public class EditAkunActivity extends AppCompatActivity {
                         dataClient.setNamadepan(json.getString("kar_namalengkap"));
                         dataClient.setNotelp(json.getString("kar_no_telepon"));
                         dataClient.setEmail(json.getString("kar_email_winwin"));
-                        dataClient.setPassword(json.getString("kar_email_password"));
                         dataClient.setNorek(json.getString("kar_no_rek"));
                         dataClient.setBank(json.getString("kar_nama_bank"));
                         dataClient.setCabang(json.getString("kar_cabang"));
@@ -188,9 +193,9 @@ public class EditAkunActivity extends AppCompatActivity {
                         namabelakang.setText(username);
                         notelppon.setText(dataClient.getNotelp());
                         email.setText(dataClient.getEmail());
-                        password.setText(dataClient.getPassword());
                         norek.setText(dataClient.getNorek());
                         namabank.setText(dataClient.getBank());
+                        password.setText("");
                         cabang.setText(dataClient.getCabang());
                         an.setText(dataClient.getAtasnama());
 
@@ -217,7 +222,7 @@ public class EditAkunActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(String response) {
-                Log.d("responese url", response);
+                Log.d("responeseurl", response);
                 try {
 
                     JSONArray jsonArray = new JSONArray(response);
@@ -240,13 +245,23 @@ public class EditAkunActivity extends AppCompatActivity {
                         urlSelfi = URL_GET_IMAGE_FROM_FOLDER + model.getLabel();
 
                         Log.d("pap", urlSelfi);
+                        if (model.getLabel() != null && !model.getLabel().equals("null")) {
+                            Glide.with(EditAkunActivity.this).load(urlSelfi)
+                                    .crossFade()
+                                    .placeholder(R.drawable.lodingimages)
+                                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                    .into(imageView);
+
+                        } else {
+                            imageView.setImageResource(R.drawable.noimage);
+                        }
                     }
 
                     JSONArray jsonArray3 = new JSONArray(response);
                     for (int a = 0; a < jsonArray3.length(); a++) {
                         JSONObject json = jsonArray3.getJSONObject(a);
                         ModelUrl model = new ModelUrl();
-                        model.setLabel(json.getString("kar_foto_rek"));
+                        model.setLabel(json.getString("kar_foto_buku_rek"));
                         list_data.add(model);
                         urlRek = URL_GET_IMAGE_FROM_FOLDER + model.getLabel();
 
@@ -277,17 +292,23 @@ public class EditAkunActivity extends AppCompatActivity {
         View view = inflater.inflate(R.layout.pop_up_view_fotoktp, null);
 
         ImageView Image = view.findViewById(R.id.ImgKtp);
+        Image.setOnTouchListener(new ImageMatrixTouchHandler(EditAkunActivity.this));
         TextView info = view.findViewById(R.id.information);
-        if (urlKtp != null) {
+
+        if (urlKtp != null && !urlKtp.contains("images/null")) {
+            Log.d("dialogktp", urlKtp + "xx");
             Glide.with(this).load(urlKtp)
                     .crossFade()
+                    .placeholder(R.drawable.lodingimages)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(Image);
-
         } else {
+            Log.d("dialogktp", urlKtp + "ddd");
             info.setText("Image Not Found In Server");
             Image.setImageResource(R.drawable.noimage);
+
         }
+
 
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(view);
@@ -301,10 +322,13 @@ public class EditAkunActivity extends AppCompatActivity {
         View view = inflater.inflate(R.layout.pop_up_view_fotoktp, null);
 
         ImageView Image = view.findViewById(R.id.ImgKtp);
+        Image.setOnTouchListener(new ImageMatrixTouchHandler(EditAkunActivity.this));
         TextView info = view.findViewById(R.id.information);
-        if (urlSelfi != null) {
+
+        if (urlSelfi != null && !urlSelfi.contains("images/null")) {
             Glide.with(this).load(urlSelfi)
                     .crossFade()
+                    .placeholder(R.drawable.lodingimages)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(Image);
 
@@ -325,15 +349,18 @@ public class EditAkunActivity extends AppCompatActivity {
         View view = inflater.inflate(R.layout.pop_up_view_fotoktp, null);
 
         ImageView Image = view.findViewById(R.id.ImgKtp);
+        Image.setOnTouchListener(new ImageMatrixTouchHandler(EditAkunActivity.this));
         TextView info = view.findViewById(R.id.information);
-        if (urlRek != null) {
+
+        if (urlRek != null && !urlRek.contains("images/null")) {
             Glide.with(this).load(urlRek)
                     .crossFade()
+                    .placeholder(R.drawable.lodingimages)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(Image);
 
         } else {
-            info.setText("Image Not Found In Server");
+            info.setText("Image Not Found");
             Image.setImageResource(R.drawable.noimage);
         }
 
@@ -357,15 +384,6 @@ public class EditAkunActivity extends AppCompatActivity {
                 break;
             case R.id.btEdit:
                 intent = new Intent(EditAkunActivity.this, EditAkunPost.class);
-                intent.putExtra("profile", username);
-                intent.putExtra("name", namabelakang.getText());
-                intent.putExtra("phone", notelppon.getText());
-                intent.putExtra("email", email.getText());
-                intent.putExtra("password", password.getText());
-                intent.putExtra("no_rek", norek.getText());
-                intent.putExtra("bank_name", namabank.getText());
-                intent.putExtra("cab", cabang.getText());
-                intent.putExtra("an", an.getText());
                 startActivity(intent);
                 break;
             case R.id.viewPhotoktp:
@@ -382,4 +400,10 @@ public class EditAkunActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        urlDialog();
+        load();
+    }
 }

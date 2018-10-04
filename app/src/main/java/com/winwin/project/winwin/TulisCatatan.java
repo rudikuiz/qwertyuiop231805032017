@@ -3,9 +3,9 @@ package com.winwin.project.winwin;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -41,6 +41,7 @@ import butterknife.OnClick;
 
 import static com.winwin.project.winwin.Config.RequestDatabase.URL_ADD_NOTES;
 import static com.winwin.project.winwin.Config.RequestDatabase.URL_GET_CATATAN;
+import static com.winwin.project.winwin.Config.http.TAG_ID;
 
 public class TulisCatatan extends AppCompatActivity {
 
@@ -59,8 +60,8 @@ public class TulisCatatan extends AppCompatActivity {
     RequestQueue requestQueue;
     StringRequest stringRequest;
     OwnProgressDialog loading;
-
-    String client_id;
+    SharedPreferences sharedpreferences;
+    String client_id, member_id, peng_id;
     ConnectivityManager conMgr;
     ProgressDialog pDialog;
     int success;
@@ -81,7 +82,11 @@ public class TulisCatatan extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         client_id = bundle.getString("id");
+        peng_id = bundle.getString("pengajuan_id");
         Log.d("id_cli_catatan", client_id);
+
+        sharedpreferences = getSharedPreferences(LoginPage.my_shared_preferences, Context.MODE_PRIVATE);
+        member_id = sharedpreferences.getString(TAG_ID, "");
 
         conMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         {
@@ -112,12 +117,12 @@ public class TulisCatatan extends AppCompatActivity {
 
         listCatatan = new ArrayList<ModelCatatan>();
 
-        stringRequest = new StringRequest(Request.Method.GET, URL_GET_CATATAN + client_id, new Response.Listener<String>() {
+        stringRequest = new StringRequest(Request.Method.GET, URL_GET_CATATAN + client_id + "&ajunote_created_by=" + member_id + "&ajunote_id_pengajuan=" + peng_id, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
                 Log.d("response_catatan: ", response);
-                Log.d("catatan url ", URL_GET_CATATAN + client_id);
+                Log.d("catatan url ", URL_GET_CATATAN + client_id + "&ajunote_created_by=" + member_id + "&ajunote_id_pengajuan=" + peng_id);
                 try {
                     JSONArray jsonArray = new JSONArray(response);
                     for (int a = 0; a < jsonArray.length(); a++) {
@@ -232,14 +237,15 @@ public class TulisCatatan extends AppCompatActivity {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("ajunote_catatan", text);
                 params.put("ajunote_id_client", id_client);
+                params.put("ajunote_id_pengajuan", peng_id);
+                params.put("ajunote_created_by", member_id);
 
                 return params;
             }
 
         };
         requestQueue.add(strReq);
-        // Adding request to request queue
-        AppController.getmInstance().addToRequestQueue(strReq, tag_json_obj);
+
     }
 
     private void showDialog() {

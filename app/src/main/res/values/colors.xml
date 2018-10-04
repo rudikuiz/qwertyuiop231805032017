@@ -18,5 +18,6 @@
     <color name="bg_bawah_maps">#ECECEC</color>
     <color name="white_bg_pop_up">#f7f7f7</color>
     <color name="notverified">#B90000</color>
-    <color name="maron">#991800</color>
+    <color name="maron">#ff9900</color>
+    <color name="orange">#ff9900</color>
 </resources>
